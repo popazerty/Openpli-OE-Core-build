@@ -3,14 +3,13 @@ include conf/machine/include/build-extras.inc
 
 BRAND_OEM = "fulan"
 MACHINE_BRAND = "fulan"
-
 IMAGEDIR ?= "enigma2"
 MTD_KERNEL = "mtd5"
 MTD_ROOTFS = "mtd6"
 KERNEL_FILE = "uImage"
 ROOTFS_FILE = "e2jffs2.img"
 
-MACHINE_KERNEL_PR = "r14"
+MACHINE_KERNEL_PR = "r1"
 KERNEL_MODULE_PACKAGE_SUFFIX = ""
 
 TARGET_ARCH = "sh4"
@@ -22,15 +21,21 @@ GLIBCVERSION = "2.23"
 OLDEST_KERNEL = "2.6.32"
 
 PREFERRED_PROVIDER_virtual/kernel = "linux-fulan"
-PREFERRED_VERSION_linux-libc-headers = "2.6.32"
-PREFERRED_VERSION_directfb = "1.4.12"
+PREFERRED_VERSION_linux-libc-headers = "3.4.100"
+PREFERRED_VERSION_directfb = "1.7.7"
+PREFERRED_VERSION_rt8812au = "4.3.14"
+PREFERRED_VERSION_samba = "3.%"
+
+PREFERRED_PROVIDER_virtual/egl = "libstgles"
+PREFERRED_PROVIDER_virtual/libgles1 = "libstgles"
+PREFERRED_PROVIDER_virtual/gstreamer1.0-dvbmediasink ?= "gstreamer1.0-plugin-dvbmediasink"
 SERIAL_CONSOLE = "115200 ttyAS0"
 
 DVBPROVIDER = "kernel"
 
-MACHINE_FEATURES = "3dtv alsa hdmicec switchoff kernel26 ext2 usbhost serial dvb-c singlecore textlcd sh4booster no-nmap omb skins1080 directfb"
-
-DVBMEDIASINK_CONFIG = "--with-wma --with-wmv --with-pcm --with-dtsdownmix --with-eac3"
+OPENPLI_FEATURES += "usbconsole ci"
+MACHINE_FEATURES += "3dtv alsa switchoff kernel26 ext2 usbhost serial dvb-c singlecore no-cl-svr textlcd sh4booster no-nmap omb skins1080 directfb"
+DISTRO_FEATURES_remove = "x11 wayland"
 
 KERNEL_IMAGETYPE = "uImage"
 #KERNEL_OUTPUT = "${KERNEL_IMAGETYPE}"
@@ -40,6 +45,7 @@ JFFS2_ERASEBLOCK = "0x20000"
 JFFS2_ENDIANNESS = "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '--little-endian', '--big-endian', d)}"
 EXTRA_IMAGECMD_jffs2 = "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
 MKUBIFS_ARGS = "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
+DVBMEDIASINK_CONFIG = "--with-machine=${MACHINE} --with-wma --with-wmv --with-pcm --with-dtsdownmix --with-eac3"
 
 IMAGE_FSTYPES ?= "jffs2"
 
@@ -56,8 +62,9 @@ IMAGE_CMD_jffs2_prepend = " \
     "
 
 IMAGE_CMD_jffs2_append = " ; \
+    cp ${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.jffs2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2; \
     mkdir -p ${DEPLOY_DIR_IMAGE}/${IMAGEDIR}; \
-    mv ${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.jffs2 ${DEPLOY_DIR_IMAGE}/${IMAGEDIR}/${ROOTFS_FILE}; \
+    mv ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${DEPLOY_DIR_IMAGE}/${IMAGEDIR}/${ROOTFS_FILE}; \
     cp ${DEPLOY_DIR_IMAGE}/uImage ${DEPLOY_DIR_IMAGE}/${IMAGEDIR}/${KERNEL_FILE}; \
     cd ${DEPLOY_DIR_IMAGE}; \
     zip ${IMAGE_NAME}_usb.zip ${IMAGEDIR}/*; \
@@ -67,10 +74,16 @@ IMAGE_CMD_jffs2_append = " ; \
     rm -f ${DEPLOY_DIR_IMAGE}/.manifest; \
     rm -rf ${IMAGEDIR}; \
     "
+
+# Add uImage in tar image boot directory
+IMAGE_CMD_tar_prepend = " \
+    cp ${DEPLOY_DIR_IMAGE}/uImage ${IMAGE_ROOTFS}/boot/${KERNEL_FILE}; \
+    "
 	
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS += " \
     stlinux24-sh4-stx7111-fdma-firmware \
-    stlinux24-sh4-stmfb-firmware-stx7111 \
+    libmme-host \
+    libmme-image \
     stslave-fw \
     ustslave \
     stfbcontrol \
@@ -78,13 +91,27 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += " \
     stlirc \
     stinit \
     fulan-dvb-modules-${MACHINE} \
+    flash-tools \
+    mountspark \
     mtd-utils-jffs2 \
     "
 
 MACHINE_EXTRA_RRECOMMENDS = " \
-    gstreamer1.0-plugin-dvbmediasink \
+    enigma2-plugin-systemplugins-servicemp3 \
     enigma2-plugin-systemplugins-sh4boostercontrol \
     enigma2-plugin-systemplugins-sh4osdadjustment \
+    "
+
+EXTRA_IMAGEDEPENDS += "\
+    libpcre \
+    libstgles \
+    directfb-stgfx2 \
+    aio-grab \
+    "
+
+MACHINE_EXTRA_RDEPENDS = "\
+    libpcre \
+    aio-grab \
     "
 
 include conf/machine/include/autoload-filesystems.inc

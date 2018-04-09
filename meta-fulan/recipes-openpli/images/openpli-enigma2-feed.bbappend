@@ -1,8 +1,11 @@
 OPTIONAL_PACKAGES_remove_sh4 = " \
-    gdb \
-    v4l-utils \
-    dvb-apps \
-    wscan \
-    nodejs \
-    "
+	dvb-apps \
+	wscan \
+	gdb \
+	nodejs \
+	smbnetfs \
+	"
 
+ENIGMA2_OPTIONAL_remove_sh4 = " \
+	enigma2-plugin-systemplugins-serviceapp \
+	"

@@ -1,6 +1,7 @@
 HOMEPAGE = "https://github/Duckbox-Developers/apps"
 SECTION = "base"
-require conf/license/license-gplv2.inc
+LICENSE = "GPLv2"
+LIC_FILES_CHKSUM = "file://${OPENPLI_BASE}/LICENSE;md5=eb723b61539feef013de476e68b5c50a"
 DEPENDS = "fulan-dvb-modules-${MACHINE}"
 
 inherit autotools gitpkgv
@@ -17,6 +18,8 @@ S = "${WORKDIR}/git/tools/${@d.getVar('PN',1).replace('-', '_')}"
 
 EXTRA_OECONF = "--enable-silent-rules --prefix="
 LDFLAGS += "-lpthread -lrt"
+EXTRA_OEMAKE = " DRIVER_TOPDIR=${STAGING_KERNEL_DIR}"
+CFLAGS_append = " -I${STAGING_KERNEL_DIR}/multicom/include"
 
 do_configure_prepend() {
     touch ${S}/NEWS

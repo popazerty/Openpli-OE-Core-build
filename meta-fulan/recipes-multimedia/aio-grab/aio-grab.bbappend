@@ -1,6 +1,1 @@
-FILESEXTRAPATHS_append := "${THISDIR}/files"
-
-SRC_URI_append_sh4 = " \
-    file://aio-grab-sh4-support.patch;patch=1 \
-    "
-
+SRC_URI_sh4 = "git://github.com/oe-alliance/aio-grab.git;protocol=git"
