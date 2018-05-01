@@ -1,6 +1,7 @@
-FILESEXTRAPATHS_append := "${THISDIR}/files"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
+DEPENDS_append_sh4 = " fulan-dvb-modules-${MACHINE}"
 
 SRC_URI_append_sh4 = " \
-    file://tuxtxtlib_sh4_fix.patch;patch=1 \
-    "
-
+    file://libtuxtxt-sh4.patch \
+"

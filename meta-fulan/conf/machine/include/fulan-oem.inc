@@ -34,7 +34,7 @@ SERIAL_CONSOLE = "115200 ttyAS0"
 DVBPROVIDER = "kernel"
 
 OPENPLI_FEATURES += "usbconsole ci"
-MACHINE_FEATURES += "3dtv alsa switchoff kernel26 ext2 usbhost serial dvb-c singlecore no-cl-svr textlcd sh4booster no-nmap omb skins1080 directfb"
+MACHINE_FEATURES += "3dtv alsa switchoff ext2 usbhost serial dvb-c hdmicec singlecore legacykernel fulan textlcd sh4booster no-nmap omb skins1080 directfb"
 DISTRO_FEATURES_remove = "x11 wayland"
 
 KERNEL_IMAGETYPE = "uImage"
@@ -115,10 +115,5 @@ MACHINE_EXTRA_RDEPENDS = "\
     "
 
 include conf/machine/include/autoload-filesystems.inc
-
 require conf/machine/include/tune-sh4.inc
 require conf/machine/include/soc-family.inc
-
-# add support for extra feeds
-PACKAGE_ARCHS += " ${MACHINEBUILD}"
-

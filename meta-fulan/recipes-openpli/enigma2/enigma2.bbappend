@@ -8,7 +8,7 @@ RDEPENDS_${PN}_append_sh4 = " \
 	libmme-host \
 	"
 
-EXTRA_OECONF += " \
-    ${@bb.utils.contains("MACHINE_TUNE", "sh4", "--enable-sh" , "", d)} \
-"
+EXTRA_OECONF_append_sh4 = "\
+	--enable-${MACHINE} --with-lcd \
+	"
 
