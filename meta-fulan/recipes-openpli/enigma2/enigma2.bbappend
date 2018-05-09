@@ -12,3 +12,7 @@ EXTRA_OECONF_append_sh4 = "\
 	--enable-${MACHINE} --with-lcd \
 	"
 
+PYTHON_RDEPS_append_sh4 = " \
+	python-requests \
+	"
+
