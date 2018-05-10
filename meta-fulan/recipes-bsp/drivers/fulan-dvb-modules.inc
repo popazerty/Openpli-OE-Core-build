@@ -32,6 +32,7 @@ SRC_URI = " \
     file://modules-conf.conf \
     file://COPYING \
     file://compcache.patch \
+    file://Compcache.patch \
 " 
 
 FILES_${PN} = "${sysconfdir}/init.d ${sysconfdir}/rcS.d ${sysconfdir}/modules-load.d ${sysconfdir}/modprobe.d"
