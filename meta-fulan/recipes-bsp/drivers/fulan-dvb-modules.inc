@@ -16,7 +16,7 @@ inherit module
 
 PACKAGES = "${PN} ${PN}-dev"
 
-INC_PR = "r48"
+INC_PR = "r49"
 PV = "${KV}+${SRCDATE}"
 
 PTI_NP_PATH ?= "/data/pti_np"
@@ -31,7 +31,7 @@ SRC_URI = " \
     file://modules.conf \
     file://modules-conf.conf \
     file://COPYING \
-    file://Compcache.patch \
+    file://compcache.patch \
 " 
 
 FILES_${PN} = "${sysconfdir}/init.d ${sysconfdir}/rcS.d ${sysconfdir}/modules-load.d ${sysconfdir}/modprobe.d"
