@@ -1,10 +1,10 @@
-SRC_URI_sh4 = "${GITHUB_URI}/kueken/openpli-enigma2.git;branch=${ENIGMA2_BRANCH}"
+CXXFLAGS_append += " -std=c++11 -fPIC -fno-strict-aliasing "
 
-DEPENDS_append_sh4 = " \
+DEPENDS_append_sh4 += " \
 	libmme-image libmme-host \
 	"
 
-RDEPENDS_${PN}_append_sh4 = " \
+RDEPENDS_${PN}_append_sh4 += " \
 	libmme-host \
 	"
 
@@ -16,3 +16,4 @@ PYTHON_RDEPS_append_sh4 = " \
 	python-requests \
 	"
 
+SRC_URI_sh4 = "${GITHUB_URI}/kueken/openpli-enigma2.git;branch=${ENIGMA2_BRANCH}"
