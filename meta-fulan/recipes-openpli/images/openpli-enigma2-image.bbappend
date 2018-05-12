@@ -18,6 +18,5 @@ ENIGMA2_PLUGINS_append = " \
 
 IMAGE_INSTALL_append_sh4 += " \
 	enigma2-plugin-skins-mx-hq9w \
-	enigma2-plugin-skins-xionhdf \
 	enigma2-plugin-skins-simple-gray-hd \
 	"
