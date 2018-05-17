@@ -1,1467 +1,62 @@
-diff -u -r -N driver-master/compcache/Changelog fulan-dvb-drivers-master/compcache/Changelog
---- driver-master/compcache/Changelog	1970-01-01 01:00:00.000000000 +0100
-+++ fulan-dvb-drivers-master/compcache/Changelog	2018-04-05 09:41:50.000000000 +0200
-@@ -0,0 +1,146 @@
-+version 0.7	(TBD)
-+ - We can now handle any kind of I/O and not just swap. Device
-+   files are also renamed from /dev/ramzswapX to /dev/zramX to
-+   reflect this generic nature.
-+ - Replaced ioctls with sysfs interface. This also obviates the
-+   need for rzscontrol userspace utility.
-+ - Removed backing swap support. See: http://lkml.org/lkml/2010/5/13/93
-+ - Updated README to reflect above change.
-+
-+version 0.6.2	(25/1/2010)
-+ - Sync-up with mainline version which includes changes below.
-+ - Lots and lots of cleanups.
-+ - Use small case for ramzswap module parameter: NUM_DEVICES -> num_devices.
-+ - Add three module parameters: backing_swap, memlimit_kb and disksize_kb to
-+   allow initializing the first device (/dev/ramzswap0) without using
-+   rzscontrol utility (see Issue #50).
-+ - Use 'struct page' instead of 32-bit PFNs in ramzswap driver and xvmalloc.
-+   This is to make these 64-bit safe.
-+ - xvmalloc is no longer a separate module and does not export any symbols.
-+   Its compiled directly with ramzswap block driver.
-+ - Removed useless {load,unload}_modules.sh scripts.
-+ - Fix to make sure disksize matches usable pages in backing swap file.
-+ - Fix memory leak in (rare) error condition in init_device().
-+ - Fix memory leak in (rare) failure in create_device().
-+ - Remove swap discard hooks. Swap notifiers makes these redundant.
-+ - Unify init_device() fail path and reset_device().
-+ - Do not accept backing swap with bad pages.
-+ - Fix zero-page accounting.
-+ - Use lock for 64-bit stats to prevent value corruption.
-+ - Rewrite swap notify patch.
-+ - Fix crash when reset is called when there are pending I/Os.
-+
-+version 0.6	(20/8/2009)
-+ - Re-init notify callback to NULL on device reset.
-+ - Use block_device to set notify callback.
-+ - Proper locking in set_swap_free_notify() callback.
-+
-+version 0.6pre3	(6/8/2009)
-+ - Fix invalid stats reporting on ARM (Issue 34).
-+ - Add KERNEL_BUILD_PATH option to Makefile (Issue 35).
-+ - Experimental support for 'swap free notification' feature.
-+   See README for details.
-+ - Patch for Linux kernel 2.6.31-rc5 to support notify feature.
-+ - Removed compatibility with kernels older than 2.6.28. This
-+   resulted in lot of cleanups.
-+
-+version 0.6pre2	(21/7/2009)
-+ - Fix crashes on ARM (Issue 33).
-+ - Close backing swap file on device reset.
-+ - Do not change backing swap device block size.
-+ - Reset stats on device reset.
-+ - Do not allow active device to be reset.
-+ - Set ramzswap SSD flag only if backing swap if SSD.
-+
-+version 0.6pre1	(14/7/2009)
-+ - Support for multiple ramzswap devices.
-+ - Support for *file* as backing swap.
-+ - New rzscontrol utility to control individual
-+   ramzswap devices.
-+ - Manual page for rzscontrol.
-+ - Removed {use,unuse}_compcache.sh scripts.
-+ - Above replaced with {load,unload}_modules.sh
-+   scripts as all other work is now done with rzscontrol.
-+
-+version 0.5.3	(8/4/2009)
-+ - Major cleanups.
-+ - Rename module: compcache.ko -> ramzswap.ko
-+ - Rename params: backing_dev -> backing_swap
-+ - Updated use_compcache.sh script with detailed
-+   documentation on parameters.
-+ - LZO de/compress modules are no longer packaged
-+   with compcache. Most distros now include these.
-+
-+version 0.5.2	(11/3/2009)
-+ - Can forward incompressible pages to physical swap disk.
-+ - New module params:
-+ 	- memlimit_kb
-+	- disksize_kb
-+	- backing_dev
-+   See use_compcache.sh for documentation on these params.
-+ - Modified use_compcache.sh script to handle new params.
-+ - Detect zero-filled pages and don't allocate any memory
-+   for them.
-+
-+version 0.5.1	(22/1/2009)
-+ - Fix crash on x86 systems with higmem (mem > ~1G).
-+   This required minor changes to atomic (un)map functions (see Issue #20).
-+
-+version 0.5	(16/1/2009)
-+ - Fix crash in case compcache init fails.
-+
-+version 0.5pre4	(10/1/2009)
-+ - Support discarding pages for freed swap blocks (requires 2.6.28-git14).
-+   This feature will be disabled if compiled for older kernel.
-+ - Mark ramzswap as "solid-state" block device (requires 2.6.26-git14).
-+ - Fixed incorrect stats reporting in /proc/compcache (some
-+   new stats added too).
-+
-+version 0.5pre3	(5/1/2009)
-+ - Use kmap_atomic() in xvMalloc. This fixes issue #19
-+ - Remove xvMapPage() and xvUnmapMap() from xvMalloc.
-+
-+version 0.5pre2 (28/10/2008)
-+ - Alloc full page for uncompressible pages instead
-+   of returning I/O error.
-+ - Warn users when using ramzswap > (2 x RAM size)
-+
-+version 0.5pre1 (15/10/2008)
-+ - Replaced TLSF with xvMalloc memory allocator
-+   http://code.google.com/p/compcache/wiki/xvMalloc
-+
-+version 0.4	(13/8/2008)
-+ - Enable debug and stats option for compcache and tlsf by default
-+   proc nodes: /proc/{tlsfinfo,compcache}
-+ - Fix crash when reading /proc/tlsfinfo
-+ - Lots of cleanups: clean compile on x64
-+
-+version 0.3	(17/3/2008)
-+ - Fix spurious swap read failures
-+ - Better swap request filtering
-+ - Swap device again renamed to /dev/ramzswap0
-+   This is to prevent Ubuntu installer from presenting
-+   this device as possible installation target (see Issue #5)
-+ - use_compcache.sh script now waits for disk node to be created
-+   instead of arbitrary sleep (see Issue #6).
-+ - Modified scripts: use_compcache.sh and unuse_compcache.sh
-+   to now use new device name (compcache0 -> ramzswap0).
-+
-+version 0.2	(3/3/2008)
-+ - Fixed bug on systems with highmem
-+ - Better filtering-out of non-swap requests
-+ - Export statistics through proc nodes:
-+   - /proc/compcache
-+   - /proc/tlsfinfo
-+ - Debug and Statistics support for allocator
-+   and compcache can now be individually turned
-+   on/off by setting DEBUG, STATS to 0/1 in
-+   respective header files
-+ - Swap device now renamed to /dev/compcache0
-+ - Added scripts: use_compcache.sh and unuse_compcache.sh
-+   See README for usage
-+ - Default compcache size set to 25% of RAM
-+ - Lots of code cleanups
-+ - Updated README
-+ - Created Changelog :)
-+
-diff -u -r -N driver-master/compcache/compat.h fulan-dvb-drivers-master/compcache/compat.h
---- driver-master/compcache/compat.h	2018-04-16 17:04:38.000000000 +0200
-+++ fulan-dvb-drivers-master/compcache/compat.h	2018-04-05 09:41:50.000000000 +0200
-@@ -1,23 +1,21 @@
--#ifndef _CCACHE_COMPAT_H_
--#define _CCACHE_COMPAT_H_
-+#ifndef _ZRAM_COMPAT_H_
-+#define _ZRAM_COMPAT_H_
+diff -u -r -N 1/drivers/staging/Kconfig 2/drivers/staging/Kconfig
+--- 1/drivers/staging/Kconfig	2016-07-01 14:50:40.000000000 +0200
++++ 2/drivers/staging/Kconfig	2018-05-16 01:04:58.410685580 +0200
+@@ -123,5 +123,7 @@
  
- #include <linux/version.h>
+ source "drivers/staging/iio/Kconfig"
  
--#if LINUX_VERSION_CODE <= KERNEL_VERSION(2,6,23)
--#define BIO_IO_ERROR(bio)	bio_io_error(bio, PAGE_SIZE)
--#define BIO_ENDIO(bio, error)	bio_endio(bio, PAGE_SIZE, error)
--#else
--#define BIO_IO_ERROR(bio)	bio_io_error(bio)
--#define BIO_ENDIO(bio, error)	bio_endio(bio, error)
--#endif
-+/* Uncomment this if you are using swap free notify patch */
-+#define CONFIG_SWAP_FREE_NOTIFY
- 
--#ifndef pr_info
--#define pr_info(fmt, arg...) \
--	printk(KERN_ERR fmt, ##arg)
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,35))
-+#ifndef CONFIG_SWAP_FREE_NOTIFY
-+#define CONFIG_SWAP_FREE_NOTIFY
-+#endif
- #endif
- 
--#ifdef bio_discard
--#define SWAP_DISCARD_SUPPORTED
-+#if (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,31))
-+#define blk_queue_physical_block_size(q, size) \
-+	blk_queue_hardsect_size(q, size)
-+#define blk_queue_logical_block_size(q, size)
- #endif
- 
- #endif
-diff -u -r -N driver-master/compcache/lzo-kmod/lzo1x_compress.c fulan-dvb-drivers-master/compcache/lzo-kmod/lzo1x_compress.c
---- driver-master/compcache/lzo-kmod/lzo1x_compress.c	2018-04-16 17:04:38.000000000 +0200
-+++ fulan-dvb-drivers-master/compcache/lzo-kmod/lzo1x_compress.c	1970-01-01 01:00:00.000000000 +0100
-@@ -1,227 +0,0 @@
--/*
-- *  LZO1X Compressor from MiniLZO
-- *
-- *  Copyright (C) 1996-2005 Markus F.X.J. Oberhumer <markus@oberhumer.com>
-- *
-- *  The full LZO package can be found at:
-- *  http://www.oberhumer.com/opensource/lzo/
-- *
-- *  Changed for kernel use by:
-- *  Nitin Gupta <nitingupta910@gmail.com>
-- *  Richard Purdie <rpurdie@openedhand.com>
-- */
--
--#include <linux/module.h>
--#include <linux/kernel.h>
--#include <asm/unaligned.h>
--
--#include "lzodefs.h"
--#include "lzo.h"
--
--static noinline size_t
--_lzo1x_1_do_compress(const unsigned char *in, size_t in_len,
--		unsigned char *out, size_t *out_len, void *wrkmem)
--{
--	const unsigned char * const in_end = in + in_len;
--	const unsigned char * const ip_end = in + in_len - M2_MAX_LEN - 5;
--	const unsigned char ** const dict = wrkmem;
--	const unsigned char *ip = in, *ii = ip;
--	const unsigned char *end, *m, *m_pos;
--	size_t m_off, m_len, dindex;
--	unsigned char *op = out;
--
--	ip += 4;
--
--	for (;;) {
--		dindex = ((size_t)(0x21 * DX3(ip, 5, 5, 6)) >> 5) & D_MASK;
--		m_pos = dict[dindex];
--
--		if (m_pos < in)
--			goto literal;
--
--		if (ip == m_pos || ((size_t)(ip - m_pos) > M4_MAX_OFFSET))
--			goto literal;
--
--		m_off = ip - m_pos;
--		if (m_off <= M2_MAX_OFFSET || m_pos[3] == ip[3])
--			goto try_match;
--
--		dindex = (dindex & (D_MASK & 0x7ff)) ^ (D_HIGH | 0x1f);
--		m_pos = dict[dindex];
--
--		if (m_pos < in)
--			goto literal;
--
--		if (ip == m_pos || ((size_t)(ip - m_pos) > M4_MAX_OFFSET))
--			goto literal;
--
--		m_off = ip - m_pos;
--		if (m_off <= M2_MAX_OFFSET || m_pos[3] == ip[3])
--			goto try_match;
--
--		goto literal;
--
--try_match:
--		if (get_unaligned((const unsigned short *)m_pos)
--				== get_unaligned((const unsigned short *)ip)) {
--			if (likely(m_pos[2] == ip[2]))
--					goto match;
--		}
--
--literal:
--		dict[dindex] = ip;
--		++ip;
--		if (unlikely(ip >= ip_end))
--			break;
--		continue;
--
--match:
--		dict[dindex] = ip;
--		if (ip != ii) {
--			size_t t = ip - ii;
--
--			if (t <= 3) {
--				op[-2] |= t;
--			} else if (t <= 18) {
--				*op++ = (t - 3);
--			} else {
--				size_t tt = t - 18;
--
--				*op++ = 0;
--				while (tt > 255) {
--					tt -= 255;
--					*op++ = 0;
--				}
--				*op++ = tt;
--			}
--			do {
--				*op++ = *ii++;
--			} while (--t > 0);
--		}
--
--		ip += 3;
--		if (m_pos[3] != *ip++ || m_pos[4] != *ip++
--				|| m_pos[5] != *ip++ || m_pos[6] != *ip++
--				|| m_pos[7] != *ip++ || m_pos[8] != *ip++) {
--			--ip;
--			m_len = ip - ii;
--
--			if (m_off <= M2_MAX_OFFSET) {
--				m_off -= 1;
--				*op++ = (((m_len - 1) << 5)
--						| ((m_off & 7) << 2));
--				*op++ = (m_off >> 3);
--			} else if (m_off <= M3_MAX_OFFSET) {
--				m_off -= 1;
--				*op++ = (M3_MARKER | (m_len - 2));
--				goto m3_m4_offset;
--			} else {
--				m_off -= 0x4000;
--
--				*op++ = (M4_MARKER | ((m_off & 0x4000) >> 11)
--						| (m_len - 2));
--				goto m3_m4_offset;
--			}
--		} else {
--			end = in_end;
--			m = m_pos + M2_MAX_LEN + 1;
--
--			while (ip < end && *m == *ip) {
--				m++;
--				ip++;
--			}
--			m_len = ip - ii;
--
--			if (m_off <= M3_MAX_OFFSET) {
--				m_off -= 1;
--				if (m_len <= 33) {
--					*op++ = (M3_MARKER | (m_len - 2));
--				} else {
--					m_len -= 33;
--					*op++ = M3_MARKER | 0;
--					goto m3_m4_len;
--				}
--			} else {
--				m_off -= 0x4000;
--				if (m_len <= M4_MAX_LEN) {
--					*op++ = (M4_MARKER
--						| ((m_off & 0x4000) >> 11)
--						| (m_len - 2));
--				} else {
--					m_len -= M4_MAX_LEN;
--					*op++ = (M4_MARKER
--						| ((m_off & 0x4000) >> 11));
--m3_m4_len:
--					while (m_len > 255) {
--						m_len -= 255;
--						*op++ = 0;
--					}
--
--					*op++ = (m_len);
--				}
--			}
--m3_m4_offset:
--			*op++ = ((m_off & 63) << 2);
--			*op++ = (m_off >> 6);
--		}
--
--		ii = ip;
--		if (unlikely(ip >= ip_end))
--			break;
--	}
--
--	*out_len = op - out;
--	return in_end - ii;
--}
--
--int lzo1x_1_compress(const unsigned char *in, size_t in_len, unsigned char *out,
--			size_t *out_len, void *wrkmem)
--{
--	const unsigned char *ii;
--	unsigned char *op = out;
--	size_t t;
--
--	if (unlikely(in_len <= M2_MAX_LEN + 5)) {
--		t = in_len;
--	} else {
--		t = _lzo1x_1_do_compress(in, in_len, op, out_len, wrkmem);
--		op += *out_len;
--	}
--
--	if (t > 0) {
--		ii = in + in_len - t;
--
--		if (op == out && t <= 238) {
--			*op++ = (17 + t);
--		} else if (t <= 3) {
--			op[-2] |= t;
--		} else if (t <= 18) {
--			*op++ = (t - 3);
--		} else {
--			size_t tt = t - 18;
--
--			*op++ = 0;
--			while (tt > 255) {
--				tt -= 255;
--				*op++ = 0;
--			}
--
--			*op++ = tt;
--		}
--		do {
--			*op++ = *ii++;
--		} while (--t > 0);
--	}
--
--	*op++ = M4_MARKER | 1;
--	*op++ = 0;
--	*op++ = 0;
--
--	*out_len = op - out;
--	return LZO_E_OK;
--}
--EXPORT_SYMBOL_GPL(lzo1x_1_compress);
--
--MODULE_LICENSE("GPL");
--MODULE_DESCRIPTION("LZO1X-1 Compressor");
--
-diff -u -r -N driver-master/compcache/lzo-kmod/lzo1x_decompress.c fulan-dvb-drivers-master/compcache/lzo-kmod/lzo1x_decompress.c
---- driver-master/compcache/lzo-kmod/lzo1x_decompress.c	2018-04-16 17:04:38.000000000 +0200
-+++ fulan-dvb-drivers-master/compcache/lzo-kmod/lzo1x_decompress.c	1970-01-01 01:00:00.000000000 +0100
-@@ -1,255 +0,0 @@
--/*
-- *  LZO1X Decompressor from MiniLZO
-- *
-- *  Copyright (C) 1996-2005 Markus F.X.J. Oberhumer <markus@oberhumer.com>
-- *
-- *  The full LZO package can be found at:
-- *  http://www.oberhumer.com/opensource/lzo/
-- *
-- *  Changed for kernel use by:
-- *  Nitin Gupta <nitingupta910@gmail.com>
-- *  Richard Purdie <rpurdie@openedhand.com>
-- */
--
--#include <linux/module.h>
--#include <linux/kernel.h>
--#include <asm/byteorder.h>
--#include <asm/unaligned.h>
--
--#include "lzodefs.h"
--#include "lzo.h"
--
--#define HAVE_IP(x, ip_end, ip) ((size_t)(ip_end - ip) < (x))
--#define HAVE_OP(x, op_end, op) ((size_t)(op_end - op) < (x))
--#define HAVE_LB(m_pos, out, op) (m_pos < out || m_pos >= op)
--
--#define COPY4(dst, src)	\
--		put_unaligned(get_unaligned((const u32 *)(src)), (u32 *)(dst))
--
--int lzo1x_decompress_safe(const unsigned char *in, size_t in_len,
--			unsigned char *out, size_t *out_len)
--{
--	const unsigned char * const ip_end = in + in_len;
--	unsigned char * const op_end = out + *out_len;
--	const unsigned char *ip = in, *m_pos;
--	unsigned char *op = out;
--	size_t t;
--
--	*out_len = 0;
--
--	if (*ip > 17) {
--		t = *ip++ - 17;
--		if (t < 4)
--			goto match_next;
--		if (HAVE_OP(t, op_end, op))
--			goto output_overrun;
--		if (HAVE_IP(t + 1, ip_end, ip))
--			goto input_overrun;
--		do {
--			*op++ = *ip++;
--		} while (--t > 0);
--		goto first_literal_run;
--	}
--
--	while ((ip < ip_end)) {
--		t = *ip++;
--		if (t >= 16)
--			goto match;
--		if (t == 0) {
--			if (HAVE_IP(1, ip_end, ip))
--				goto input_overrun;
--			while (*ip == 0) {
--				t += 255;
--				ip++;
--				if (HAVE_IP(1, ip_end, ip))
--					goto input_overrun;
--			}
--			t += 15 + *ip++;
--		}
--		if (HAVE_OP(t + 3, op_end, op))
--			goto output_overrun;
--		if (HAVE_IP(t + 4, ip_end, ip))
--			goto input_overrun;
--
--		COPY4(op, ip);
--		op += 4;
--		ip += 4;
--		if (--t > 0) {
--			if (t >= 4) {
--				do {
--					COPY4(op, ip);
--					op += 4;
--					ip += 4;
--					t -= 4;
--				} while (t >= 4);
--				if (t > 0) {
--					do {
--						*op++ = *ip++;
--					} while (--t > 0);
--				}
--			} else {
--				do {
--					*op++ = *ip++;
--				} while (--t > 0);
--			}
--		}
--
--first_literal_run:
--		t = *ip++;
--		if (t >= 16)
--			goto match;
--		m_pos = op - (1 + M2_MAX_OFFSET);
--		m_pos -= t >> 2;
--		m_pos -= *ip++ << 2;
--
--		if (HAVE_LB(m_pos, out, op))
--			goto lookbehind_overrun;
--
--		if (HAVE_OP(3, op_end, op))
--			goto output_overrun;
--		*op++ = *m_pos++;
--		*op++ = *m_pos++;
--		*op++ = *m_pos;
--
--		goto match_done;
--
--		do {
--match:
--			if (t >= 64) {
--				m_pos = op - 1;
--				m_pos -= (t >> 2) & 7;
--				m_pos -= *ip++ << 3;
--				t = (t >> 5) - 1;
--				if (HAVE_LB(m_pos, out, op))
--					goto lookbehind_overrun;
--				if (HAVE_OP(t + 3 - 1, op_end, op))
--					goto output_overrun;
--				goto copy_match;
--			} else if (t >= 32) {
--				t &= 31;
--				if (t == 0) {
--					if (HAVE_IP(1, ip_end, ip))
--						goto input_overrun;
--					while (*ip == 0) {
--						t += 255;
--						ip++;
--						if (HAVE_IP(1, ip_end, ip))
--							goto input_overrun;
--					}
--					t += 31 + *ip++;
--				}
--				m_pos = op - 1;
--				m_pos -= le16_to_cpu(get_unaligned(
--					(const unsigned short *)ip)) >> 2;
--				ip += 2;
--			} else if (t >= 16) {
--				m_pos = op;
--				m_pos -= (t & 8) << 11;
--
--				t &= 7;
--				if (t == 0) {
--					if (HAVE_IP(1, ip_end, ip))
--						goto input_overrun;
--					while (*ip == 0) {
--						t += 255;
--						ip++;
--						if (HAVE_IP(1, ip_end, ip))
--							goto input_overrun;
--					}
--					t += 7 + *ip++;
--				}
--				m_pos -= le16_to_cpu(get_unaligned(
--					(const unsigned short *)ip)) >> 2;
--				ip += 2;
--				if (m_pos == op)
--					goto eof_found;
--				m_pos -= 0x4000;
--			} else {
--				m_pos = op - 1;
--				m_pos -= t >> 2;
--				m_pos -= *ip++ << 2;
--
--				if (HAVE_LB(m_pos, out, op))
--					goto lookbehind_overrun;
--				if (HAVE_OP(2, op_end, op))
--					goto output_overrun;
--
--				*op++ = *m_pos++;
--				*op++ = *m_pos;
--				goto match_done;
--			}
--
--			if (HAVE_LB(m_pos, out, op))
--				goto lookbehind_overrun;
--			if (HAVE_OP(t + 3 - 1, op_end, op))
--				goto output_overrun;
--
--			if (t >= 2 * 4 - (3 - 1) && (op - m_pos) >= 4) {
--				COPY4(op, m_pos);
--				op += 4;
--				m_pos += 4;
--				t -= 4 - (3 - 1);
--				do {
--					COPY4(op, m_pos);
--					op += 4;
--					m_pos += 4;
--					t -= 4;
--				} while (t >= 4);
--				if (t > 0)
--					do {
--						*op++ = *m_pos++;
--					} while (--t > 0);
--			} else {
--copy_match:
--				*op++ = *m_pos++;
--				*op++ = *m_pos++;
--				do {
--					*op++ = *m_pos++;
--				} while (--t > 0);
--			}
--match_done:
--			t = ip[-2] & 3;
--			if (t == 0)
--				break;
--match_next:
--			if (HAVE_OP(t, op_end, op))
--				goto output_overrun;
--			if (HAVE_IP(t + 1, ip_end, ip))
--				goto input_overrun;
--
--			*op++ = *ip++;
--			if (t > 1) {
--				*op++ = *ip++;
--				if (t > 2)
--					*op++ = *ip++;
--			}
--
--			t = *ip++;
--		} while (ip < ip_end);
--	}
--
--	*out_len = op - out;
--	return LZO_E_EOF_NOT_FOUND;
--
--eof_found:
--	*out_len = op - out;
--	return (ip == ip_end ? LZO_E_OK :
--		(ip < ip_end ? LZO_E_INPUT_NOT_CONSUMED : LZO_E_INPUT_OVERRUN));
--input_overrun:
--	*out_len = op - out;
--	return LZO_E_INPUT_OVERRUN;
--
--output_overrun:
--	*out_len = op - out;
--	return LZO_E_OUTPUT_OVERRUN;
--
--lookbehind_overrun:
--	*out_len = op - out;
--	return LZO_E_LOOKBEHIND_OVERRUN;
--}
--
--EXPORT_SYMBOL_GPL(lzo1x_decompress_safe);
--
--MODULE_LICENSE("GPL");
--MODULE_DESCRIPTION("LZO1X Decompressor");
--
-diff -u -r -N driver-master/compcache/lzo-kmod/lzodefs.h fulan-dvb-drivers-master/compcache/lzo-kmod/lzodefs.h
---- driver-master/compcache/lzo-kmod/lzodefs.h	2018-04-16 17:04:38.000000000 +0200
-+++ fulan-dvb-drivers-master/compcache/lzo-kmod/lzodefs.h	1970-01-01 01:00:00.000000000 +0100
-@@ -1,43 +0,0 @@
--/*
-- *  lzodefs.h -- architecture, OS and compiler specific defines
-- *
-- *  Copyright (C) 1996-2005 Markus F.X.J. Oberhumer <markus@oberhumer.com>
-- *
-- *  The full LZO package can be found at:
-- *  http://www.oberhumer.com/opensource/lzo/
-- *
-- *  Changed for kernel use by:
-- *  Nitin Gupta <nitingupta910@gmail.com>
-- *  Richard Purdie <rpurdie@openedhand.com>
-- */
--
--#define LZO_VERSION		0x2020
--#define LZO_VERSION_STRING	"2.02"
--#define LZO_VERSION_DATE	"Oct 17 2005"
--
--#define M1_MAX_OFFSET	0x0400
--#define M2_MAX_OFFSET	0x0800
--#define M3_MAX_OFFSET	0x4000
--#define M4_MAX_OFFSET	0xbfff
--
--#define M1_MIN_LEN	2
--#define M1_MAX_LEN	2
--#define M2_MIN_LEN	3
--#define M2_MAX_LEN	8
--#define M3_MIN_LEN	3
--#define M3_MAX_LEN	33
--#define M4_MIN_LEN	3
--#define M4_MAX_LEN	9
--
--#define M1_MARKER	0
--#define M2_MARKER	64
--#define M3_MARKER	32
--#define M4_MARKER	16
--
--#define D_BITS		14
--#define D_MASK		((1u << D_BITS) - 1)
--#define D_HIGH		((D_MASK >> 1) + 1)
--
--#define DX2(p, s1, s2)	(((((size_t)((p)[2]) << (s2)) ^ (p)[1]) \
--							<< (s1)) ^ (p)[0])
--#define DX3(p, s1, s2, s3)	((DX2((p)+1, s2, s3) << (s1)) ^ (p)[0])
-diff -u -r -N driver-master/compcache/lzo-kmod/lzo.h fulan-dvb-drivers-master/compcache/lzo-kmod/lzo.h
---- driver-master/compcache/lzo-kmod/lzo.h	2018-04-16 17:04:38.000000000 +0200
-+++ fulan-dvb-drivers-master/compcache/lzo-kmod/lzo.h	1970-01-01 01:00:00.000000000 +0100
-@@ -1,44 +0,0 @@
--#ifndef __LZO_H__
--#define __LZO_H__
--/*
-- *  LZO Public Kernel Interface
-- *  A mini subset of the LZO real-time data compression library
-- *
-- *  Copyright (C) 1996-2005 Markus F.X.J. Oberhumer <markus@oberhumer.com>
-- *
-- *  The full LZO package can be found at:
-- *  http://www.oberhumer.com/opensource/lzo/
-- *
-- *  Changed for kernel use by:
-- *  Nitin Gupta <nitingupta910@gmail.com>
-- *  Richard Purdie <rpurdie@openedhand.com>
-- */
--
--#define LZO1X_MEM_COMPRESS	(16384 * sizeof(unsigned char *))
--#define LZO1X_1_MEM_COMPRESS	LZO1X_MEM_COMPRESS
--
--#define lzo1x_worst_compress(x) ((x) + ((x) / 16) + 64 + 3)
--
--/* This requires 'workmem' of size LZO1X_1_MEM_COMPRESS */
--int lzo1x_1_compress(const unsigned char *src, size_t src_len,
--			unsigned char *dst, size_t *dst_len, void *wrkmem);
--
--/* safe decompression with overrun testing */
--int lzo1x_decompress_safe(const unsigned char *src, size_t src_len,
--			unsigned char *dst, size_t *dst_len);
--
--/*
-- * Return values (< 0 = Error)
-- */
--#define LZO_E_OK			0
--#define LZO_E_ERROR			(-1)
--#define LZO_E_OUT_OF_MEMORY		(-2)
--#define LZO_E_NOT_COMPRESSIBLE		(-3)
--#define LZO_E_INPUT_OVERRUN		(-4)
--#define LZO_E_OUTPUT_OVERRUN		(-5)
--#define LZO_E_LOOKBEHIND_OVERRUN	(-6)
--#define LZO_E_EOF_NOT_FOUND		(-7)
--#define LZO_E_INPUT_NOT_CONSUMED	(-8)
--#define LZO_E_NOT_YET_IMPLEMENTED	(-9)
--
--#endif
-diff -u -r -N driver-master/compcache/lzo-kmod/Makefile fulan-dvb-drivers-master/compcache/lzo-kmod/Makefile
---- driver-master/compcache/lzo-kmod/Makefile	2018-04-16 17:04:38.000000000 +0200
-+++ fulan-dvb-drivers-master/compcache/lzo-kmod/Makefile	1970-01-01 01:00:00.000000000 +0100
-@@ -1,8 +0,0 @@
--obj-m += lzo1x_compress.o lzo1x_decompress.o
--
--all:
--	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
--
--clean:
--	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
--
-diff -u -r -N driver-master/compcache/Makefile fulan-dvb-drivers-master/compcache/Makefile
---- driver-master/compcache/Makefile	2018-04-16 17:04:38.000000000 +0200
-+++ fulan-dvb-drivers-master/compcache/Makefile	2018-04-05 09:41:50.000000000 +0200
-@@ -1,14 +1,14 @@
--EXTRA_CFLAGS := -g -Wall
-+KERNELDIR ?= "/lib/modules/$(shell uname -r)/build"
- 
--obj-m += \
--	lzo-kmod/lzo1x_compress.o \
--	lzo-kmod/lzo1x_decompress.o \
--	ramzswap.o
-+XVM = sub-projects/allocators/xvmalloc-kmod
-+EXTRA_CFLAGS	:=	-Wall
++source "drivers/staging/zram/Kconfig"
 +
-+obj-m		+=	zram.o
-+zram-objs	:=	zram_drv.o zram_sysfs.o $(XVM)/xvmalloc.o
- 
- all:
--	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-+	make -C $(KERNELDIR) M=$(PWD) modules
- 
- clean:
--	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-+	make -C $(KERNELDIR) M=$(PWD) clean
- 	@rm -rf *.ko
--	@rm -rf lzo-kmod/*.ko
-diff -u -r -N driver-master/compcache/ramzswap.c fulan-dvb-drivers-master/compcache/ramzswap.c
---- driver-master/compcache/ramzswap.c	2018-04-16 17:04:38.000000000 +0200
-+++ fulan-dvb-drivers-master/compcache/ramzswap.c	1970-01-01 01:00:00.000000000 +0100
-@@ -1,456 +0,0 @@
--/*
-- * Compressed RAM based swap device
-- *
-- * Copyright (C) 2008, 2009  Nitin Gupta
-- *
-- * This RAM based block device acts as swap disk.
-- * Pages swapped to this device are compressed and
-- * stored in memory.
-- *
-- * Released under the terms of GNU General Public License Version 2.0
-- *
-- * Project home: http://compcache.googlecode.com
-- */
--
--#include <linux/version.h>
--#include <linux/module.h>
--#include <linux/kernel.h>
--#include <linux/bitops.h>
--#include <linux/blkdev.h>
--#include <linux/buffer_head.h>
--#include <linux/device.h>
--#include <linux/genhd.h>
--#include <linux/mutex.h>
--#include <linux/string.h>
--#include <linux/swap.h>
--#include <linux/swapops.h>
--#include <linux/vmalloc.h>
--
--#define BIT(nr) (1UL << (nr))
--
--#include "compat.h"
--#include "ramzswap.h"
--#include "lzo-kmod/lzo.h"
--
--/* Globals */
--static struct ramzswap rzs;
--
--/* Module params (documentation at end) */
--static unsigned long disksize_kb;
--
--static int __init ramzswap_init(void);
--static struct block_device_operations ramzswap_devops = {
--	.owner = THIS_MODULE,
--};
--
--static int test_flag(u32 index, enum rzs_pageflags flag)
--{
--	return rzs.table[index].flags & BIT(flag);
--}
--
--static void set_flag(u32 index, enum rzs_pageflags flag)
--{
--	rzs.table[index].flags |= BIT(flag);
--}
--
--static void clear_flag(u32 index, enum rzs_pageflags flag)
--{
--	rzs.table[index].flags &= ~BIT(flag);
--}
--
--/*
-- * Check if request is within bounds and page aligned.
-- */
--static inline int valid_swap_request(struct bio *bio)
--{
--	if ( 	(bio->bi_sector >= (rzs.disksize >> SECTOR_SHIFT)) ||
--		(bio->bi_sector & (SECTORS_PER_PAGE - 1)) ||
--		(bio->bi_vcnt != 1) ||
--		(bio->bi_size != PAGE_SIZE) ||
--		(bio->bi_io_vec[0].bv_offset != 0)) {
--
--		return 0;
--	}
--
--	/* swap request is valid */
--	return 1;
--}
--
--/*
-- * Called when request page is not present in ramzswap.
-- * Its either in backing swap device (if present) or
-- * this is an attempt to read before any previous write
-- * to this location - this happens due to readahead when
-- * swap device is read from user-space (e.g. during swapon)
-- */
--int handle_ramzswap_fault(struct bio *bio)
--{
--	struct page *page = bio->bi_io_vec[0].bv_page;
--
--	pr_info(C "Read before write on swap device: "
--		"sector=%lu, size=%u, offset=%u\n",
--		(ulong)(bio->bi_sector), bio->bi_size,
--		bio->bi_io_vec[0].bv_offset);
--	memset(page_address(page), 0, PAGE_SIZE);
--
--	set_bit(BIO_UPTODATE, &bio->bi_flags);
--	BIO_ENDIO(bio, 0);
--	return 0;
--}
--
--int ramzswap_read(struct bio *bio)
--{
--	int ret;
--	u32 index;
--	size_t clen;
--	struct page *page;
--
--	page = bio->bi_io_vec[0].bv_page;
--	index = bio->bi_sector >> SECTORS_PER_PAGE_SHIFT;
--
--	/* Requested page is not present in compressed area */
--	if (!test_flag(index, RZS_INUSE))
--		return handle_ramzswap_fault(bio);
--
--	/* Page is stored uncompressed since its incompressible */
--	if (test_flag(index, RZS_UNCOMPRESSED)) {
--		memcpy(page_address(page), rzs.table[index].pagepos, PAGE_SIZE);
--	} else {
--		clen = PAGE_SIZE;
--
--		ret = lzo1x_decompress_safe(
--			rzs.table[index].pagepos,
--			rzs.table[index].size,
--			page_address(page), &clen);
--
--		if (ret != LZO_E_OK) {
--			pr_info(C "Decompression failed! err=%d, page=%u\n", ret, index);
--			goto out;
--		}
--	}
--	//flush_cache_all(); //ok
--	__flush_purge_region(page_address(page), PAGE_SIZE); //ok
--	__flush_purge_region(rzs.table[index].pagepos, rzs.table[index].size); //ok
--
--	set_bit(BIO_UPTODATE, &bio->bi_flags);
--	BIO_ENDIO(bio, 0);
--	return 0;
--out:
--	BIO_IO_ERROR(bio);
--	return 0;
--}
--
--int ramzswap_write(struct bio *bio)
--{
--	int ret;
--	size_t clen, index;
--	struct page *page;
--	void *lzopage;
--
--	page = bio->bi_io_vec[0].bv_page;
--	index = bio->bi_sector >> SECTORS_PER_PAGE_SHIFT;
--
--	lzopage = rzs.compress_buffer;
--
--	/*
--	 * System swaps to same sector again when the stored page
--	 * is no longer referenced by any process. So, its now safe
--	 * to free the memory that was allocated for this page.
--	 */
--	if (test_flag(index, RZS_INUSE))
--		kfree(rzs.table[index].pagepos);
--
--	clear_flag(index, RZS_INUSE);
--	clear_flag(index, RZS_UNCOMPRESSED);
--
--	mutex_lock(&rzs.lock);
--
--	ret = lzo1x_1_compress(page_address(page), PAGE_SIZE, lzopage, &clen, rzs.compress_workmem);
--
--	if (ret != LZO_E_OK) {
--		pr_info(C "Compression failed! err=%d\n", ret);
--		goto out;
--	}
--
--	/*
--	 * Page is incompressible. Store it as-is (uncompressed)
--	 * since we do not want to return too many swap write
--	 * errors which has side effect of hanging the system.
--	 */
--	if (clen >= PAGE_SIZE) {
--		clen = PAGE_SIZE;
--		set_flag(index, RZS_UNCOMPRESSED);
--		lzopage = page_address(page);
--	}
--
--	rzs.table[index].pagepos = kmalloc(clen, GFP_KERNEL);
--	if (rzs.table[index].pagepos == NULL) {
--		pr_info(C "Error allocating memory");
--		goto out;
--	}
--	memset(rzs.table[index].pagepos, 0, clen);
--
--	set_flag(index, RZS_INUSE);
--	rzs.table[index].size = clen;
--	memcpy(rzs.table[index].pagepos, lzopage, clen);
--
--	mutex_unlock(&rzs.lock);
--
--	set_bit(BIO_UPTODATE, &bio->bi_flags);
--	BIO_ENDIO(bio, 0);
--	return 0;
--out:
--	clear_flag(index, RZS_INUSE);
--	clear_flag(index, RZS_UNCOMPRESSED);
--	mutex_unlock(&rzs.lock);
--	BIO_IO_ERROR(bio);
--	return 0;
--}
--
--/*
-- * Handler function for all ramzswap I/O requests.
-- */
--static int ramzswap_make_request(struct request_queue *queue, struct bio *bio)
--{
--	int ret = 0;
--
--	if (!valid_swap_request(bio)) {
--		BIO_IO_ERROR(bio);
--		return 0;
--	}
--
--	switch (bio_data_dir(bio)) {
--	case READ:
--		ret = ramzswap_read(bio);
--		break;
--
--	case WRITE:
--		ret = ramzswap_write(bio);
--		break;
--	}
--
--	return ret;
--}
--
--/*
-- * Swap header (1st page of swap device) contains information
-- * to indentify it as a swap partition. Prepare such a header
-- * for ramzswap device (ramzswap0) so that swapon can identify
-- * it as swap partition. In case backing swap device is provided,
-- * copy its swap header.
-- */
--static int setup_swap_header(union swap_header *s)
--{
--	s->info.version = 1;
--	s->info.last_page = rzs.disksize >> PAGE_SHIFT;
--	s->info.nr_badpages = 0;
--	memcpy(s->magic.magic, "SWAPSPACE2", 10);
--	return 0;
--}
--
--static void ramzswap_set_disksize(size_t totalram_bytes)
--{
--	rzs.disksize = disksize_kb << 10;
--
--	if (!disksize_kb) {
--		pr_info(C
--		"disk size not provided. You can use disksize_kb module "
--		"param to specify size.\nUsing default: (%u%% of RAM).\n",
--		DEFAULT_DISKSIZE_PERC_RAM
--		);
--		rzs.disksize = DEFAULT_DISKSIZE_PERC_RAM *
--					(totalram_bytes / 100);
--	}
--
--	if (disksize_kb > 2 * (totalram_bytes >> 10)) {
--		pr_info(C
--		"There is little point creating a ramzswap of greater than "
--		"twice the size of memory since we expect a 2:1 compression "
--		"ratio. Note that ramzswap uses about 0.1%% of the size of "
--		"the swap device when not in use so a huge ramzswap is "
--		"wasteful.\n"
--		"\tMemory Size: %zu kB\n"
--		"\tSize you selected: %lu kB\n"
--		"Continuing anyway ...\n",
--		totalram_bytes >> 10, disksize_kb
--		);
--	}
--
--	rzs.disksize &= PAGE_MASK;
--	pr_info(C "disk size set to %zu kB\n", rzs.disksize >> 10);
--}
--
--static int __init ramzswap_init(void)
--{
--	int ret;
--	size_t num_pages, totalram_bytes;
--	struct sysinfo i;
--	void *page;
--
--	mutex_init(&rzs.lock);
--
--	si_meminfo(&i);
--	/* Here is a trivia: guess unit used for i.totalram !! */
--	totalram_bytes = i.totalram << PAGE_SHIFT;
--
--	ramzswap_set_disksize(totalram_bytes);
--
--	rzs.compress_workmem = kmalloc(LZO1X_MEM_COMPRESS, GFP_KERNEL);
--	if (rzs.compress_workmem == NULL) {
--		pr_info(C "Error allocating compressor working memory\n");
--		ret = -ENOMEM;
--		goto fail;
--	}
--	memset(rzs.compress_workmem, 0, LZO1X_MEM_COMPRESS);
--
--	rzs.compress_buffer = kmalloc(2 * PAGE_SIZE, GFP_KERNEL);
--	if (rzs.compress_buffer == NULL) {
--		pr_info(C "Error allocating compressor buffer space\n");
--		ret = -ENOMEM;
--		goto fail;
--	}
--	memset(rzs.compress_buffer, 0, 2 * PAGE_SIZE);
--
--	num_pages = rzs.disksize >> PAGE_SHIFT;
--	rzs.table = vmalloc(num_pages * sizeof(*rzs.table));
--	if (rzs.table == NULL) {
--		pr_info(C "Error allocating ramzswap address table\n");
--		ret = -ENOMEM;
--		goto fail;
--	}
--	memset(rzs.table, 0, num_pages * sizeof(*rzs.table));
--
--	page = kmalloc(PAGE_SIZE, GFP_KERNEL);
--	if (page == NULL) {
--		pr_info(C "Error allocating swap header page\n");
--		ret = -ENOMEM;
--		goto fail;
--	}
--	memset(page, 0, PAGE_SIZE);
--	rzs.table[0].pagepos = page;
--	set_flag(0, RZS_UNCOMPRESSED);
--	set_flag(0, RZS_INUSE);
--
--	ret = setup_swap_header((union swap_header *)(rzs.table[0].pagepos));
--	if (ret) {
--		pr_info(C "Error setting swap header\n");
--		goto fail;
--	}
--
--	rzs.disk = alloc_disk(1);
--	if (rzs.disk == NULL) {
--		pr_info(C "Error allocating disk structure\n");
--		ret = -ENOMEM;
--		goto fail;
--	}
--
--	rzs.disk->first_minor = 0;
--	rzs.disk->fops = &ramzswap_devops;
--	/*
--	 * It is named like this to prevent distro installers
--	 * from offering ramzswap as installation target. They
--	 * seem to ignore all devices beginning with 'ram'
--	 */
--	strcpy(rzs.disk->disk_name, "ramzswap0");
--
--	rzs.disk->major = register_blkdev(0, rzs.disk->disk_name);
--	if (rzs.disk->major < 0) {
--		pr_info(C "Cannot register block device\n");
--		ret = -EFAULT;
--		goto fail;
--	}
--
--	rzs.disk->queue = blk_alloc_queue(GFP_KERNEL);
--	if (rzs.disk->queue == NULL) {
--		pr_info(C "Cannot register disk queue\n");
--		ret = -EFAULT;
--		goto fail;
--	}
--
--	set_capacity(rzs.disk, rzs.disksize >> SECTOR_SHIFT);
--	blk_queue_make_request(rzs.disk->queue, ramzswap_make_request);
--
--#ifdef QUEUE_FLAG_NONROT
--	/*
--	 * Assuming backing device is "rotational" type.
--	 * TODO: check if its actually "non-rotational" (SSD).
--	 *
--	 * We have ident mapping of sectors for ramzswap and
--	 * and the backing swap device. So, this queue flag
--	 * should be according to backing dev.
--	 */
--	queue_flag_set_unlocked(QUEUE_FLAG_NONROT, rzs.disk->queue);
--#endif
--#ifdef SWAP_DISCARD_SUPPORTED
--	blk_queue_set_discard(rzs.disk->queue, ramzswap_prepare_discard);
--#endif
--#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,30)
--	blk_queue_hardsect_size(rzs.disk->queue, PAGE_SIZE);
--#else
--	blk_queue_logical_block_size(rzs.disk->queue, PAGE_SIZE);
--#endif
--	add_disk(rzs.disk);
--
--	pr_info(C "Initialization done!\n");
--	return 0;
--
--fail:
--	if (rzs.disk != NULL) {
--		if (rzs.disk->major > 0)
--			unregister_blkdev(rzs.disk->major, rzs.disk->disk_name);
--		del_gendisk(rzs.disk);
--	}
--
--	if (test_flag(0, RZS_INUSE))
--		kfree(rzs.table[0].pagepos);
--	kfree(rzs.compress_workmem);
--	kfree(rzs.compress_buffer);
--	vfree(rzs.table);
--
--	pr_info(C "Initialization failed: err=%d\n", ret);
--	return ret;
--}
--
--static void __exit ramzswap_exit(void)
--{
--	size_t index, num_pages;
--	num_pages = rzs.disksize >> PAGE_SHIFT;
--
--	unregister_blkdev(rzs.disk->major, rzs.disk->disk_name);
--	del_gendisk(rzs.disk);
--
--	kfree(rzs.compress_workmem);
--	kfree(rzs.compress_buffer);
--
--	/* Free all pages that are still in ramzswap */
--	for (index = 0; index < num_pages; index++) {
--
--		if (test_flag(index, RZS_INUSE))
--			kfree(rzs.table[index].pagepos);
--	}
--
--	vfree(rzs.table);
--	pr_info(C "cleanup done!\n");
--}
--
--/*
-- * This param is applicable only when there is no backing swap device.
-- * We ignore this param in case backing dev is provided since then its
-- * always equal to size of the backing swap device.
-- *
-- * This size refers to amount of (uncompressed) data it can hold.
-- * For e.g. disksize_kb=1024 means it can hold 1024kb worth of
-- * uncompressed data even if this data compresses to just, say, 100kb.
-- *
-- * Default value is used if this param is missing or 0 (if its applicable).
-- * Default: [DEFAULT_DISKSIZE_PERC_RAM]% of RAM
-- */
--module_param(disksize_kb, ulong, 0);
--MODULE_PARM_DESC(disksize_kb, "ramzswap device size (kB)");
--
--module_init(ramzswap_init);
--module_exit(ramzswap_exit);
--
--MODULE_LICENSE("GPL");
--MODULE_AUTHOR("Nitin Gupta <ngupta@vflare.org>");
--MODULE_DESCRIPTION("Compressed RAM Based Swap Device");
-diff -u -r -N driver-master/compcache/ramzswap.h fulan-dvb-drivers-master/compcache/ramzswap.h
---- driver-master/compcache/ramzswap.h	2018-04-16 17:04:38.000000000 +0200
-+++ fulan-dvb-drivers-master/compcache/ramzswap.h	1970-01-01 01:00:00.000000000 +0100
-@@ -1,59 +0,0 @@
--/*
-- * Compressed RAM based swap device
-- *
-- * Copyright (C) 2008, 2009  Nitin Gupta
-- *
-- * This RAM based block device acts as swap disk.
-- * Pages swapped to this device are compressed and
-- * stored in memory.
-- *
-- * Released under the terms of GNU General Public License Version 2.0
-- *
-- * Project home: http://compcache.googlecode.com
-- */
--
--#ifndef _RAMZSWAP_H_
--#define _RAMZSWAP_H_
--
--/*-- Configurable parameters */
--
--/* Default ramzswap disk size: 25% of total RAM */
--#define DEFAULT_DISKSIZE_PERC_RAM	25
--#define DEFAULT_MEMLIMIT_PERC_RAM	15
--
--/*-- End of configurable params */
--
--#define SECTOR_SHIFT		9
--#define SECTOR_SIZE		(1 << SECTOR_SHIFT)
--#define SECTORS_PER_PAGE_SHIFT	(PAGE_SHIFT - SECTOR_SHIFT)
--#define SECTORS_PER_PAGE	(1 << SECTORS_PER_PAGE_SHIFT)
--
--/* Message prefix */
--#define C "ramzswap: "
--
--/* Flags for ramzswap pages (table[page_no].flags) */
--enum rzs_pageflags {
--	RZS_UNCOMPRESSED,
--	RZS_INUSE,
--	__NR_RZS_PAGEFLAGS,
--};
--
--/*-- Data structures */
--
--/* Indexed by page no. */
--struct table {
--	void *pagepos;
--	u8 flags;
--	size_t size;
--};
--
--struct ramzswap {
--	void *compress_workmem;
--	void *compress_buffer;
--	struct table *table;
--	struct mutex lock;
--	struct gendisk *disk;
--	size_t disksize;	/* bytes */
--};
--
--#endif
-diff -u -r -N driver-master/compcache/README fulan-dvb-drivers-master/compcache/README
---- driver-master/compcache/README	1970-01-01 01:00:00.000000000 +0100
-+++ fulan-dvb-drivers-master/compcache/README	2018-04-05 09:41:50.000000000 +0200
-@@ -0,0 +1,105 @@
-+zram: Compressed RAM based block devices
-+----------------------------------------
+ endif # !STAGING_EXCLUDE_BUILD
+ endif # STAGING
+diff -u -r -N 1/drivers/staging/Makefile 2/drivers/staging/Makefile
+--- 1/drivers/staging/Makefile	2016-07-01 14:50:40.000000000 +0200
++++ 2/drivers/staging/Makefile	2018-05-16 01:05:35.791007566 +0200
+@@ -43,3 +43,4 @@
+ obj-$(CONFIG_RAR_REGISTER)	+= rar/
+ obj-$(CONFIG_DX_SEP)		+= sep/
+ obj-$(CONFIG_IIO)		+= iio/
++obj-$(CONFIG_ZRAM)		+= zram/
+diff -u -r -N 1/drivers/staging/zram/Kconfig 2/drivers/staging/zram/Kconfig
+--- 1/drivers/staging/zram/Kconfig	1970-01-01 01:00:00.000000000 +0100
++++ 2/drivers/staging/zram/Kconfig	2017-02-20 22:46:38.000000000 +0100
+@@ -0,0 +1,25 @@
++config ZRAM
++	tristate "Compressed RAM block device support"
++	depends on BLOCK && SYSFS
++	select LZO_COMPRESS
++	select LZO_DECOMPRESS
++	default n
++	help
++	  Creates virtual block devices called /dev/zramX (X = 0, 1, ...).
++	  Pages written to these disks are compressed and stored in memory
++	  itself. These disks allow very fast I/O and compression provides
++	  good amounts of memory savings.
 +
-+Project home: http://compcache.googlecode.com/
++	  It has several use cases, for example: /tmp storage, use as swap
++	  disks and maybe many more.
 +
-+* Introduction
++	  See zram.txt for more information.
++	  Project home: http://compcache.googlecode.com/
 +
-+The zram module creates RAM based block devices named /dev/zram<id>
-+(<id> = 0, 1, ...). Pages written to these disks are compressed and stored
-+in memory itself. These disks allow very fast I/O and compression provides
-+good amounts of memory savings. Some of the usecases include /tmp storage,
-+use as swap disks, various caches under /var and maybe many more :)
++config ZRAM_DEBUG
++	bool "Compressed RAM block device debug support"
++	depends on ZRAM
++	default n
++	help
++	  This option adds additional debugging code to the compressed
++	  RAM block device driver.
+diff -u -r -N 1/drivers/staging/zram/Makefile 2/drivers/staging/zram/Makefile
+--- 1/drivers/staging/zram/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ 2/drivers/staging/zram/Makefile	2017-02-20 22:46:31.000000000 +0100
+@@ -0,0 +1,3 @@
++zram-y	:=	zram_drv.o zram_sysfs.o xvmalloc.o
 +
-+Statistics for individual zram devices are exported through sysfs nodes at
-+/sys/block/zram<id>/
-+
-+Help page:
-+  http://compcache.googlecode.com/CompilingAndUsingNew
-+
-+* Compiling
-+  - 'make':	This will compile zram module against your kernel
-+  - Optional (HIGHLY RECOMMENDED): ** Only for kernels older than 2.6.35 **
-+	- Apply the patch found in compcache/patches/ directory and just
-+	  compile the kernel as usual. This patch enables 'swap free notify'
-+	  feature which allows the kernel to send callback to zram as soon
-+	  as a swap slot becomes free. So, we can immediately free memory
-+	  allocated for the corresponding page, eliminating any stale data
-+	  in (compressed) memory. Currently, patches are available for
-+	  2.6.29 and 2.6.33 kernels but it should apply to 'nearby' kernel
-+	  versions too.  
-+	- Uncomment '#define CONFIG_SWAP_FREE_NOTIFY' in compcache/compat.h
-+	  before compiling compcache against this patched kernel. Otherwise,
-+          this swap notify callback will not be used.
-+	- Note that this patch is applicable only when zram devices are
-+	  intended to be used as swap disks. They do not help when used
-+	  for other purposes (see examples below).
-+
-+Following binaries are created:
-+  - zram.ko (kernel driver)
-+
-+* Usage
-+
-+Following shows a typical sequence of steps for using zram.
-+
-+1) Load Module:
-+	modprobe zram num_devices=4
-+	This creates 4 devices: /dev/zram{0,1,2,3}
-+	(num_devices parameter is optional. Default: 1)
-+
-+2) Set Disksize:
-+	Set disk size by writing the value to sysfs node 'disksize'
-+	(in bytes). If disksize is not given, default value of 25%
-+	of RAM is used.
-+
-+	# Set disksize of 50MB for /dev/zram0
-+	echo $((50*1024*1024)) > /sys/block/zram0/disksize
-+
-+	NOTE: disksize cannot be changed if the disk contains any
-+	data. So, for such a disk, you need to issue 'reset' (see below)
-+	before you can change its disksize.
-+
-+3) Activate:
-+	mkswap /dev/zram0
-+	swapon /dev/zram0
-+
-+	mkfs.ext4 /dev/zram1
-+	mount /dev/zram1 /tmp
-+
-+4) Statistics:
-+	Per-device statistics are exported as various nodes under
-+	/sys/block/zram<id>/
-+		disksize
-+		num_reads
-+		num_writes
-+		invalid_io
-+		notify_free
-+		discard
-+		zero_pages
-+		orig_data_size
-+		compr_data_size
-+		mem_used_total
-+
-+	A helper script is included (sub-projects/scripts/zram_stats)
-+	which shows these stats for devices containing any data. It also
-+	shows (derived) values for average compression ratio and memory
-+	overhead.
-+
-+5) Deactivate:
-+	swapoff /dev/zram0
-+	umount /dev/zram1
-+
-+6) Reset:
-+	Write any positive value to 'reset' sysfs node
-+	echo 1 > /sys/block/zram0/reset
-+	echo 1 > /sys/block/zram1/reset
-+
-+	(This frees all the memory allocated for the given device).
-+
-+
-+Please report any problems at:
-+ - Mailing list: linux-mm-cc at laptop dot org
-+ - Issue tracker: http://code.google.com/p/compcache/issues/list
-+
-+Nitin Gupta
-+ngupta@vflare.org
-diff -u -r -N driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/Makefile fulan-dvb-drivers-master/compcache/sub-projects/allocators/xvmalloc-kmod/Makefile
---- driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/Makefile	1970-01-01 01:00:00.000000000 +0100
-+++ fulan-dvb-drivers-master/compcache/sub-projects/allocators/xvmalloc-kmod/Makefile	2018-04-05 09:41:50.000000000 +0200
-@@ -0,0 +1,12 @@
-+EXTRA_CFLAGS	:=	-g -O2 -Wall
-+KERNEL_BUILD_PATH ?= "/lib/modules/$(shell uname -r)/build"
-+
-+obj-m		+=	xvmalloc.o
-+
-+all:
-+	make -C $(KERNEL_BUILD_PATH) M=$(PWD) modules
-+
-+clean:
-+	make -C $(KERNEL_BUILD_PATH) M=$(PWD) clean
-+	@$(RM) -rf *.o *~ *.c.gcov *.gcda *.gcno cscope.* tags
-+
-diff -u -r -N driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc.c fulan-dvb-drivers-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc.c
---- driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc.c	1970-01-01 01:00:00.000000000 +0100
-+++ fulan-dvb-drivers-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc.c	2018-05-16 23:58:02.742508437 +0200
-@@ -0,0 +1,498 @@
++obj-$(CONFIG_ZRAM)	+=	zram.o
+diff -u -r -N 1/drivers/staging/zram/xvmalloc.c 2/drivers/staging/zram/xvmalloc.c
+--- 1/drivers/staging/zram/xvmalloc.c	1970-01-01 01:00:00.000000000 +0100
++++ 2/drivers/staging/zram/xvmalloc.c	2017-02-20 22:46:38.000000000 +0100
+@@ -0,0 +1,502 @@
 +/*
 + * xvmalloc memory allocator
 + *
@@ -1473,6 +68,10 @@ diff -u -r -N driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvma
 + * Released under the terms of 3-clause BSD License
 + * Released under the terms of GNU General Public License Version 2.0
 + */
++
++#ifdef CONFIG_ZRAM_DEBUG
++#define DEBUG
++#endif
 +
 +#include <linux/bitops.h>
 +#include <linux/errno.h>
@@ -1960,9 +559,9 @@ diff -u -r -N driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvma
 +{
 +	return pool->total_pages << PAGE_SHIFT;
 +}
-diff -u -r -N driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc.h fulan-dvb-drivers-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc.h
---- driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc.h	1970-01-01 01:00:00.000000000 +0100
-+++ fulan-dvb-drivers-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc.h	2018-04-05 09:41:50.000000000 +0200
+diff -u -r -N 1/drivers/staging/zram/xvmalloc.h 2/drivers/staging/zram/xvmalloc.h
+--- 1/drivers/staging/zram/xvmalloc.h	1970-01-01 01:00:00.000000000 +0100
++++ 2/drivers/staging/zram/xvmalloc.h	2017-02-20 22:45:53.000000000 +0100
 @@ -0,0 +1,30 @@
 +/*
 + * xvmalloc memory allocator
@@ -1994,9 +593,9 @@ diff -u -r -N driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvma
 +u64 xv_get_total_size_bytes(struct xv_pool *pool);
 +
 +#endif
-diff -u -r -N driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc_int.h fulan-dvb-drivers-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc_int.h
---- driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc_int.h	1970-01-01 01:00:00.000000000 +0100
-+++ fulan-dvb-drivers-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvmalloc_int.h	2018-05-16 23:58:31.454714147 +0200
+diff -u -r -N 1/drivers/staging/zram/xvmalloc_int.h 2/drivers/staging/zram/xvmalloc_int.h
+--- 1/drivers/staging/zram/xvmalloc_int.h	1970-01-01 01:00:00.000000000 +0100
++++ 2/drivers/staging/zram/xvmalloc_int.h	2017-02-20 22:46:38.000000000 +0100
 @@ -0,0 +1,95 @@
 +/*
 + * xvmalloc memory allocator
@@ -2093,10 +692,10 @@ diff -u -r -N driver-master/compcache/sub-projects/allocators/xvmalloc-kmod/xvma
 +};
 +
 +#endif
-diff -u -r -N driver-master/compcache/zram_drv.c fulan-dvb-drivers-master/compcache/zram_drv.c
---- driver-master/compcache/zram_drv.c	1970-01-01 01:00:00.000000000 +0100
-+++ fulan-dvb-drivers-master/compcache/zram_drv.c	2018-05-16 23:55:45.285582552 +0200
-@@ -0,0 +1,865 @@
+diff -u -r -N 1/drivers/staging/zram/zram_drv.c 2/drivers/staging/zram/zram_drv.c
+--- 1/drivers/staging/zram/zram_drv.c	1970-01-01 01:00:00.000000000 +0100
++++ 2/drivers/staging/zram/zram_drv.c	2017-02-20 22:47:13.000000000 +0100
+@@ -0,0 +1,869 @@
 +/*
 + * Compressed RAM block device
 + *
@@ -2113,6 +712,10 @@ diff -u -r -N driver-master/compcache/zram_drv.c fulan-dvb-drivers-master/compca
 +
 +#define KMSG_COMPONENT "zram"
 +#define pr_fmt(fmt) KMSG_COMPONENT ": " fmt
++
++#ifdef CONFIG_ZRAM_DEBUG
++#define DEBUG
++#endif
 +
 +#include <linux/module.h>
 +#include <linux/kernel.h>
@@ -2962,9 +1565,9 @@ diff -u -r -N driver-master/compcache/zram_drv.c fulan-dvb-drivers-master/compca
 +MODULE_LICENSE("Dual BSD/GPL");
 +MODULE_AUTHOR("Nitin Gupta <ngupta@vflare.org>");
 +MODULE_DESCRIPTION("Compressed RAM Block Device");
-diff -u -r -N driver-master/compcache/zram_drv.h fulan-dvb-drivers-master/compcache/zram_drv.h
---- driver-master/compcache/zram_drv.h	1970-01-01 01:00:00.000000000 +0100
-+++ fulan-dvb-drivers-master/compcache/zram_drv.h	2018-05-16 23:52:56.876614259 +0200
+diff -u -r -N 1/drivers/staging/zram/zram_drv.h 2/drivers/staging/zram/zram_drv.h
+--- 1/drivers/staging/zram/zram_drv.h	1970-01-01 01:00:00.000000000 +0100
++++ 2/drivers/staging/zram/zram_drv.h	2017-02-20 22:47:13.000000000 +0100
 @@ -0,0 +1,135 @@
 +/*
 + * Compressed RAM block device
@@ -2986,7 +1589,7 @@ diff -u -r -N driver-master/compcache/zram_drv.h fulan-dvb-drivers-master/compca
 +#include <linux/spinlock.h>
 +#include <linux/mutex.h>
 +
-+#include "sub-projects/allocators/xvmalloc-kmod/xvmalloc.h"
++#include "xvmalloc.h"
 +
 +/*
 + * Some arbitrary value. This is just to catch
@@ -3101,9 +1704,9 @@ diff -u -r -N driver-master/compcache/zram_drv.h fulan-dvb-drivers-master/compca
 +extern void __zram_reset_device(struct zram *zram);
 +
 +#endif
-diff -u -r -N driver-master/compcache/zram_sysfs.c fulan-dvb-drivers-master/compcache/zram_sysfs.c
---- driver-master/compcache/zram_sysfs.c	1970-01-01 01:00:00.000000000 +0100
-+++ fulan-dvb-drivers-master/compcache/zram_sysfs.c	2018-05-16 23:52:19.704431230 +0200
+diff -u -r -N 1/drivers/staging/zram/zram_sysfs.c 2/drivers/staging/zram/zram_sysfs.c
+--- 1/drivers/staging/zram/zram_sysfs.c	1970-01-01 01:00:00.000000000 +0100
++++ 2/drivers/staging/zram/zram_sysfs.c	2017-02-20 22:47:13.000000000 +0100
 @@ -0,0 +1,227 @@
 +/*
 + * Compressed RAM block device
@@ -3332,3 +1935,83 @@ diff -u -r -N driver-master/compcache/zram_sysfs.c fulan-dvb-drivers-master/comp
 +struct attribute_group zram_disk_attr_group = {
 +	.attrs = zram_disk_attrs,
 +};
+diff -u -r -N 1/drivers/staging/zram/zram.txt 2/drivers/staging/zram/zram.txt
+--- 1/drivers/staging/zram/zram.txt	1970-01-01 01:00:00.000000000 +0100
++++ 2/drivers/staging/zram/zram.txt	2017-02-20 22:46:31.000000000 +0100
+@@ -0,0 +1,76 @@
++zram: Compressed RAM based block devices
++----------------------------------------
++
++Project home: http://compcache.googlecode.com/
++
++* Introduction
++
++The zram module creates RAM based block devices named /dev/zram<id>
++(<id> = 0, 1, ...). Pages written to these disks are compressed and stored
++in memory itself. These disks allow very fast I/O and compression provides
++good amounts of memory savings. Some of the usecases include /tmp storage,
++use as swap disks, various caches under /var and maybe many more :)
++
++Statistics for individual zram devices are exported through sysfs nodes at
++/sys/block/zram<id>/
++
++* Usage
++
++Following shows a typical sequence of steps for using zram.
++
++1) Load Module:
++	modprobe zram num_devices=4
++	This creates 4 devices: /dev/zram{0,1,2,3}
++	(num_devices parameter is optional. Default: 1)
++
++2) Set Disksize (Optional):
++	Set disk size by writing the value to sysfs node 'disksize'
++	(in bytes). If disksize is not given, default value of 25%
++	of RAM is used.
++
++	# Initialize /dev/zram0 with 50MB disksize
++	echo $((50*1024*1024)) > /sys/block/zram0/disksize
++
++	NOTE: disksize cannot be changed if the disk contains any
++	data. So, for such a disk, you need to issue 'reset' (see below)
++	before you can change its disksize.
++
++3) Activate:
++	mkswap /dev/zram0
++	swapon /dev/zram0
++
++	mkfs.ext4 /dev/zram1
++	mount /dev/zram1 /tmp
++
++4) Stats:
++	Per-device statistics are exported as various nodes under
++	/sys/block/zram<id>/
++		disksize
++		num_reads
++		num_writes
++		invalid_io
++		notify_free
++		discard
++		zero_pages
++		orig_data_size
++		compr_data_size
++		mem_used_total
++
++5) Deactivate:
++	swapoff /dev/zram0
++	umount /dev/zram1
++
++6) Reset:
++	Write any positive value to 'reset' sysfs node
++	echo 1 > /sys/block/zram0/reset
++	echo 1 > /sys/block/zram1/reset
++
++	(This frees all the memory allocated for the given device).
++
++
++Please report any problems at:
++ - Mailing list: linux-mm-cc at laptop dot org
++ - Issue tracker: http://code.google.com/p/compcache/issues/list
++
++Nitin Gupta
++ngupta@vflare.org

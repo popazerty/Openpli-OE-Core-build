@@ -19,10 +19,10 @@ index cb2a1040..78ac26e3 100755
  };
  
  typedef enum
-diff --git a/player2_191/linux/drivers/media/dvb/stm/dvb/dvb_ca.c b/player2_191/linux/drivers/media/dvb/stm/dvb/dvb_ca.c
+diff --git a/player2/linux/drivers/media/dvb/stm/dvb/dvb_ca.c b/player2/linux/drivers/media/dvb/stm/dvb/dvb_ca.c
 index 9cece242..196325e9 100644
---- a/player2_191/linux/drivers/media/dvb/stm/dvb/dvb_ca.c
-+++ b/player2_191/linux/drivers/media/dvb/stm/dvb/dvb_ca.c
+--- a/player2/linux/drivers/media/dvb/stm/dvb/dvb_ca.c
++++ b/player2/linux/drivers/media/dvb/stm/dvb/dvb_ca.c
 @@ -215,6 +215,32 @@ static int CaIoctl(struct inode *Inode,
  			return 0;
  			break;
