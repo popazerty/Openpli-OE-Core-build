@@ -30,9 +30,10 @@ RPROVIDES_kernel-image = "kernel-image-${KERNEL_VERSION}"
 
 STM_PATCH_STR = "0217"
 LINUX_VERSION = "2.6.32.71"
-SRCREV = "3ec500f4212f9e4b4d2537c8be5ea32ebf68c43b"
+SRCREV = "${AUTOREV}"
+# SRCREV = "3ec500f4212f9e4b4d2537c8be5ea32ebf68c43b"
 
-SRC_URI = "git://github.com/Duckbox-Developers/linux-sh4-2.6.32.71.git;protocol=git;branch=stmicro \
+SRC_URI = "git://github.com/kueken/linux-sh4-2.6.32.71.git;protocol=git;branch=stmicro-1 \
     file://linux-kbuild-generate-modules-builtin_stm24_${STM_PATCH_STR}.patch \
     file://linux-sh4-linuxdvb_stm24_${STM_PATCH_STR}.patch;patch=1 \
     file://linux-sh4-linuxdvb_stm24_${STM_PATCH_STR}_ca.patch;patch=1 \
@@ -62,7 +63,6 @@ SRC_URI = "git://github.com/Duckbox-Developers/linux-sh4-2.6.32.71.git;protocol=
     file://defconfig \
     file://st-coprocessor.h \
     file://linux-net_stm24.patch;patch=1 \
-    file://zram.patch;patch=1 \
 "
 
 SRC_URI_append_spark7162 = " \
