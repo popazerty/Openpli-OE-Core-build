@@ -9,7 +9,7 @@ MTD_ROOTFS = "mtd6"
 KERNEL_FILE = "uImage"
 ROOTFS_FILE = "e2jffs2.img"
 
-MACHINE_KERNEL_PR = "r1"
+MACHINE_KERNEL_PR = "r2"
 KERNEL_MODULE_PACKAGE_SUFFIX = ""
 
 TARGET_ARCH = "sh4"
@@ -35,7 +35,7 @@ DVBPROVIDER = "kernel"
 
 OPENPLI_FEATURES += "usbconsole ci"
 MACHINE_FEATURES += "3dtv alsa switchoff ext2 usbhost serial dvb-c hdmicec singlecore legacykernel fulan textlcd sh4booster no-nmap omb skins1080 directfb"
-DISTRO_FEATURES_remove = "x11 wayland"
+DISTRO_FEATURES_append += "gtk-directfb libsigc2"
 
 KERNEL_IMAGETYPE = "uImage"
 #KERNEL_OUTPUT = "${KERNEL_IMAGETYPE}"
@@ -105,7 +105,6 @@ MACHINE_EXTRA_RRECOMMENDS = " \
 EXTRA_IMAGEDEPENDS += "\
     libpcre \
     libstgles \
-    directfb-stgfx2 \
     aio-grab \
     "
 
