@@ -3,7 +3,6 @@ ENIGMA2_PLUGINS_append_sh4 = " \
 	enigma2-plugin-systemplugins-sparkvfdcontrol \
 	enigma2-plugin-systemplugins-sh4osdadjustment \
 	enigma2-plugin-systemplugins-sh4boostercontrol \
-	${@bb.utils.contains("MACHINE_FEATURES", "spark7162", "enigma2-plugin-systemplugins-uniontunertype", "", d)} \
 	"
 
 # Add enigma2-plugin-extensions-openwebif-extras to replace enigma2-plugin-extensions-openwebif
