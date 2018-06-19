@@ -3,7 +3,7 @@ MAINTAINER = "OBH"
 SECTION = "misc"
 PRIORITY = "optional"
 LICENSE = "CLOSED"
-RDEPENDS_${PN} += "font-tiny"
+RDEPENDS_${PN} += "font-tiny enigma2-plugin-systemplugins-bh-skin-support"
 
 inherit gitpkgv allarch
 SRCREV = "${AUTOREV}"

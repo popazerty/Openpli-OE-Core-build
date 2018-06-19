@@ -2,7 +2,8 @@
 include conf/machine/include/build-extras.inc
 
 BRAND_OEM = "fulan"
-MACHINE_BRAND = "fulan"
+MACHINE_NAME = "${@bb.utils.contains('MACHINE', 'spark7162', 'SPARK TRIPLEX', 'SPARK 990 LX', d)}"
+MACHINE_BRAND = "GOLDEN MEDIA"
 IMAGEDIR ?= "enigma2"
 MTD_KERNEL = "mtd5"
 MTD_ROOTFS = "mtd6"
@@ -45,7 +46,7 @@ JFFS2_ERASEBLOCK = "0x20000"
 JFFS2_ENDIANNESS = "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '--little-endian', '--big-endian', d)}"
 EXTRA_IMAGECMD_jffs2 = "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
 MKUBIFS_ARGS = "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
-DVBMEDIASINK_CONFIG = "--with-machine=${MACHINE} --with-wma --with-wmv --with-pcm --with-dtsdownmix --with-eac3"
+DVBMEDIASINK_CONFIG = "--with-wma --with-wmv --with-pcm --with-dtsdownmix --with-eac3"
 
 IMAGE_FSTYPES ?= "jffs2"
 
@@ -116,7 +117,3 @@ MACHINE_EXTRA_RDEPENDS = "\
 include conf/machine/include/autoload-filesystems.inc
 require conf/machine/include/tune-sh4.inc
 require conf/machine/include/soc-family.inc
-
-# add support for extra feeds
-PACKAGE_ARCHS += " ${MACHINEBUILD}"
-

@@ -1,16 +1,21 @@
---- e2openplugin-OpenWebif.orig/plugin/controllers/models/grab.py	2018-04-05 07:40:43.449545117 +0200
-+++ e2openplugin-OpenWebif/plugin/controllers/models/grab.py	2018-04-05 07:43:58.653211156 +0200
-@@ -9,83 +9,90 @@
+--- e2openplugin-OpenWebif.orig/plugin/controllers/models/grab.py	2018-05-28 08:56:51.302472240 +0200
++++ e2openplugin-OpenWebif/plugin/controllers/models/grab.py	2018-05-28 10:34:52.252204741 +0200
+@@ -9,102 +9,93 @@
  #                                                                            #
  ##############################################################################
  from enigma import eConsoleAppContainer
+-from Screens.InfoBar import InfoBar
 -from twisted.web import resource, server
+-from enigma import eDBoxLCD
 +from twisted.web import static, resource, http, server
 +import os
  import time
  
  GRAB_PATH = '/usr/bin/grab'
  
+-class GrabRequest(object):
+-	def __init__(self, request, session):
+-		self.request = request
 +class grabScreenshot(resource.Resource):
 +	def __init__(self,session, path = ""):
 +		resource.Resource.__init__(self)
@@ -19,14 +24,12 @@
 +		self.container.appClosed.append(self.grabFinished)
 +		# self.container.dataAvail.append(self.grabData)
  
--class GrabRequest(object):
--	def __init__(self, request, session):
+-		mode = None
+-		graboptions = [GRAB_PATH, '-q', '-s']
 +	def render(self, request):
- 		self.request = request
++		self.request = request
 +		graboptions = [GRAB_PATH]
  
--		graboptions = [GRAB_PATH, '-q', '-s']
--
 -		if "format" in request.args:
 -			fileformat = request.args["format"][0]
 +		if "format" in request.args.keys():
@@ -60,17 +63,40 @@
  				graboptions.append("-o")
  			elif mode == "video":
  				graboptions.append("-v")
+-			elif mode == "pip":
+-				graboptions.append("-v")
+-				if InfoBar.instance.session.pipshown:
+-					graboptions.append("-i 1")
+-			elif mode == "lcd":
+-				eDBoxLCD.getInstance().dumpLCD()
+-				fileformat = "png"
+-				command = "cat /tmp/lcdshot.%s" % fileformat
+ 
 -		self.container = eConsoleAppContainer()
 -		self.container.appClosed.append(self.grabFinished)
 -		self.container.stdoutAvail.append(request.write)
 -		self.container.setBufferSize(32768)
--		self.container.execute(GRAB_PATH, *graboptions)
+-		if mode == "lcd":
+-			if self.container.execute(command):
+-				raise Exception, "failed to execute: ", command
+-			sref = 'lcdshot'
++		try:
++			ref = self.session.nav.getCurrentlyPlayingServiceReference().toString()
++		except:
++			ref = None 
 +
- 		try:
--			ref = session.nav.getCurrentlyPlayingServiceReference().toString()
--			sref = '_'.join(ref.split(':', 10)[:10])
--		except:  # noqa: E722
--			sref = 'screenshot'
++		if ref is not None:
++			self.sref = '_'.join(ref.split(':', 10)[:10])
+ 		else:
+-			self.container.execute(GRAB_PATH, *graboptions)
+-			try:
+-				if mode == "pip" and InfoBar.instance.session.pipshown:
+-					ref = InfoBar.instance.session.pip.getCurrentService().toString()
+-				else:
+-					ref = session.nav.getCurrentlyPlayingServiceReference().toString()
+-				sref = '_'.join(ref.split(':', 10)[:10])
+-			except:  # noqa: E722
+-				sref = 'screenshot'
 -		sref = sref + '_' + time.strftime("%Y%m%d%H%M%S", time.localtime(time.time()))
 -		request.notifyFinish().addErrback(self.requestAborted)
 -		request.setHeader('Content-Disposition', 'inline; filename=%s.%s;' % (sref, fileformat))
@@ -86,17 +112,9 @@
 -		self.container.kill()
 -		del self.request
 -		del self.container
-+			ref = self.session.nav.getCurrentlyPlayingServiceReference().toString()
-+		except:
-+			ref = None 
-+
-+		if ref is not None:
-+			self.sref = '_'.join(ref.split(':', 10)[:10])
-+		else:
 +			self.sref = 'screenshot'
- 
--	def grabFinished(self, retval=None):
 +		self.sref = self.sref + '_' + time.strftime("%Y%m%d%H%M%S", time.localtime(time.time()))
++
 +		self.filepath = "/tmp/screenshot." + self.fileformat
 +		graboptions.append(self.filepath)
 +		self.container.execute(GRAB_PATH, *graboptions)
@@ -104,7 +122,8 @@
 +
 +	def grabData(self, data):
 +		print "[W] grab:", data,
-+
+ 
+-	def grabFinished(self, retval=None):
 +	def grabFinished(self, retval = None):
 +		fileformat = self.fileformat
 +		if fileformat == "jpg":
@@ -114,8 +133,11 @@
 +			data = fd.read()
 +			fd.close()
 +			self.request.setHeader('Content-Disposition', 'inline; filename=%s.%s;' % (self.sref,self.fileformat))
-+			self.request.setHeader('Content-Type','image/%s' % fileformat)
++			self.request.setHeader('Content-Type','image/%s' % fileformat.replace("jpg","jpeg"))
 +			self.request.setHeader('Content-Length', '%i' % len(data))
++			self.request.setHeader('Expires','Sat, 26 Jul 1997 05:00:00 GMT')
++			self.request.setHeader('Cache-Control','no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
++			self.request.setHeader('Pragma','no-cache')
 +			self.request.write(data)
 +		except Exception, error:
 +			self.request.setResponseCode(http.OK)
@@ -143,3 +165,4 @@
 -		request.grab_in_progress = GrabRequest(request, self.session)
 -		return server.NOT_DONE_YET
 +		del self.filepath
+

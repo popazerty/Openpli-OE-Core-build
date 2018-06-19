@@ -2,8 +2,10 @@ MODULE = "OpenWebif"
 DESCRIPTION = "Control your receiver with a browser"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://README;firstline=10;lastline=12;md5=9c14f792d0aeb54e15490a28c89087f7"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 DEPENDS = "python-cheetah-native"
+
 RDEPENDS_${PN} = "\
 	aio-grab \
 	python-cheetah \
@@ -17,11 +19,23 @@ RDEPENDS_${PN} = "\
 	python-unixadmin \
 	"
 
-inherit gitpkgv
-PV = "1+git${SRCPV}"
-PKGV = "1+git${GITPKGV}"
+inherit gitpkgv distutils-openplugins
 
-require ../../../meta-openpli/recipes-openpli/e2openplugins/openplugins-distutils.inc
+PV = "git${SRCPV}"
+PKGV = "git${GITPKGV}"
+
+SRCREV = "${AUTOREV}"
+SRCREV_FORMAT = "${MODULE}_extrarcmodels"
+SRCREV_extrarcmodels_pn-${PN} = "${AUTOREV}"
+
+SRC_URI = "\
+	git://github.com/E2OpenPlugins/e2openplugin-${MODULE}.git;protocol=git \
+	git://github.com/PLi-metas/extra_rc_models.git;protocol=git;destsuffix=extra_rc_models;name=extrarcmodels \
+	"
+
+SRC_URI_append_sh4 += " file://revert_grab_for_sh4.patch "
+
+S="${WORKDIR}/git"
 
 do_configure_prepend() {
 	git --git-dir="${WORKDIR}/extra_rc_models/.git" --work-tree="${WORKDIR}/extra_rc_models" pull
@@ -55,16 +69,6 @@ do_install_append() {
 
 FILES_${PN} = "${PLUGINPATH}"
 
-SRCREV = "${AUTOREV}"
-
-PACKAGE_ARCH = "${MACHINE_ARCH}"
-SRC_URI_append_dm8000 += " file://get-rid-of-orgdream-check.patch "
-SRC_URI_append_sh4 += " file://revert_grab_for_sh4.patch "
-SRC_URI_append += " git://github.com/PLi-metas/extra_rc_models.git;destsuffix=extra_rc_models;name=extra_rc_models "
-
-SRCREV_FORMAT = "${MODULE}"
-SRCREV[extra_rc_models] = "${AUTOREV}"
-
 python do_cleanup () {
     # contains: MACHINE, box image, remote image, remote map
     boxtypes = [
@@ -85,12 +89,13 @@ python do_cleanup () {
         ('osmini', 'osmini.png', 'osmini.png', 'osmini.html'),
         ('osminiplus', 'osminiplus.png', 'osmini.png', 'osmini.html'),
         ('osnino', 'osnino.png', 'edision1.png', 'edision1.html'),
-        ('osninoplus', 'osnino.png', 'edision1.png', 'edision1.html'),
+        ('osninoplus', 'osninoplus.png', 'edision2.png', 'edision2.html'),
         ('formuler1', 'formuler1.png', 'formuler1.png', 'formuler1.html'),
         ('formuler3', 'formuler3.png', 'formuler1.png', 'formuler1.html'),
         ('formuler4', 'formuler4.png', 'formuler1.png', 'formuler1.html'),
         ('formuler4turbo', 'formuler4turbo.png', 'formuler1.png', 'formuler1.html'),
         ('gbquad4k', 'gbquad4k.png', 'gb7252.png', 'gb7252.html'),
+        ('gbue4k', 'gbue4k.png', 'gb7252.png', 'gb7252.html'),
         ('hd11', 'hd11.png', 'hd1x00.png', 'hd1x00.html'),
         ('hd1100', 'hd1100.png', 'hd1x00.png', 'hd1x00.html'),
         ('hd1200', 'hd1200.png', 'hd1x00.png', 'hd1x00.html'),
@@ -223,3 +228,4 @@ RDEPENDS_${PN}-vti-theme =+ "${PN}"
 RREPLACES_${PN}-vxg = "enigma2-plugin-extensions-openwebif-vxg"
 RCONFLICTS_${PN}-vxg = "enigma2-plugin-extensions-openwebif-vxg"
 RPROVIDES_${PN}-vxg =+ "enigma2-plugin-extensions-openwebif-vxg"
+
