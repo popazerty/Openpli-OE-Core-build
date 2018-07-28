@@ -10,6 +10,7 @@ DEPENDS += "\
 
 ENIGMA2_PLUGINS_remove = " \
 	enigma2-plugin-extensions-openwebif \
+	enigma2-plugin-systemplugins-osdpositionsetup \
 	"
 
 # Add enigma2-plugin-extensions-openwebif-extras to replace enigma2-plugin-extensions-openwebif
