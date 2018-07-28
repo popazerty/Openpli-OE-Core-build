@@ -53,7 +53,7 @@
 +        len = max_buffer_size;
      }
  
-     if (s->read_packet)
+    len = read_packet_wrapper(s, dst, len);
 @@ -1009,7 +1008,6 @@
  
      av_free(s->buffer);
