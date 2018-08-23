@@ -38,6 +38,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
            file://0026-When-disabling-SSE-make-sure-fpmath-is-not-set-to-us.patch \
            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
            file://0026-build_local_scope.patch \
+           file://setenev.patch \
 "
 
 SRC_URI += "\

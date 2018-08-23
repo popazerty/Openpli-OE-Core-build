@@ -10,13 +10,13 @@ MTD_ROOTFS = "mtd6"
 KERNEL_FILE = "uImage"
 ROOTFS_FILE = "e2jffs2.img"
 
-MACHINE_KERNEL_PR = "r3"
+MACHINE_KERNEL_PR = "r1"
 KERNEL_MODULE_PACKAGE_SUFFIX = ""
 
 TARGET_ARCH = "sh4"
 DEFAULTTUNE = "sh4"
 
-GCCVERSION = "4.9.4"
+GCCVERSION = "4.8.4"
 
 GLIBCVERSION = "2.23"
 OLDEST_KERNEL = "2.6.32"
@@ -25,7 +25,7 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-fulan"
 PREFERRED_VERSION_linux-libc-headers = "3.4.100"
 PREFERRED_VERSION_directfb = "1.7.7"
 PREFERRED_VERSION_rt8812au = "4.3.14"
-PREFERRED_VERSION_samba = "3.%"
+#PREFERRED_VERSION_samba = "3.%"
 
 PREFERRED_PROVIDER_virtual/egl = "libstgles"
 PREFERRED_PROVIDER_virtual/libgles1 = "libstgles"
@@ -34,7 +34,6 @@ SERIAL_CONSOLE = "115200 ttyAS0"
 
 DVBPROVIDER = "kernel"
 
-OPENPLI_FEATURES += "usbconsole ci"
 MACHINE_FEATURES += "3dtv alsa switchoff ext2 usbhost serial dvb-c hdmicec singlecore legacykernel fulan textlcd sh4booster no-nmap omb skins1080 directfb"
 DISTRO_FEATURES_append += "gtk-directfb libsigc2"
 
@@ -62,9 +61,12 @@ IMAGE_CMD_jffs2_prepend = " \
     rm -rf ${IMAGE_ROOTFS}/tmp/*; \
     "
 
-IMAGE_CMD_jffs2_append = " ; \
+IMAGE_CMD_jffs2_append = "\
+    ; \
+    while [ ! -s ${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.jffs2 ]; do sleep 1; done ; \
     cp ${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.jffs2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2; \
     mkdir -p ${DEPLOY_DIR_IMAGE}/${IMAGEDIR}; \
+    while [ ! -s ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ]; do sleep 1; done ; \
     mv ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${DEPLOY_DIR_IMAGE}/${IMAGEDIR}/${ROOTFS_FILE}; \
     cp ${DEPLOY_DIR_IMAGE}/uImage ${DEPLOY_DIR_IMAGE}/${IMAGEDIR}/${KERNEL_FILE}; \
     cd ${DEPLOY_DIR_IMAGE}; \
@@ -77,14 +79,12 @@ IMAGE_CMD_jffs2_append = " ; \
     "
 
 # Add uImage in tar image boot directory
-IMAGE_CMD_tar_prepend = " \
+IMAGE_CMD_tar_prepend = "\
     cp ${DEPLOY_DIR_IMAGE}/uImage ${IMAGE_ROOTFS}/boot/${KERNEL_FILE}; \
     "
 	
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS += " \
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "\
     stlinux24-sh4-stx7111-fdma-firmware \
-    libmme-host \
-    libmme-image \
     stslave-fw \
     ustslave \
     stfbcontrol \
@@ -97,10 +97,9 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += " \
     mtd-utils-jffs2 \
     "
 
-MACHINE_EXTRA_RRECOMMENDS = " \
+MACHINE_EXTRA_RRECOMMENDS += "\
     enigma2-plugin-systemplugins-servicemp3 \
-    enigma2-plugin-systemplugins-sh4boostercontrol \
-    enigma2-plugin-systemplugins-sh4osdadjustment \
+    enigma2-plugin-systemplugins-serviceapp \
     "
 
 EXTRA_IMAGEDEPENDS += "\
@@ -109,7 +108,7 @@ EXTRA_IMAGEDEPENDS += "\
     aio-grab \
     "
 
-MACHINE_EXTRA_RDEPENDS = "\
+MACHINE_EXTRA_RDEPENDS += "\
     libpcre \
     aio-grab \
     "

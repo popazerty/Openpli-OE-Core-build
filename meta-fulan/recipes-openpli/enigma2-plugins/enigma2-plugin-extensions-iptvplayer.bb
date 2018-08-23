@@ -4,7 +4,7 @@ HOMEPAGE = "https://gitlab.com/iptvplayer-for-e2/"
 SECTION = "multimedia"
 LICENSE = "PD"
 LIC_FILES_CHKSUM = "file://IPTVPlayer/plugin.py;md5=5f4e80d5d34bc52ecdbbcb916c8c63da"
-SRC_URI = "git://gitlab.com/iptvplayer-for-e2/iptvplayer-for-e2.git;protocol=http"
+SRC_URI = "git://github.com/PLi-metas/iptvplayer-for-e2.git;protocol=http"
 SRC_URI_append += "file://ffmpeg4.patch"          
 
 S = "${WORKDIR}/git"
