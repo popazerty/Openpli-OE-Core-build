@@ -8,7 +8,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 PROVIDES += "virtual/enigma2-mediaservice"
 RPROVIDES_${PN} += "virtual/enigma2-mediaservice"
 
-CXXFLAGS_append_sh4 = " -std=c++11 "
+CXXFLAGS_append_sh4 += " -std=c++11 "
 
 GST_BASE_RDEPS = "\
 	gstreamer${GST_VERSION}-plugins-base-alsa \
@@ -70,9 +70,10 @@ GST_UGLY_RDEPS = "\
 	gstreamer${GST_VERSION}-plugins-ugly-dvdsub \
 	"
 
-PACKAGECONFIG ??= "gstreamer libeplayer"
+PACKAGECONFIG ??= "gstreamer"
 PACKAGECONFIG[gstreamer]       = "--enable-gstreamer --with-gstversion=${GST_VERSION},--disable-gstreamer,gstreamer${GST_VERSION}-plugins-base gstreamer${GST_VERSION}"
 PACKAGECONFIG[libeplayer]      = "--enable-libeplayer3,--disable-libeplayer3,libeplayer3"
+
 DEPENDS = "\
 	enigma2 \
 	"
@@ -113,13 +114,13 @@ EXTRA_OECONF = "\
 	"
 
 do_install_append() {
-	rm ${D}${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceMP3EPL/*.pyc
+	rm ${D}${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceMP3/*.pyc
 }
 
 FILES_${PN} = "\
-	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceMP3EPL/*.pyo \
-	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceMP3EPL/servicemp3epl.so"
+	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceMP3/*.pyo \
+	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceMP3/servicemp3.so"
 
 FILES_${PN}-dev = "\
-	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceMP3EPL/*.py \
-	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceMP3EPL/servicemp3epl.la"
+	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceMP3/*.py \
+	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceMP3/servicemp3.la"
