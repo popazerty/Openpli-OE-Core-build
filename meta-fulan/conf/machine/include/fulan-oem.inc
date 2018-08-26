@@ -85,6 +85,8 @@ IMAGE_CMD_tar_prepend = "\
 	
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "\
     stlinux24-sh4-stx7111-fdma-firmware \
+    libmme-host \
+    libmme-image \
     stslave-fw \
     ustslave \
     stfbcontrol \
