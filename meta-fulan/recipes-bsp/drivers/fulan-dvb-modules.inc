@@ -30,6 +30,14 @@ SRC_URI = " \
     file://sh4booster \
     file://modules.conf \
     file://modules-conf.conf \
+    file://silence_stmerger_printk.patch;patch=1 \
+    file://ddt-driver-avoid-buildtime.patch \
+    file://ddt-driver-bpamem-auto-deallocate.patch \
+    file://ddt-driver-backward-compat.patch;patch=1 \
+    file://ddt-driver-silence-dvbdemux.patch;patch=1 \
+    file://ddt-driver-silence-misc-drivers.patch;patch=1 \
+    file://spark_dvbapi5-stv090x-fix-up-GM990-ix7306-tuning.patch \
+    file://bpamem-new-toolchain-workaround.diff \
     file://COPYING \
     file://add_ca_set_descr_mode.patch \
 " 
