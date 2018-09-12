@@ -16,7 +16,7 @@ KERNEL_MODULE_PACKAGE_SUFFIX = ""
 TARGET_ARCH = "sh4"
 DEFAULTTUNE = "sh4"
 
-GCCVERSION = "4.8.4"
+GCCVERSION = "4.9.4"
 
 GLIBCVERSION = "2.23"
 OLDEST_KERNEL = "2.6.32"
@@ -34,7 +34,7 @@ SERIAL_CONSOLE = "115200 ttyAS0"
 
 DVBPROVIDER = "kernel"
 
-MACHINE_FEATURES += "3dtv alsa switchoff ext2 usbhost serial dvb-c hdmicec singlecore legacykernel fulan textlcd sh4booster no-nmap omb skins1080 directfb"
+MACHINE_FEATURES += "3dtv alsa switchoff ext2 ext3 usbhost serial dvb-c hdmicec singlecore legacykernel fulan textlcd sh4booster no-nmap omb skins1080 directfb"
 DISTRO_FEATURES_append += "gtk-directfb libsigc2"
 
 KERNEL_IMAGETYPE = "uImage"
