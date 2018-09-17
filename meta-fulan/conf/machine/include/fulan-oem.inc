@@ -10,7 +10,7 @@ MTD_ROOTFS = "mtd6"
 KERNEL_FILE = "uImage"
 ROOTFS_FILE = "e2jffs2.img"
 
-MACHINE_KERNEL_PR = "r1"
+MACHINE_KERNEL_PR = "r2"
 KERNEL_MODULE_PACKAGE_SUFFIX = ""
 
 TARGET_ARCH = "sh4"
@@ -18,7 +18,7 @@ DEFAULTTUNE = "sh4"
 
 GCCVERSION = "4.9.4"
 
-GLIBCVERSION = "2.23"
+#GLIBCVERSION = "2.23"
 OLDEST_KERNEL = "2.6.32"
 
 PREFERRED_PROVIDER_virtual/kernel = "linux-fulan"
@@ -34,7 +34,7 @@ SERIAL_CONSOLE = "115200 ttyAS0"
 
 DVBPROVIDER = "kernel"
 
-MACHINE_FEATURES += "3dtv alsa switchoff ext2 ext3 usbhost serial dvb-c hdmicec singlecore legacykernel fulan textlcd sh4booster no-nmap omb skins1080 directfb"
+MACHINE_FEATURES += "3dtv alsa ext2 ext3 usbhost serial dvb-c hdmicec switchoff singlecore legacykernel fulan textlcd sh4booster no-nmap omb skins1080 directfb"
 DISTRO_FEATURES_append += "gtk-directfb libsigc2"
 
 KERNEL_IMAGETYPE = "uImage"
@@ -50,7 +50,7 @@ DVBMEDIASINK_CONFIG = "--with-wma --with-wmv --with-pcm --with-dtsdownmix --with
 IMAGE_FSTYPES ?= "jffs2"
 
 # enable this for debug
-#IMAGE_FSTYPES += "tar.gz "
+IMAGE_FSTYPES += "tar.gz "
 #IMAGE_FSTYPES += "spark71xx-usbimg "
 #INHERIT += "usb_image-spark71xx"
 
