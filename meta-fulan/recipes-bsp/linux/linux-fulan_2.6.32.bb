@@ -10,7 +10,7 @@ COMPATIBLE_MACHINE = "(spark|spark7162)"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
-MACHINE_KERNEL_PR_append = ".4"
+MACHINE_KERNEL_PR_append = ".5"
 
 inherit kernel machine_kernel_pr
 
@@ -65,6 +65,7 @@ SRC_URI = "git://github.com/kueken/linux-sh4-2.6.32.71.git;protocol=git;branch=s
     file://defconfig \
     file://st-coprocessor.h \
     file://linux-net_stm24.patch;patch=1 \
+    file://kernel-gcc6.patch;patch=1 \
 "
 
 SRC_URI_append_spark7162 = " \
