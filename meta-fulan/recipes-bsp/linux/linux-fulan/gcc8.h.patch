@@ -1,24 +1,11 @@
-From 2163ba712ed9e2305d8f3fad704b201d70edd3d8 Mon Sep 17 00:00:00 2001
-From: mliska <mliska@suse.cz>
-Date: Wed, 15 Apr 2015 10:56:43 +0200
-Subject: [PATCH 2/2] compiler/gcc6: add support for GCC 6
-
-Because GCC trunk version has switched to GCC 6.x, new header file is needed.
-
-Signed-off-by: Martin Liska  <mliska@suse.cz>
----
- include/linux/compiler-gcc6.h | 59 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
- create mode 100644 include/linux/compiler-gcc6.h
-
-diff --git a/include/linux/compiler-gcc6.h b/include/linux/compiler-gcc6.h
+diff --git a/include/linux/compiler-gcc8.h b/include/linux/compiler-gcc8.h
 new file mode 100644
 index 0000000..ba064fa
 --- /dev/null
-+++ b/include/linux/compiler-gcc6.h
++++ b/include/linux/compiler-gcc8.h
 @@ -0,0 +1,59 @@
 +#ifndef __LINUX_COMPILER_H
-+#error "Please don't include <linux/compiler-gcc6.h> directly, include <linux/compiler.h> instead."
++#error "Please don't include <linux/compiler-gcc7.h> directly, include <linux/compiler.h> instead."
 +#endif
 +
 +#define __used				__attribute__((__used__))

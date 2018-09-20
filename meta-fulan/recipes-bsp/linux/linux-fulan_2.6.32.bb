@@ -66,6 +66,8 @@ SRC_URI = "git://github.com/kueken/linux-sh4-2.6.32.71.git;protocol=git;branch=s
     file://st-coprocessor.h \
     file://linux-net_stm24.patch;patch=1 \
     file://kernel-gcc6.patch;patch=1 \
+    file://gcc8.h.patch;patch=1 \
+    file://gcc-7.h.patch;patch=1 \
 "
 
 SRC_URI_append_spark7162 = " \
