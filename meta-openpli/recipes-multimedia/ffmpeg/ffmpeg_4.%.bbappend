@@ -18,6 +18,7 @@ SRC_URI_append += " \
 	file://06_optimize_aac.patch \
 	file://07_increase_buffer_size.patch \
 	file://08_recheck_discard_flags.patch \
+	file://09_ffmpeg_fix_edit_list_parsing.patch \
 	"
 
 EXTRA_FFCONF = " \
