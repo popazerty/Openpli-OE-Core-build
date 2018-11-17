@@ -8,8 +8,8 @@ DEPENDS = "ffmpeg"
 
 inherit gitpkgv
 
-PV = "50+gitr${SRCPV}"
-PKGV = "50+gitr${GITPKGV}"
+PV = "51+gitr${SRCPV}"
+PKGV = "51+gitr${GITPKGV}"
 
 SRC_URI = "git://github.com/kueken/exteplayer3.git;branch=master"
 
@@ -23,6 +23,7 @@ SOURCE_FILES =+ "manager/manager.c"
 SOURCE_FILES =+ "manager/audio.c"
 SOURCE_FILES =+ "manager/video.c"
 SOURCE_FILES =+ "manager/subtitle.c"
+SOURCE_FILES =+ "manager/chapter.c"
 SOURCE_FILES =+ "output/output_subtitle.c"
 SOURCE_FILES =+ "output/output.c"
 SOURCE_FILES =+ "output/writer/common/pes.c"
