@@ -46,6 +46,11 @@ OPTIONAL_PACKAGES += " \
 	iperf3 \
 	iproute2 \
 	iputils \
+	lirc \
+	iptraf \
+	smbnetfs \
+	sshfs-fuse \
+	upx \
 	joe \
 	less \
 	libbluray \
@@ -82,11 +87,11 @@ OPTIONAL_PACKAGES += " \
 	ppp \
 	rsync \
 	rtorrent \
-	rt8723a \
+	rtl8723a \
 	${@bb.utils.contains('MACHINE_ESSENTIAL_EXTRA_RDEPENDS', 'spycat-rtl8723bs', '', 'rtl8723bs', d)} \
-	${@bb.utils.contains('MACHINE', 'dm8000', '', 'rt8812au', d)} \
-	rt8814au \
-	rt8822bu \
+	${@bb.utils.contains('MACHINE', 'dm8000', '', 'rtl8812au', d)} \
+	rtl8814au \
+	rtl8822bu \
 	${@bb.utils.contains_any('MACHINE', 'dm8000 et5x00 et6x00 et9x00 vuduo vusolo vuuno vuultimo osmio4k', '', 'rtl8189es', d)} \
 	${@bb.utils.contains('MACHINE', 'osmio4k', '', 'rtl8192cu', d)} \
 	${@bb.utils.contains('MACHINE', 'osmio4k', '', 'rtl8192eu', d)} \

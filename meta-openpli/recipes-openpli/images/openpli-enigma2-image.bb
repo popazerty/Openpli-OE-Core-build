@@ -8,6 +8,7 @@ KERNEL_WIFI_DRIVERS += "\
 	firmware-rt73 \
 	firmware-rtl8712u \
 	firmware-zd1211 \
+	\
 	kernel-module-ath9k-htc \
 	kernel-module-carl9170 \
 	kernel-module-r8712u \
@@ -20,12 +21,17 @@ KERNEL_WIFI_DRIVERS += "\
 
 EXTRA_KERNEL_WIFI_DRIVERS += "\
 	firmware-rtl8192cu \
+	firmware-rtl8188eu \
+	\
 	kernel-module-r8188eu \
 	kernel-module-rtl8192cu \
 	"
 
 EXTERNAL_WIFI_DRIVERS += "\
 	firmware-rtl8192cu \
+	firmware-rtl8188eu \
+	firmware-rtl8192eu \
+	\
 	rtl8192cu \
 	rtl8188eu \
 	rtl8192eu \
@@ -57,10 +63,11 @@ ENIGMA2_PLUGINS += "\
 	${@bb.utils.contains("MACHINE_FEATURES", "dvb-c", "enigma2-plugin-systemplugins-cablescan" , "", d)} \
 	${@bb.utils.contains("MACHINE_FEATURES", "hdmicec", "enigma2-plugin-systemplugins-hdmicec" , "", d)} \
 	${@bb.utils.contains("MACHINE_FEATURES", "wlan", "enigma2-plugin-systemplugins-wirelesslan", "", d)} \
-	${@bb.utils.contains('MACHINE_FEATURES', 'ci', 'enigma2-plugin-systemplugins-commoninterfaceassignment', '', d)} \
-	${@bb.utils.contains('MACHINE_FEATURES', 'dvd', 'enigma2-plugin-extensions-cdinfo enigma2-plugin-extensions-dvdplayer', '', d)} \
-	${@bb.utils.contains('MACHINE_FEATURES', 'fan', 'enigma2-plugin-systemplugins-tempfancontrol', '', d)} \
-	${@bb.utils.contains('MACHINE_FEATURES', '7seg', 'enigma2-plugin-systemplugins-vfdcontrol', '', d)} \
+	\
+	${@bb.utils.contains('OPENPLI_FEATURES', 'ci', 'enigma2-plugin-systemplugins-commoninterfaceassignment', '', d)} \
+	${@bb.utils.contains('OPENPLI_FEATURES', 'dvd', 'enigma2-plugin-extensions-cdinfo enigma2-plugin-extensions-dvdplayer', '', d)} \
+	${@bb.utils.contains('OPENPLI_FEATURES', 'fan', 'enigma2-plugin-systemplugins-tempfancontrol', '', d)} \
+	${@bb.utils.contains('OPENPLI_FEATURES', '7seg', 'enigma2-plugin-systemplugins-vfdcontrol', '', d)} \
 	${@bb.utils.contains('MACHINE_FEATURES', '7segment', 'enigma2-plugin-systemplugins-vfdcontrol', '', d)} \
 	${@bb.utils.contains('MACHINE_FEATURES', 'multitranscoding', 'enigma2-plugin-systemplugins-transcodingsetup', '', d)} \
 	${@bb.utils.contains('MACHINE_FEATURES', 'fanctrl', 'enigma2-plugin-extensions-fancontrol2', '', d)} \
@@ -86,6 +93,7 @@ IMAGE_INSTALL += "\
 	tuxbox-common \
 	ofgwrite \
 	${ENIGMA2_PLUGINS} \
+	\
 	${@bb.utils.contains("MACHINE_FEATURES", "transcoding", "enigma2-plugin-systemplugins-transcodingsetup", "", d)} \
 	${@bb.utils.contains("MACHINE_FEATURES", "streamproxy", "streamproxy", "", d)} \
 	${@bb.utils.contains('MACHINE_FEATURES', 'ctrlrc', "enigma2-plugin-systemplugins-remotecontrolcode", "", d)} \
@@ -93,19 +101,9 @@ IMAGE_INSTALL += "\
 	${@bb.utils.contains("MACHINE_FEATURES", "kernelwifi", "${KERNEL_WIFI_DRIVERS}", "", d)} \
 	${@bb.utils.contains("MACHINE_FEATURES", "extrakernelwifi", "${EXTRA_KERNEL_WIFI_DRIVERS}", "", d)} \
 	${@bb.utils.contains("MACHINE_FEATURES", "externalwifi", "${EXTERNAL_WIFI_DRIVERS}", "", d)} \
-	${@bb.utils.contains('MACHINE_FEATURES', 'dvd', 'cdtextinfo', '', d)} \
-	${@bb.utils.contains("MACHINE_FEATURES", "smallflash", "", " \
-	busybox-cron \
-	ntp \
-	astra-sm \
-	dvbsnoop \
-	hddtemp \
-	ntfs-3g \
-	parted \
-	strace \
-	wscan \
-	util-linux-lscpu \
-	iptraf", d)} \
+	${@bb.utils.contains("MACHINE_FEATURES", "chromium", "enigma2-plugin-extensions-chromium libcrypto-compat", "", d)} \	
+	\
+	${@bb.utils.contains('OPENPLI_FEATURES', 'dvd', 'cdtextinfo', '', d)} \
 	"
 
 export IMAGE_BASENAME = "openpli-enigma2"
