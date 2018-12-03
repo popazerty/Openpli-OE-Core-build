@@ -16,6 +16,8 @@ MIPSFPU = "${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-mipsfpu', '--en
 
 SRC_URI_append += " \
 	file://02_fix_mpegts.patch \
+	file://03_allow_to_choose_rtmp_impl_at_runtime.patch \
+	file://04_hls_replace_key_uri.patch \
 	file://06_optimize_aac.patch \
 	file://07_increase_buffer_size.patch \
 	file://08_recheck_discard_flags.patch \
