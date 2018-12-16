@@ -47,9 +47,7 @@ OPTIONAL_PACKAGES += " \
 	iputils \
 	lirc \
 	iptraf \
-	smbnetfs \
 	sshfs-fuse \
-	upx \
 	joe \
 	less \
 	libbluray \
