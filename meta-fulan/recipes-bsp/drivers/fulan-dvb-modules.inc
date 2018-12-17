@@ -17,7 +17,7 @@ inherit module
 
 PACKAGES = "${PN} ${PN}-dev"
 
-INC_PR = "r5"
+INC_PR = "r6"
 PV = "${KV}+${SRCDATE}"
 
 PTI_NP_PATH ?= "/data/pti_np"
@@ -31,7 +31,6 @@ SRC_URI = " \
     file://modules.conf \
     file://modules-conf.conf \
     file://COPYING \
-    file://add_ca_set_descr_mode.patch;patch=1 \
 " 
 
 FILES_${PN} = "${sysconfdir}/init.d ${sysconfdir}/rcS.d ${sysconfdir}/modules-load.d ${sysconfdir}/modprobe.d"
