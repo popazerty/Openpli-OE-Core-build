@@ -40,9 +40,10 @@ SRC_URI = "git://github.com/kueken/linux-sh4-2.6.32.71.git;protocol=git;branch=s
     file://linux-sh4-lmb_stm24_${STM_PATCH_STR}.patch;patch=1 \
     file://defconfig \
     file://st-coprocessor.h \
+    file://gcc5h.patch;patch=1 \
     file://kernel-gcc6.patch;patch=1 \
-    file://gcc8.h.patch;patch=1 \
-    file://gcc-7.h.patch;patch=1 \
+    file://gcc8h.patch;patch=1 \
+    file://gcc-7h.patch;patch=1 \
 "
 
 SRC_URI_append_spark7162 = " \
