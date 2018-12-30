@@ -10,5 +10,5 @@ OPTIONAL_PACKAGES_remove_sh4 += "\
 	"
 
 OPTIONAL_PACKAGES_append += "\
-	enigma2-plugin-extensions-backupsuite \
+	iptraf \
 	"
