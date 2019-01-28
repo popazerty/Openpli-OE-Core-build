@@ -5,7 +5,7 @@ LICENSE = "MPLv1.1"
 LIC_FILES_CHKSUM = "file://COPYING;md5=6ecda54f6f525388d71d6b3cd92f7474"
 
 # make the origin overridable from OE config, for local mirroring
-SRC_URI = "git://github.com/PLi-metas/uchardet.git"
+SRC_URI = "git://github.com/OpenVisionE2/uchardet.git"
 
 
 S = "${WORKDIR}/git/"
