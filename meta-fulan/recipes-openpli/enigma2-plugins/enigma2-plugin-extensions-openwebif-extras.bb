@@ -19,21 +19,20 @@ RDEPENDS_${PN} = "\
 	python-unixadmin \
 	"
 
-inherit gitpkgv distutils-openplugins
+inherit gitpkgv distutils-openplugins gettext
 
 PV = "git${SRCPV}"
 PKGV = "git${GITPKGV}"
 
 SRCREV = "${AUTOREV}"
 SRCREV_FORMAT = "${MODULE}_extrarcmodels"
-SRCREV_extrarcmodels_pn-${PN} = "${AUTOREV}"
 
 SRC_URI = "\
 	git://github.com/E2OpenPlugins/e2openplugin-${MODULE}.git;protocol=git \
 	git://github.com/OpenVisionE2/extra_rc_models.git;protocol=git;destsuffix=extra_rc_models;name=extrarcmodels \
 	"
 
-#SRC_URI_append_sh4 += " file://revert_grab_for_sh4.patch "
+SRC_URI_append_sh4 += " file://revert_grab_for_sh4.patch "
 
 S="${WORKDIR}/git"
 
@@ -166,7 +165,7 @@ python do_cleanup () {
         ('lunix', 'lunix.png', 'qviart.png', 'qviart.html'),
         ('e4hd', 'e4hd.png', 'e4hd.png', 'e4hd.html'),
         ('spark', 'spark.jpg', 'spark.png', 'spark.html'),
-        ('spark7162', 'spark7162.jpg', 'spark.png', 'spark7162.html'),
+        ('spark7162', 'spark7162.jpg', 'spark.png', 'spark.html'),
     ]
 
     import os
@@ -214,18 +213,28 @@ addtask do_cleanup after do_populate_sysroot before do_package
 RREPLACES_${PN} = "enigma2-plugin-extensions-openwebif"
 RCONFLICTS_${PN} = "enigma2-plugin-extensions-openwebif"
 RPROVIDES_${PN} =+ "enigma2-plugin-extensions-openwebif"
-
-PACKAGES =+ "${PN}-vxg ${PN}-vti-theme"
-DESCRIPTION_${PN}-vxg = "Adds Google Chrome support to OpenWebif's WebTV"
-DESCRIPTION_${PN}-vti-theme = "VTI theme files"
+RPROVIDES_${PN} =+ "${PN}-vxg ${PN}-terminal ${PN}-themes ${PN}-webtv"
+PACKAGES =+ "${PN}-vxg ${PN}-terminal ${PN}-themes ${PN}-webtv"
+DESCRIPTION_${PN}-vxg = "WebTV for Google Chrome"
+DESCRIPTION_${PN}-terminal = "CLI for OpenWebif"
+DESCRIPTION_${PN}-themes = "Additional themes for OpenWebif"
+DESCRIPTION_${PN}-webtv = "WebTV for OpenWebif"
 FILES_${PN}-vxg = "${libdir}/enigma2/python/Plugins/Extensions/OpenWebif/public/vxg"
-FILES_${PN}-vti-theme = "\
-			${libdir}/enigma2/python/Plugins/Extensions/OpenWebif/public/themes/absb \
-			${libdir}/enigma2/python/Plugins/Extensions/OpenWebif/controllers/views/responsive \
-			"
+FILES_${PN}-themes = "${libdir}/enigma2/python/Plugins/Extensions/OpenWebif/public/themes"
+FILES_${PN}-webtv = "${libdir}/enigma2/python/Plugins/Extensions/OpenWebif/public/webtv"
 RDEPENDS_${PN}-vxg =+ "${PN}"
-RDEPENDS_${PN}-vti-theme =+ "${PN}"
+RDEPENDS_${PN}-terminal = "${PN} shellinabox"
+RDEPENDS_${PN}-themes =+ "${PN}"
+RDEPENDS_${PN}-webtv = "${PN}"
 RREPLACES_${PN}-vxg = "enigma2-plugin-extensions-openwebif-vxg"
 RCONFLICTS_${PN}-vxg = "enigma2-plugin-extensions-openwebif-vxg"
 RPROVIDES_${PN}-vxg =+ "enigma2-plugin-extensions-openwebif-vxg"
-
+RREPLACES_${PN}-terminal = "enigma2-plugin-extensions-openwebif-terminal"
+RCONFLICTS_${PN}-terminal = "enigma2-plugin-extensions-openwebif-terminal"
+RPROVIDES_${PN}-terminal =+ "enigma2-plugin-extensions-openwebif-terminal"
+RREPLACES_${PN}-themes = "enigma2-plugin-extensions-openwebif-themes"
+RCONFLICTS_${PN}-themes = "enigma2-plugin-extensions-openwebif-themes"
+RPROVIDES_${PN}-themes =+ "enigma2-plugin-extensions-openwebif-themes"
+RREPLACES_${PN}-webtv = "enigma2-plugin-extensions-openwebif-webtv"
+RCONFLICTS_${PN}-webtv = "enigma2-plugin-extensions-openwebif-webtv"
+RPROVIDES_${PN}-webtv =+ "enigma2-plugin-extensions-openwebif-webtv"

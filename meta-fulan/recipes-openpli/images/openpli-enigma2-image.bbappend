@@ -20,11 +20,10 @@ ENIGMA2_PLUGINS_remove += "\
 ENIGMA2_PLUGINS_append += "\
 	enigma2-plugin-systemplugins-serviceapp \
 	enigma2-plugin-extensions-youtube \
-	enigma2-plugin-extensions-iptvplayer \
+	enigma2-plugin-extensions-e2iplayer \
 	enigma2-plugin-extensions-blurayplayer \
 	enigma2-plugin-systemplugins-vps \
 	enigma2-plugin-extensions-openwebif-extras \
-	enigma2-plugin-extensions-openwebif-extras-vti-theme \
 	"
 
 
