@@ -8,7 +8,6 @@ KERNEL_WIFI_DRIVERS += "\
 	firmware-rt73 \
 	firmware-rtl8712u \
 	firmware-zd1211 \
-	\
 	kernel-module-ath9k-htc \
 	kernel-module-carl9170 \
 	kernel-module-r8712u \
@@ -49,6 +48,7 @@ ENIGMA2_PLUGINS += "\
 	enigma2-plugin-extensions-pictureplayer \
 	enigma2-plugin-extensions-ppanel \
 	enigma2-plugin-systemplugins-fastscan \
+	enigma2-plugin-systemplugins-hdmicec \
 	enigma2-plugin-systemplugins-hotplug \
 	enigma2-plugin-systemplugins-networkbrowser \
 	enigma2-plugin-systemplugins-positionersetup \
@@ -72,9 +72,15 @@ ENIGMA2_PLUGINS += "\
 	${@bb.utils.contains('MACHINE_FEATURES', 'multitranscoding', 'enigma2-plugin-systemplugins-transcodingsetup', '', d)} \
 	${@bb.utils.contains('MACHINE_FEATURES', 'fanctrl', 'enigma2-plugin-extensions-fancontrol2', '', d)} \
 	${@bb.utils.contains("MACHINE_FEATURES", "smallflash", "", " \
-	enigma2-plugin-extensions-openwebif-extras-vti-theme \
 	enigma2-plugin-extensions-foreca \
 	enigma2-plugin-extensions-dlnabrowser \
+	enigma2-plugin-extensions-e2iplayer \
+	enigma2-plugin-extensions-e2iplayer-deps \
+	enigma2-plugin-extensions-filebrowser \
+	enigma2-plugin-extensions-foreca \
+	enigma2-plugin-extensions-openwebif-extras-terminal \
+	enigma2-plugin-extensions-reconstructapsc \
+	enigma2-plugin-extensions-vlcplayer \
 	enigma2-plugin-softcams-oscam \
 	enigma2-plugin-softcams-oscam-emu", d)} \
 	"
@@ -92,6 +98,9 @@ IMAGE_INSTALL += "\
 	settings-autorestore \
 	tuxbox-common \
 	ofgwrite \
+	wget \
+	samba-base \
+	nfs-utils \
 	${ENIGMA2_PLUGINS} \
 	\
 	${@bb.utils.contains("MACHINE_FEATURES", "transcoding", "enigma2-plugin-systemplugins-transcodingsetup", "", d)} \
