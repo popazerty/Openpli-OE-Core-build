@@ -8,8 +8,8 @@ DEPENDS = "ffmpeg"
 
 inherit gitpkgv
 
-PV = "51+gitr${SRCPV}"
-PKGV = "51+gitr${GITPKGV}"
+PV = "54+gitr${SRCPV}"
+PKGV = "54+gitr${GITPKGV}"
 
 SRC_URI = "git://github.com/kueken/exteplayer3.git;branch=master"
 
@@ -61,6 +61,7 @@ output/writer/mipsel/ac3.c \
 output/writer/mipsel/mp3.c \
 output/writer/mipsel/pcm.c \
 output/writer/mipsel/lpcm.c \
+output/writer/mipsel/mjpeg.c \
 output/writer/mipsel/dts.c \
 output/writer/mipsel/amr.c \
 output/writer/mipsel/wma.c \
