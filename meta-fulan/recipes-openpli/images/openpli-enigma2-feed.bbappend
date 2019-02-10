@@ -1,5 +1,4 @@
 OPTIONAL_PACKAGES_remove_sh4 += "\
-	dvb-apps \
 	gdb \
 	nodejs \
 	rtl8822bu \
