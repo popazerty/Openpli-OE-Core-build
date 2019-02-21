@@ -11,6 +11,7 @@ PV = "1.0+git${SRCPV}"
 PKGV = "1.0+git${GITPKGV}"
 
 SRC_URI = "git://github.com/skaman/shairport.git;protocol=git"
+SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
 
