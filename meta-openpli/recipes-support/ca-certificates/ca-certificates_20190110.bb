@@ -11,9 +11,10 @@ LIC_FILES_CHKSUM = "file://debian/copyright;md5=aeb420429b1659507e0a5a1b123e8308
 DEPENDS = ""
 DEPENDS_class-native = "openssl-native"
 DEPENDS_class-nativesdk = "openssl-native"
-PACKAGE_WRITE_DEPS += "openssl-native"
+# Need c_rehash from openssl and run-parts from debianutils
+PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
 
-SRCREV = "dbbd11e56af93bb79f21d0ee6059a901f83f70a5"
+SRCREV = "c28799b138b044c963d24c4a69659b6e5486e3be"
 
 SRC_URI = "git://salsa.debian.org/debian/ca-certificates.git;protocol=https \
            file://0002-update-ca-certificates-use-SYSROOT.patch \
@@ -22,7 +23,6 @@ SRC_URI = "git://salsa.debian.org/debian/ca-certificates.git;protocol=https \
            file://default-sysroot.patch \
            file://sbindir.patch \
            file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
-           file://0004-revert-update-ca-certificates-to-using-c_rehash.patch \
            "
 
 S = "${WORKDIR}/git"
