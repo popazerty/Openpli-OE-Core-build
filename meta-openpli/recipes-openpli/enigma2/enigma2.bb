@@ -105,7 +105,8 @@ PKGV = "2.7+git${GITPKGV}"
 ENIGMA2_BRANCH ?= "develop"
 GITHUB_URI ?= "git://github.com"
 SRC_URI = "${GITHUB_URI}/OpenPLi/${BPN}.git;branch=${ENIGMA2_BRANCH}"
-
+SRC_URI_append_mipsel += "file://fribidi.patch"
+SRC_URI_append_arm += "file://fribidi.patch"
 LDFLAGS_prepend = " -lxml2 "
 
 S = "${WORKDIR}/git"
