@@ -19,6 +19,8 @@ inherit autotools pkgconfig lib_package gtk-doc
 PACKAGECONFIG ??= "icu"
 PACKAGECONFIG[icu] = "--with-icu,--without-icu,icu"
 
+INSANE_SKIP_${PN} += "installed-vs-shipped"
+
 EXTRA_OECONF = " \
     --with-cairo \
     --with-fontconfig \
