@@ -8,8 +8,8 @@ LICENSE = "LGPLv2.1"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=7246f848faa4e9c9fc0ea91122d6e680"
 DEPENDS = "libxml2 bash-completion"
 
-PV = "2019.02.18+git${SRCPV}"
-PKGV = "2019.02.18+git${GITPKGV}"
+PV = "2019.03.01+git${SRCPV}"
+PKGV = "2019.03.01+git${GITPKGV}"
 PR = "r1"
 
 SRCREV = "${AUTOREV}"
@@ -38,6 +38,7 @@ RDEPENDS_${PN} = " \
     python-unixadmin \
     python-ctypes \
     python-argparse \
+    python-html \
     "
 
 PACKAGES =+ " ${PN}-src"
