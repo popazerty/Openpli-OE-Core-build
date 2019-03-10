@@ -11,11 +11,7 @@ PV = "${FPVERSION}"
 SRC_URI = " \
     http://source.mynonpublic.com/xtrend/fpupdate-${FPUPDATE}.zip \
     http://source.mynonpublic.com/xtrend/avrmain-${MACHINE}-${FPVERSION}.zip;name=avrmain \
-<<<<<<< Updated upstream
     "
-=======
-	"
->>>>>>> Stashed changes
 
 S = "${WORKDIR}"
 
