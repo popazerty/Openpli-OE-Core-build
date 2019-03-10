@@ -9,8 +9,8 @@ RDEPENDS_${PN} = "ffmpeg libbluray"
 
 inherit gitpkgv
 
-PV = "61+gitr${SRCPV}"
-PKGV = "61+gitr${GITPKGV}"
+PV = "62+gitr${SRCPV}"
+PKGV = "62+gitr${GITPKGV}"
 
 SRCREV = "${AUTOREV}"
 SRC_URI = "git://github.com/e2iplayer/exteplayer3.git;branch=master"
