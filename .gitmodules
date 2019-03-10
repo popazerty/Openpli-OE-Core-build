@@ -13,9 +13,6 @@
 [submodule "meta-formuler"]
 	path = meta-formuler
 	url = https://github.com/formuler/meta-formuler.git
-[submodule "meta-zgemma"]
-	path = meta-zgemma
-	url = https://github.com/zgemma-star/meta-zgemma.git
 [submodule "meta-qt5"]
 	path = meta-qt5
 	url = https://github.com/meta-qt5/meta-qt5.git
