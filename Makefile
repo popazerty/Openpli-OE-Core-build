@@ -51,7 +51,6 @@ BBLAYERS ?= \
 	$(CURDIR)/meta-openembedded/meta-webserver \
 	$(CURDIR)/openembedded-core/meta \
 	$(CURDIR)/meta-openpli \
-	$(CURDIR)/meta-xsarius.pli5 \
 	$(CURDIR)/meta-xtrend \
 	$(CURDIR)/meta-formuler \
         $(CURDIR)/meta-fulan \
