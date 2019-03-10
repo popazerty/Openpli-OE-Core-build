@@ -42,7 +42,7 @@ DEPENDS = "alsa-lib zlib libogg nasm-native"
 
 inherit autotools pkgconfig
 
-PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample swscale postproc \
+PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample swscale postproc avresample \
                    bzlib gpl lzma theora x264 \
                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv', '', d)}"
 
@@ -116,6 +116,10 @@ EXTRA_OECONF = " \
 "
 
 EXTRA_OECONF_append_linux-gnux32 = " --disable-asm"
+# gold crashes on x86, another solution is to --disable-asm but thats more hacky
+# ld.gold: internal error in relocate_section, at ../../gold/i386.cc:3684
+
+LDFLAGS_append_x86 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
 
 do_configure() {
     ${S}/configure ${EXTRA_OECONF}
