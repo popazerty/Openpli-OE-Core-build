@@ -22,6 +22,10 @@ SRC_URI_append += " \
 	file://07_increase_buffer_size.patch \
 	file://08_recheck_discard_flags.patch \
 	file://09_ffmpeg_fix_edit_list_parsing.patch \
+	file://A11-FFmpeg-devel-amfenc-Add-support-for-pict_type-field.patch \
+	file://A10-mpeg-quarter-sample.patch \
+	file://A04-videotoolbox.patch \
+	file://A02-corrupt-h264-frames.patch \
 	"
 
 EXTRA_FFCONF = " \
