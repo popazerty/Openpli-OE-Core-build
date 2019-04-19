@@ -9,7 +9,7 @@ RRECOMMENDS_${PN} = " \
 	gstplayer \
 	wget \
 	hlsdl \
-	e2ibox \
+	cmdwrap \
 	f4mdump \
 	gst-ifdsrc \
 	iptvsubparser \
