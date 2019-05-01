@@ -8,8 +8,8 @@ LICENSE = "LGPLv2.1"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=7246f848faa4e9c9fc0ea91122d6e680"
 DEPENDS = "libxml2 bash-completion"
 
-PV = "2019.04.17+git${SRCPV}"
-PKGV = "2019.04.17+git${GITPKGV}"
+PV = "2019.04.30+git${SRCPV}"
+PKGV = "2019.04.30+git${GITPKGV}"
 PR = "r1"
 
 SRCREV = "${AUTOREV}"
