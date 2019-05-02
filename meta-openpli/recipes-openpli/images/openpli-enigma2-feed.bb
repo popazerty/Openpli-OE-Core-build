@@ -112,6 +112,7 @@ OPTIONAL_PACKAGES += " \
 	wscan \
 	yafc \
 	zeroconf \
+	unrar \
 	zip \
 	zsh \
 	${OPTIONAL_BSP_PACKAGES} \
