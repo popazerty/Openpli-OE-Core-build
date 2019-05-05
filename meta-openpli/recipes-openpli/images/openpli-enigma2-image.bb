@@ -74,13 +74,15 @@ ENIGMA2_PLUGINS += "\
 	${@bb.utils.contains("MACHINE_FEATURES", "smallflash", "", " \
 	enigma2-plugin-extensions-foreca \
 	enigma2-plugin-extensions-dlnabrowser \
+	enigma2-plugin-extensions-dlnaserver \
+	enigma2-plugin-extensions-subssupport \
 	enigma2-plugin-extensions-e2iplayer \
 	enigma2-plugin-extensions-e2iplayer-deps \
 	enigma2-plugin-extensions-filebrowser \
-	enigma2-plugin-extensions-foreca \
+	enigma2-plugin-extensions-blurayplayer \
 	enigma2-plugin-extensions-openwebif-extras-terminal \
 	enigma2-plugin-extensions-reconstructapsc \
-	enigma2-plugin-extensions-vlcplayer \
+	enigma2-plugin-systemplugins-systemtime \
 	enigma2-plugin-softcams-oscam \
 	enigma2-plugin-softcams-oscam-emu", d)} \
 	"
