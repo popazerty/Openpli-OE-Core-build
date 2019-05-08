@@ -42,6 +42,8 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
            file://0001-Fix-build-with-clang-using-external-assembler.patch \
            file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
            file://0001-allow-manpages-to-be-disabled.patch \
+           file://0001-Fix-BN_LLONG-breakage.patch \
+           file://0001-Fix-DES_LONG-breakage.patch \
            "
 
 SRC_URI_append_class-target = " \
@@ -56,9 +58,11 @@ SRC_URI_append_class-nativesdk = " \
 SRC_URI[md5sum] = "0d2baaf04c56d542f6cc757b9c2a2aac"
 SRC_URI[sha256sum] = "ae51d08bba8a83958e894946f15303ff894d75c2b8bbd44a852b64e3fe11d0d6"
 
+S = "${WORKDIR}/openssl-${PV}"
+
 UPSTREAM_CHECK_REGEX = "openssl-(?P<pver>1\.0.+)\.tar"
 
-inherit pkgconfig siteinfo multilib_header ptest relative_symlinks manpages
+inherit pkgconfig siteinfo multilib_header ptest manpages
 
 PACKAGECONFIG ?= "cryptodev-linux"
 PACKAGECONFIG_class-native = ""
@@ -76,11 +80,9 @@ EXTRA_OEMAKE = "${@bb.utils.contains('PACKAGECONFIG', 'manpages', '', 'OE_DISABL
 
 export OE_LDFLAGS = "${LDFLAGS}"
 
-# openssl fails with ccache: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12810
-CCACHE = ""
-
 TERMIO ?= "-DTERMIO"
 TERMIO_libc-musl = "-DTERMIOS"
+EXTRA_OECONF_append_libc-musl_powerpc64 = " no-asm"
 
 CFLAG = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'le', '-DL_ENDIAN', '-DB_ENDIAN', d)} \
          ${TERMIO} ${CFLAGS} -Wall"
@@ -164,7 +166,7 @@ do_configure () {
 	linux-mips*)
 		target=debian-mips
 		;;
-	linux-microblaze*|linux-nios2*|linux-gnu*ilp32**)
+	linux-microblaze* | linux-nios2* | linux-gnu*ilp32** | linux-arc*)
 		target=linux-generic32
 		;;
 	linux-powerpc)
@@ -179,10 +181,7 @@ do_configure () {
 	linux-riscv64)
 		target=linux-generic64
 		;;
-	linux-supersparc)
-		target=linux-sparcv8
-		;;
-	linux-sparc)
+	linux-sparc | linux-supersparc)
 		target=linux-sparcv8
 		;;
 	esac
@@ -194,7 +193,7 @@ do_configure () {
 	if [ "x$useprefix" = "x" ]; then
 		useprefix=/
 	fi
-	libdirleaf="$(echo ${libdir} | sed s:$useprefix::)"
+	libdirleaf="$( echo "${libdir}" | sed "s:^$useprefix/*::" )"
 	perl ./Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} shared --prefix=$useprefix --openssldir=${libdir}/ssl --libdir=$libdirleaf $target
 }
 
@@ -226,10 +225,11 @@ do_install () {
 	install -d ${D}${includedir}
 	cp --dereference -R include/openssl ${D}${includedir}
 
+	oe_multilib_header openssl/opensslconf.h
+
 	install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
 	sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
 
-	oe_multilib_header openssl/opensslconf.h
 	if [ "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}" ]; then
 		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
 		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/tsget
@@ -237,16 +237,19 @@ do_install () {
 		rm -f ${D}${libdir}/ssl/misc/CA.pl ${D}${libdir}/ssl/misc/tsget
 	fi
 
-	# Create SSL structure
-	install -d ${D}${sysconfdir}/ssl/
-	mv ${D}${libdir}/ssl/openssl.cnf \
-	   ${D}${libdir}/ssl/certs \
+	# Create SSL structure for packages such as ca-certificates which
+	# contain hard-coded paths to /etc/ssl. Debian does the same.
+	install -d ${D}${sysconfdir}/ssl
+	mv ${D}${libdir}/ssl/certs \
 	   ${D}${libdir}/ssl/private \
-	   \
+	   ${D}${libdir}/ssl/openssl.cnf \
 	   ${D}${sysconfdir}/ssl/
-	ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl/certs
-	ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl/private
-	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl/openssl.cnf
+
+	# Although absolute symlinks would be OK for the target, they become
+	# invalid if native or nativesdk are relocated from sstate.
+	ln -sf ${@oe.path.relative('${libdir}/ssl', '${sysconfdir}/ssl/certs')} ${D}${libdir}/ssl/certs
+	ln -sf ${@oe.path.relative('${libdir}/ssl', '${sysconfdir}/ssl/private')} ${D}${libdir}/ssl/private
+	ln -sf ${@oe.path.relative('${libdir}/ssl', '${sysconfdir}/ssl/openssl.cnf')} ${D}${libdir}/ssl/openssl.cnf
 
 	# Rename man pages to prefix openssl10-*
 	for f in `find ${D}${mandir} -type f`; do
@@ -257,6 +260,19 @@ do_install () {
 	    rm -f $f
 	    ln -s openssl10-$ln_f $(dirname $f)/openssl10-$(basename $f)
 	done
+}
+
+do_install_append_class-native () {
+	create_wrapper ${D}${bindir}/openssl \
+	    OPENSSL_CONF=${libdir}/ssl/openssl.cnf \
+	    SSL_CERT_DIR=${libdir}/ssl/certs \
+	    SSL_CERT_FILE=${libdir}/ssl/cert.pem \
+	    OPENSSL_ENGINES=${libdir}/ssl/engines
+}
+
+do_install_append_class-nativesdk () {
+	mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
+	install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
 }
 
 do_install_ptest () {
@@ -307,21 +323,8 @@ do_install_ptest () {
 	${D}${PTEST_PATH}/Makefile ${D}${PTEST_PATH}/Configure
 }
 
-do_install_append_class-native() {
-	create_wrapper ${D}${bindir}/openssl \
-	    OPENSSL_CONF=${libdir}/ssl/openssl.cnf \
-	    SSL_CERT_DIR=${libdir}/ssl/certs \
-	    SSL_CERT_FILE=${libdir}/ssl/cert.pem \
-	    OPENSSL_ENGINES=${libdir}/ssl/engines
-}
-
-do_install_append_class-nativesdk() {
-	mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
-	install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
-}
-
-# Add the openssl.cnf file to the openssl-conf package.  Make the libcrypto
-# package RRECOMMENDS on this package.  This will enable the configuration
+# Add the openssl.cnf file to the openssl-conf package. Make the libcrypto
+# package RRECOMMENDS on this package. This will enable the configuration
 # file to be installed for both the base openssl package and the libcrypto
 # package since the base openssl package depends on the libcrypto package.
 
@@ -342,3 +345,18 @@ RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
 RDEPENDS_${PN}-ptest += "${PN}-misc make perl perl-module-filehandle bc"
 
 BBCLASSEXTEND = "native nativesdk"
+PACKAGE_PREPROCESS_FUNCS += "openssl_package_preprocess"
+
+# openssl 1.0 development files and executable binaries clash with openssl 1.1
+# files when installed into target rootfs. So we don't put them into
+# packages, but they continue to be provided via target sysroot for
+# cross-compilation on the host, if some software still depends on openssl 1.0.
+openssl_package_preprocess () {
+        for file in `find ${PKGD} -name *.h -o -name *.pc -o -name *.so`; do
+                rm $file
+        done
+        rm ${PKGD}${bindir}/openssl
+        rm ${PKGD}${bindir}/c_rehash
+        rmdir ${PKGD}${bindir}
+
+}
