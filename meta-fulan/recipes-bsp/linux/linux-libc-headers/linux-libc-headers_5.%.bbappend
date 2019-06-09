@@ -3,8 +3,6 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 # sh4 boxes require some headers from the kernel modules (for the frameb
 
 SRC_URI_append_sh4 = "\
-    file://fsxattr.patch \
-    file://dmx_set_source.patch \
     file://stmfb.h \
     file://stm_ioctls.h \
     file://bpamem.h \

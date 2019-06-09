@@ -73,6 +73,7 @@ FILES_kernel-headers = "${exec_prefix}/src/linux*"
 FILES_${KERNEL_PACKAGE_NAME}-dev += "${includedir}/linux"
 FILES_${KERNEL_PACKAGE_NAME}-image = "/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}"
 
+KERNEL_CONFIG_COMMAND = "oe_runmake -C ${S} O=${B} oldconfig"
 do_configure_prepend() {
     oe_machinstall -m 0644 ${WORKDIR}/defconfig ${B}/.config
     sed -i "s#^\(CONFIG_EXTRA_FIRMWARE_DIR=\).*#\1\"${STAGING_DIR_HOST}/lib/firmware\"#" ${B}/.config;
@@ -92,7 +93,7 @@ do_shared_workdir_append() {
     fi
     if [ -f include/asm-sh/machtypes.h ]; then
         mkdir -p $kerneldir/include/asm-sh
-        ln -sf $kerneldir/include/asm-sh $kerneldir/include/asm
+        # ln -sf $kerneldir/include/asm-sh $kerneldir/include/asm
         cp -f include/asm-sh/machtypes.h $kerneldir/include/asm-sh
     fi
     if [ -e include/linux/utsrelease.h ]; then
