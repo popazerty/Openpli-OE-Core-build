@@ -56,7 +56,6 @@ BBLAYERS ?= \
 	$(CURDIR)/meta-edision \
 	$(CURDIR)/meta-gigablue \
 	$(CURDIR)/meta-local \
-	$(CURDIR)/meta-qt5
 
 CONFFILES = \
 	$(TOPDIR)/env.source \
