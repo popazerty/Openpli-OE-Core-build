@@ -3,6 +3,7 @@ require gcc-common.inc
 # Third digit in PV should be incremented after a minor release
 
 PV = "4.8.4"
+PR = "r2"
 
 # BINV should be incremented to a revision after a minor gcc release
 
@@ -10,8 +11,8 @@ BINV = "4.8.4"
 
 FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-4.8:"
 
-DEPENDS =+ "mpfr gmp libmpc zlib"
-NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
+DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
+NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native"
 
 LICENSE = "GPL-3.0-with-GCC-exception & GPLv3"
 
@@ -69,6 +70,13 @@ SRC_URI = "\
     file://0047-repomembug.patch \
     file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
     file://target-gcc-includedir.patch \
+    file://gcc-4.2.4-multilibpath.patch \
+    file://gcc-4.3.4-uclibc-locale_facets.patch \
+    file://gcc-4.3.4-uclibc-ltconfig.patch \
+    file://gcc-4.5.0-autoconf.patch \
+    file://gcc-4.7.0-sh-use-gnu-hash-style.patch \
+    file://gcc-4.8.2-warnings.patch \
+    file://gcc-4.7.3-stack-protect-strong.patch \
 "
 SRC_URI[md5sum] = "5a84a30839b2aca22a2d723de2a626ec"
 SRC_URI[sha256sum] = "4a80aa23798b8e9b5793494b8c976b39b8d9aa2e53cd5ed5534aff662a7f8695"
@@ -78,13 +86,15 @@ B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
 
 # Language Overrides
 FORTRAN = ""
-JAVA = ""
 
 LTO = "--enable-lto"
+SSP ?= "--disable-libssp"
+SSP_mingw32 = "--enable-libssp"
 
 EXTRA_OECONF_BASE = "\
     ${LTO} \
-    --enable-libssp \
+    ${SSP} \
+    --enable-libitm \
     --disable-bootstrap \
     --disable-libmudflap \
     --with-system-zlib \
@@ -94,35 +104,11 @@ EXTRA_OECONF_BASE = "\
     --with-cloog=no \
     --enable-checking=release \
     --enable-cheaders=c_global \
+    --without-isl \
 "
 
-EXTRA_OECONF_INITIAL = "\
-    --disable-libmudflap \
-    --disable-libgomp \
-    --disable-libssp \
-    --disable-libquadmath \
-    --with-system-zlib \
-    --disable-lto \
-    --disable-plugin \
-    --enable-decimal-float=no \
-"
-
-EXTRA_OECONF_INTERMEDIATE = "\
-    --disable-libmudflap \
-    --disable-libgomp \
-    --disable-libquadmath \
-    --with-system-zlib \
-    --disable-lto \
-    --disable-plugin \
-    --disable-libssp \
-"
-
-EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
-
-EXTRA_OECONF_PATHS = "\ 
-    --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++/${BINV} \ 
-    --with-sysroot=${STAGING_DIR_TARGET} \ 
+EXTRA_OECONF_PATHS = "\
+    --with-gxx-include-dir=/not/exist{target_includedir}/c++/${BINV} \
+    --with-sysroot=/not/exist \
     --with-build-sysroot=${STAGING_DIR_TARGET} \
 "
-
-

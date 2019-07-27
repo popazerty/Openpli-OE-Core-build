@@ -121,3 +121,5 @@ EXTRA_OECONF_PATHS = "\
     --with-sysroot=${STAGING_DIR_TARGET} \ 
     --with-build-sysroot=${STAGING_DIR_TARGET} \
 "
+
+INSANE_SKIP_${PN} += "textrel"
