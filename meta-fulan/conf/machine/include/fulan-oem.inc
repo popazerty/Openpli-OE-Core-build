@@ -10,28 +10,28 @@ MTD_ROOTFS = "mtd6"
 KERNEL_FILE = "uImage"
 ROOTFS_FILE = "e2jffs2.img"
 
-MACHINE_KERNEL_PR = "r3"
+MACHINE_KERNEL_PR = "r4"
 KERNEL_MODULE_PACKAGE_SUFFIX = ""
 
 TARGET_ARCH = "sh4"
 DEFAULTTUNE = "sh4"
 
 GCCVERSION = "4.9.4"
-TUNE_CCARGS_remove += " -m4"
-TUNE_CCARGS_append += " -m4-300"
+GLIBCVERSION = "2.25"
+
 HOSTTOOLS_NONFATAL += "whoami"
 
-GLIBCVERSION = "2.25"
 OLDEST_KERNEL = "2.6.32"
 
 PREFERRED_PROVIDER_virtual/kernel = "linux-fulan"
 PREFERRED_VERSION_directfb = "1.7.7"
 PREFERRED_VERSION_rt8812au = "4.3.14"
 PREFERRED_VERSION_samba = "3.%"
-
+PREFERRED_PROVIDER_lirc = "stlirc"
 PREFERRED_PROVIDER_virtual/egl = "libstgles"
 PREFERRED_PROVIDER_virtual/libgles1 = "libstgles"
-PREFERRED_PROVIDER_virtual/gstreamer1.0-dvbmediasink ?= "gstreamer1.0-plugin-multibox-dvbmediasink"
+PREFERRED_PROVIDER_virtual/enigma2-mediaservice ?= "enigma2-plugin-systemplugins-servicesh4"
+
 SERIAL_CONSOLE = "115200 ttyAS0"
 
 DVBPROVIDER = "kernel"
@@ -52,8 +52,8 @@ DVBMEDIASINK_CONFIG = "--with-wma --with-wmv --with-pcm --with-dtsdownmix --with
 IMAGE_FSTYPES ?= "jffs2"
 
 # enable this for debug
-IMAGE_FSTYPES += "tar.gz "
-#IMAGE_FSTYPES += "spark71xx-usbimg "
+IMAGE_FSTYPES += "tar.gz"
+#IMAGE_FSTYPES += "spark71xx-usbimg"
 #INHERIT += "usb_image-spark71xx"
 
 IMAGE_CLASSES += "usb_image-spark71xx update_image-spark"
@@ -102,9 +102,8 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "\
     "
 
 MACHINE_EXTRA_RRECOMMENDS += "\
-    enigma2-plugin-systemplugins-servicemp3 \
+    enigma2-plugin-systemplugins-servicesh4 \
     enigma2-plugin-systemplugins-sparkvfdcontrol \
-    enigma2-plugin-systemplugins-serviceapp \
     enigma2-plugin-systemplugins-sh4boostercontrol \
     enigma2-plugin-systemplugins-sh4osdadjustment \
     "
