@@ -3,16 +3,15 @@ require gstreamer1.0-plugins.inc
 LICENSE = "GPLv2+ & LGPLv2.1+ & LGPLv2+"
 LICENSE_FLAGS = "commercial"
 
-DEPENDS += "gstreamer1.0-plugins-base libid3tag"
+DEPENDS += "gstreamer1.0-plugins-base"
 
 inherit gettext
 
-
 PACKAGECONFIG ??= " \
     ${GSTREAMER_ORC} \
-    orc a52dec mpeg2dec \
-    cdio dvdread amrnb amrwb x264 \
-    "
+    a52dec mpeg2dec \
+    cdio dvdread amrnb amrwb \
+"
 
 PACKAGECONFIG[a52dec]   = "--enable-a52dec,--disable-a52dec,liba52"
 PACKAGECONFIG[amrnb]    = "--enable-amrnb,--disable-amrnb,opencore-amr"
@@ -24,7 +23,7 @@ PACKAGECONFIG[x264]     = "--enable-x264,--disable-x264,x264"
 
 EXTRA_OECONF += " \
     --disable-sidplay \
-    "
+"
 
-FILES_${PN}-x264 += "${datadir}/gstreamer-1.0/presets/GstX264Enc.prs"
 FILES_${PN}-amrnb += "${datadir}/gstreamer-1.0/presets/GstAmrnbEnc.prs"
+FILES_${PN}-x264 += "${datadir}/gstreamer-1.0/presets/GstX264Enc.prs"

@@ -2,26 +2,26 @@ require gstreamer1.0-plugins.inc
 
 LICENSE = "GPLv2+ & LGPLv2.1+"
 
-# libid3tag
-DEPENDS += "gstreamer1.0-plugins-base zlib bzip2 libcap"
+DEPENDS += "gstreamer1.0-plugins-base libcap zlib bzip2"
 
 inherit gettext
 
-#cairo gdk-pixbuf gudev v4l2
 PACKAGECONFIG ??= " \
+    ${GSTREAMER_ORC} \
     ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
-    cairo flac gdk-pixbuf gudev jpeg libpng orc soup speex taglib vpx wavpack libv4l2 v4l2 \
-    lame mpg123 \
-    "
+    bz2 cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup speex taglib v4l2 zlib \
+    wavpack vpx \
+"
 
 X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
 
+PACKAGECONFIG[bz2]        = "--enable-bz2,--disable-bz2,bzip2"
 PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
 PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394 libraw1394"
 PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
 PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
-PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
 PACKAGECONFIG[gtk]        = "--enable-gtk3,--disable-gtk3,gtk+3"
+PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
 PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
 PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
 PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
@@ -36,30 +36,28 @@ PACKAGECONFIG[v4l2]       = "--enable-gst_v4l2 --enable-v4l2-probe,--disable-gst
 PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
 PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
 PACKAGECONFIG[x11]        = "--enable-x,--disable-x,${X11DEPENDS}"
+PACKAGECONFIG[zlib]       = "--enable-zlib,--disable-zlib,zlib"
+
+# qt5 support is disabled, because it is not present in OE core, and requires more work than
+# just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
+# This is better done in a separate qt5 layer (which then should add a "qt5" packageconfig
+# in a gstreamer1.0-plugins-good bbappend).
 
 EXTRA_OECONF += " \
+    --enable-bz2 \
     --enable-oss \
     --enable-zlib \
-    --enable-bz2 \
+    --disable-aalib \
+    --disable-aalibtest \
     --disable-directsound \
-    --disable-waveform \
+    --disable-libcaca \
+    --disable-libdv \
     --disable-oss4 \
     --disable-osx_audio \
     --disable-osx_video \
-    --disable-aalib \
-    --disable-aalibtest \
-    --disable-libcaca \
-    --disable-libdv \
-    --disable-shout2 \
-    --disable-twolame \
-    --disable-examples \
     --disable-qt \
+    --disable-shout2 \
+    --disable-waveform \
 "
 
 FILES_${PN}-equalizer += "${datadir}/gstreamer-1.0/presets/*.prs"
-
-PACKAGESPLITFUNCS_append = " handle_soup_rename "
-
-python handle_soup_rename () {
-    d.setVar('RREPLACES_gstreamer1.0-plugins-good-soup', 'gstreamer1.0-plugins-good-souphttpsrc')
-}

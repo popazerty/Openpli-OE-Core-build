@@ -7,10 +7,10 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
 DEPENDS = "ffmpeg libbluray"
 RDEPENDS_${PN} = "ffmpeg libbluray"
 
-inherit gitpkgv
+inherit gitpkgv upx-compress
 
-PV = "67+gitr${SRCPV}"
-PKGV = "67+gitr${GITPKGV}"
+PV = "68+gitr${SRCPV}"
+PKGV = "68+gitr${GITPKGV}"
 
 SRCREV = "${AUTOREV}"
 SRC_URI = "git://github.com/e2iplayer/exteplayer3.git;branch=master"
