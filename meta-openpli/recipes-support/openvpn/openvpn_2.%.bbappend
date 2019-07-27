@@ -4,4 +4,4 @@ INITSCRIPT_PARAMS = "defaults"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-inherit update-rc.d
+inherit update-rc.d upx-compress
