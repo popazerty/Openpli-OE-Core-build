@@ -5,7 +5,6 @@ RDEPENDS_${PN} = "python-html"
 inherit gitpkgv
 PV = "git${SRCPV}"
 PKGV = "git${GITPKGV}"
-PR = "r0"
 
 require conf/license/license-gplv2.inc
 require openplugins-distutils.inc
