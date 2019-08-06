@@ -9,7 +9,7 @@ DEPENDS = " \
 	freetype \
 	gettext-native \
 	jpeg \
-	libdreamdvd libdvbsi++ libfribidi libmad libpng libsigc++-2.0 giflib libxml2 \
+	libdreamdvd libdvbsi++ fribidi libmad libpng libsigc++-2.0 giflib libxml2 \
 	openssl libudfread \
 	python-imaging python-twisted python-wifi \
 	swig-native \
@@ -25,6 +25,7 @@ RDEPENDS_${PN} = " \
 	enigma2-fonts \
 	ethtool \
 	glibc-gconv-iso8859-15 \
+        glibc-gconv-cp1250 \
 	${PYTHON_RDEPS} \
 	"
 
@@ -43,20 +44,24 @@ PYTHON_RDEPS = " \
 	python-core \
 	python-crypt \
 	python-fcntl \
-	python-importlib \
 	python-lang \
 	python-netclient \
 	python-netserver \
 	python-pickle \
 	python-re \
 	python-shell \
+	python-service-identity \
 	python-threading \
 	python-twisted-core \
 	python-twisted-web \
-	python-utf8-hack \
 	python-xml \
 	python-zlib \
 	python-zopeinterface \
+        python-pyusb \
+        python-image \
+        python-imaging \
+	python-process \
+	python-pyusb \
 	"
 
 # DVD and iso playback is integrated, we need the libraries
@@ -82,7 +87,7 @@ DESCRIPTION_append_enigma2-plugin-systemplugins-videomode = "selects advanced vi
 RDEPENDS_enigma2-plugin-systemplugins-nfiflash = "python-twisted-web"
 RDEPENDS_enigma2-plugin-systemplugins-softwaremanager = "python-twisted-web"
 DESCRIPTION_append_enigma2-plugin-systemplugins-wirelesslan = "helps you configuring your wireless lan"
-RDEPENDS_enigma2-plugin-systemplugins-wirelesslan = "wpa-supplicant wireless-tools python-wifi"
+RDEPENDS_enigma2-plugin-systemplugins-wirelesslan = "wpa-supplicant iw python-wifi"
 DESCRIPTION_append_enigma2-plugin-systemplugins-networkwizard = "provides easy step by step network configuration"
 # Note that these tools lack recipes
 RDEPENDS_enigma2-plugin-extensions-dvdburn = "dvd+rw-tools dvdauthor mjpegtools cdrkit python-imaging ${DEMUXTOOL}"
@@ -93,11 +98,11 @@ RDEPENDS_enigma2-plugin-systemplugins-hotplug = "hotplug-e2-helper"
 RDEPENDS_${PN}-build-dependencies = "\
 	aio-grab \
 	dvd+rw-tools dvdauthor mjpegtools cdrkit python-imaging ${DEMUXTOOL} \
-	wpa-supplicant wireless-tools python-wifi \
+	wpa-supplicant iw python-wifi \
 	python-twisted-web \
 	"
 
-inherit gitpkgv pythonnative
+inherit gitpkgv pythonnative upx-compress
 
 PV = "2.7+git${SRCPV}"
 PKGV = "2.7+git${GITPKGV}"
@@ -150,27 +155,27 @@ EXTRA_OEMAKE = "\
 
 # some plugins contain so's, their stripped symbols should not end up in the enigma2 package
 FILES_${PN}-dbg += "\
-	/usr/lib/enigma2/python/Plugins/*/*/.debug \
+	${libdir}/enigma2/python/Plugins/*/*/.debug \
 	"
 
 # Swig generated 200k enigma.py file has no purpose for end users
 # Save some space by not installing sources (mytest.py must remain)
 FILES_${PN}-src = "\
-	/usr/lib/enigma2/python/GlobalActions.py \
-	/usr/lib/enigma2/python/Navigation.py \
-	/usr/lib/enigma2/python/NavigationInstance.py \
-	/usr/lib/enigma2/python/RecordTimer.py \
-	/usr/lib/enigma2/python/ServiceReference.py \
-	/usr/lib/enigma2/python/SleepTimer.py \
-	/usr/lib/enigma2/python/e2reactor.py \
-	/usr/lib/enigma2/python/enigma.py \
-	/usr/lib/enigma2/python/keyids.py \
-	/usr/lib/enigma2/python/keymapparser.py \
-	/usr/lib/enigma2/python/skin.py \
-	/usr/lib/enigma2/python/timer.py \
-	/usr/lib/enigma2/python/*/*.py \
-	/usr/lib/enigma2/python/*/*/*.py \
-	/usr/lib/enigma2/python/*/*/*/*.py \
+	${libdir}/enigma2/python/GlobalActions.py \
+	${libdir}/enigma2/python/Navigation.py \
+	${libdir}/enigma2/python/NavigationInstance.py \
+	${libdir}/enigma2/python/RecordTimer.py \
+	${libdir}/enigma2/python/ServiceReference.py \
+	${libdir}/enigma2/python/SleepTimer.py \
+	${libdir}/enigma2/python/e2reactor.py \
+	${libdir}/enigma2/python/enigma.py \
+	${libdir}/enigma2/python/keyids.py \
+	${libdir}/enigma2/python/keymapparser.py \
+	${libdir}/enigma2/python/skin.py \
+	${libdir}/enigma2/python/timer.py \
+	${libdir}/enigma2/python/*/*.py \
+	${libdir}/enigma2/python/*/*/*.py \
+	${libdir}/enigma2/python/*/*/*/*.py \
 	"
 
 do_install_append() {
@@ -184,4 +189,6 @@ python populate_packages_prepend() {
     do_split_packages(d, enigma2_plugindir, '^(\w+/\w+)/.*\.la$', 'enigma2-plugin-%s-dev', '%s (development)', recursive=True, match_path=True, prepend=True, extra_depends='')
     do_split_packages(d, enigma2_plugindir, '^(\w+/\w+)/.*\.a$', 'enigma2-plugin-%s-staticdev', '%s (static development)', recursive=True, match_path=True, prepend=True, extra_depends='')
     do_split_packages(d, enigma2_plugindir, '^(\w+/\w+)/(.*/)?\.debug/.*$', 'enigma2-plugin-%s-dbg', '%s (debug)', recursive=True, match_path=True, prepend=True, extra_depends='')
+    enigma2_podir = bb.data.expand('${datadir}/enigma2/po', d)
+    do_split_packages(d, enigma2_podir, '^(\w+)/[a-zA-Z0-9_/]+.*$', 'enigma2-locale-%s', '%s', recursive=True, match_path=True, prepend=True, extra_depends="enigma2")
 }

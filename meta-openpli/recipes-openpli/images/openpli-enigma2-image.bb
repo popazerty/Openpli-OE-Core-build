@@ -90,19 +90,25 @@ ENIGMA2_PLUGINS += "\
 
 DEPENDS += "\
 	enigma2 \
+	enigma2-locale-meta \
 	enigma2-pliplugins \
 	enigma2-plugins \
 	"
 
 IMAGE_INSTALL += "\
 	aio-grab \
+	cronie \
 	enigma2 \
+	enigma2-locale-meta \
 	libavahi-client \
 	settings-autorestore \
 	tuxbox-common \
 	ofgwrite \
 	wget \
 	samba-base \
+	curl \
+	ntp \
+	ntfs-3g \
 	nfs-utils \
 	${ENIGMA2_PLUGINS} \
 	\
