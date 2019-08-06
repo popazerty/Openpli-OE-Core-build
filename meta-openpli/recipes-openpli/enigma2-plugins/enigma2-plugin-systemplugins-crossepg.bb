@@ -13,7 +13,6 @@ SRC_URI_append = " file://add-dummy-boxbranding.patch"
 
 PV = "0.8.6+gitr${SRCPV}"
 PKGV = "0.8.6+gitr${GITPKGV}"
-PR = "r0"
 
 inherit python-dir
 

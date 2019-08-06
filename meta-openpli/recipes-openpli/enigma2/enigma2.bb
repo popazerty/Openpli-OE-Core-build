@@ -104,8 +104,8 @@ RDEPENDS_${PN}-build-dependencies = "\
 
 inherit gitpkgv pythonnative upx-compress
 
-PV = "2.7+git${SRCPV}"
-PKGV = "2.7+git${GITPKGV}"
+PV = "Follow_OE+git${SRCPV}"
+PKGV = "Follow_OE+git${GITPKGV}"
 
 ENIGMA2_BRANCH ?= "develop"
 GITHUB_URI ?= "git://github.com"
@@ -118,7 +118,6 @@ S = "${WORKDIR}/git"
 
 FILES_${PN} += "${datadir}/keymaps"
 FILES_${PN}-meta = "${datadir}/meta"
-PACKAGES =+ "${PN}-src"
 PACKAGES += "${PN}-meta ${PN}-build-dependencies"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -180,7 +179,7 @@ FILES_${PN}-src = "\
 
 do_install_append() {
 	install -d ${D}/usr/share/keymaps
-	find ${D}/usr/lib/enigma2/python/ -name '*.pyc' -exec rm {} \;
+	find ${D}${libdir}/enigma2/python/ -name '*.pyc' -exec rm {} \;
 }
 
 python populate_packages_prepend() {

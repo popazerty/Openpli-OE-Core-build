@@ -5,7 +5,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 PV = "1.0+git${SRCPV}"
 PKGV = "1.0+git${GITPKGV}"
-PR = "r0"
 
 SRC_URI = " \
     git://github.com/oe-alliance/satip-client.git;protocol=git;branch=mis \

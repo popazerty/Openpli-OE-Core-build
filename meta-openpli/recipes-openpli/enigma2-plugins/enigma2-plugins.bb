@@ -73,7 +73,10 @@ DEPENDS = " \
 	python-daap \
 	libcddb \
 	dvdbackup \
+        libtirpc \
 	"
+
+CFLAGS += "-I${STAGING_INCDIR}/tirpc"
 
 python populate_packages_prepend () {
     enigma2_plugindir = bb.data.expand('${libdir}/enigma2/python/Plugins', d)
@@ -122,9 +125,9 @@ python populate_packages_prepend () {
 
 do_install_append() {
 	# remove unused .pyc files
-	find ${D}/usr/lib/enigma2/python/ -name '*.pyc' -exec rm {} \;
+	find ${D}${libdir}/enigma2/python/ -name '*.pyc' -exec rm {} \;
 	# remove leftover webinterface garbage
-	rm -rf ${D}/usr/lib/enigma2/python/Plugins/Extensions/WebInterface
+	rm -rf ${D}${libdir}/enigma2/python/Plugins/Extensions/WebInterface
 }
 
 python populate_packages_prepend() {
