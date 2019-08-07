@@ -12,3 +12,6 @@ do_install_append() {
 PACKAGES =+ "e2fsprogs-e4defrag"
 FILES_e2fsprogs-e4defrag = "/usr/sbin/e4defrag"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+
+SRC_URI_append = "file://Revert-mke2fs-enable-the-metadata_csum.patch"
