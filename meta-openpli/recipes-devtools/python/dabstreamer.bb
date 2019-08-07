@@ -5,7 +5,7 @@ HOMEPAGE = "www.satdreamgr.com"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
-inherit allarch
+inherit allarch gitpkgv update-rc.d
 
 RDEPENDS_${PN} = "eti-tools python-core tsniv2ni"
 
@@ -14,7 +14,6 @@ SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git/"
 
-inherit gitpkgv
 PV = "0.1+git${SRCPV}"
 PKGV = "0.1+git${GITPKGV}"
 
@@ -31,5 +30,3 @@ FILES_${PN} = "/"
 
 INITSCRIPT_NAME = "dabstreamer"
 INITSCRIPT_PARAMS = "defaults 50"
-
-inherit update-rc.d
