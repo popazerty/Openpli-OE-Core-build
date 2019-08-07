@@ -46,7 +46,6 @@ ENIGMA2_PLUGINS += "\
 	enigma2-plugin-extensions-moviecut \
 	enigma2-plugin-extensions-openwebif-extras \
 	enigma2-plugin-extensions-pictureplayer \
-	enigma2-plugin-extensions-ppanel \
 	enigma2-plugin-systemplugins-fastscan \
 	enigma2-plugin-systemplugins-hdmicec \
 	enigma2-plugin-systemplugins-hotplug \
