@@ -2,7 +2,7 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://../COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 SECTION = "console/network"
-DEPENDS = "readline virtual/libiconv zlib popt attr"
+DEPENDS = "readline virtual/libiconv zlib popt attr libtirpc"
 
 inherit autotools-brokensep update-rc.d
 
@@ -16,6 +16,18 @@ ${SAMBA_MIRROR}    http://www.mirrorservice.org/sites/ftp.samba.org \n \
 "
 
 SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
+           file://011-patch-cve-2015-5296.patch;patchdir=.. \
+           file://012-patch-cve-2015-5299.patch;patchdir=.. \
+           file://015-patch-cve-2015-7560.patch;patchdir=.. \
+           file://020-CVE-preparation-v3-6.patch;patchdir=.. \
+           file://021-CVE-preparation-v3-6-addition.patch;patchdir=.. \
+           file://022-CVE-2015-5370-v3-6.patch;patchdir=.. \
+           file://023-CVE-2016-2110-v3-6.patch;patchdir=.. \
+           file://024-CVE-2016-2111-v3-6.patch;patchdir=.. \
+           file://025-CVE-2016-2112-v3-6.patch;patchdir=.. \
+           file://026-CVE-2016-2115-v3-6.patch;patchdir=.. \
+           file://027-CVE-2016-2118-v3-6.patch;patchdir=.. \
+           file://028-CVE-2017-7494-v3-6.patch;patchdir=.. \
            file://config-h.patch \
            file://fhs-filespaths.patch;patchdir=.. \
            file://undefined-symbols.patch;patchdir=.. \
@@ -24,6 +36,7 @@ SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://configure-disable-getaddrinfo-cross.patch;patchdir=.. \
            file://configure-disable-core_pattern-cross-check.patch;patchdir=.. \
            file://100-configure_fixes.patch;patchdir=.. \
+           file://110-multicall.patch;patchdir=.. \
            file://120-add_missing_ifdef.patch;patchdir=.. \
            file://200-remove_printer_support.patch;patchdir=.. \
            file://210-remove_ad_support.patch;patchdir=.. \
@@ -39,6 +52,7 @@ SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://310-remove_error_strings.patch;patchdir=.. \
            file://320-debug_level_checks.patch;patchdir=.. \
            file://330-librpc_default_print.patch;patchdir=.. \
+           file://glibc_major.patch;patchdir=.. \
            file://smb.conf \
            file://samba.sh \
 "
