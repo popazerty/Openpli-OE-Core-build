@@ -14,7 +14,7 @@ PV = "3.4+git${SRCPV}"
 PKGV = "3.4+git${GITPKGV}"
 PKG_${PN} = "${PN}"
 
-SRC_URI = "git://github.com/Taapat/libeplayer3.git"
+SRC_URI = "git://github.com/kueken/libeplayer3.git"
 
 S = "${WORKDIR}/git"
 
