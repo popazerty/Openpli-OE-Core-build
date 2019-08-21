@@ -8,8 +8,6 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
       file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
 
-require glibc-version.inc
-
 # Tell autotools that we're working in the localedef directory
 #
 AUTOTOOLS_SCRIPT_PATH = "${S}/localedef"
@@ -18,6 +16,13 @@ inherit native
 inherit autotools
 
 FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
+
+SRCBRANCH ?= "release/${PV}/master"
+GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.(?!90)\d+)*)"
+
+SRCREV_glibc ?= "db0242e3023436757bbc7c488a779e6e3343db04"
+SRCREV_localedef ?= "29869b6dc11427c5bab839bdb155c85a7c644c71"
 
 SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
            git://github.com/kraj/localedef;branch=master;name=localedef;destsuffix=git/localedef \
