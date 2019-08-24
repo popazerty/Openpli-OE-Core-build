@@ -12,6 +12,7 @@ PACKAGECONFIG = "avdevice avfilter avcodec avformat avresample swscale swresampl
 MIPSFPU = "${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-mipsfpu', '--enable-mipsfpu', d)}"
 
 SRC_URI_append += " \
+    file://02_fix_mpegts.patch \
 	file://03_allow_to_choose_rtmp_impl_at_runtime.patch \
 	file://04_hls_replace_key_uri.patch \
 	file://07_increase_buffer_size.patch \
