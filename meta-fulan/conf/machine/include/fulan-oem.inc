@@ -18,6 +18,7 @@ DEFAULTTUNE = "sh4"
 
 GCCVERSION = "4.9.4"
 GLIBCVERSION = "2.25"
+PREFERRED_VERSION_cross-localedef-native = "2.30"
 
 HOSTTOOLS_NONFATAL += "whoami"
 
