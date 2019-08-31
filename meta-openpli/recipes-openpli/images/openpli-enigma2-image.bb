@@ -44,7 +44,7 @@ ENIGMA2_PLUGINS += "\
 	enigma2-plugin-extensions-mediaplayer \
 	enigma2-plugin-extensions-mediascanner \
 	enigma2-plugin-extensions-moviecut \
-	enigma2-plugin-extensions-openwebif-extras \
+	enigma2-plugin-extensions-openwebif \
 	enigma2-plugin-extensions-pictureplayer \
 	enigma2-plugin-systemplugins-fastscan \
 	enigma2-plugin-systemplugins-hdmicec \
@@ -79,7 +79,6 @@ ENIGMA2_PLUGINS += "\
 	enigma2-plugin-extensions-e2iplayer-deps \
 	enigma2-plugin-extensions-filebrowser \
 	enigma2-plugin-extensions-blurayplayer \
-	enigma2-plugin-extensions-openwebif-extras-terminal \
 	enigma2-plugin-extensions-reconstructapsc \
 	enigma2-plugin-systemplugins-systemtime \
 	enigma2-plugin-systemplugins-mountmanager \

@@ -2,6 +2,8 @@
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
+SRC_URI_append_sh4 += " file://revert_grab_for_sh4.patch "
+
 SRC_URI_append_dm8000 = " file://get-rid-of-orgdream-check.patch"
 SRC_URI_append = " file://0001-revert-workaround-for-non-pli-streamproxy.patch"
 
@@ -97,6 +99,8 @@ python do_cleanup () {
         ('lunix3-4k', 'lunix3-4k.png', 'qviart.png', 'qviart.html'),
         ('lunix', 'lunix.png', 'qviart.png', 'qviart.html'),
         ('e4hd', 'e4hd.png', 'e4hd.png', 'e4hd.html'),
+        ('spark', 'spark.jpg', 'spark.png', 'spark.html'),
+        ('spark7162', 'spark7162.jpg', 'spark.png', 'spark.html'),
     ]
 
     import os
