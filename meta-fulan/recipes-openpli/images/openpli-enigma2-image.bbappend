@@ -18,11 +18,11 @@ ENIGMA2_PLUGINS_remove += "\
 # Ship some extra stuff with the image like youtube, serviceapp, iptvplayer etc.. except for smallflash where we only pre-install oscam
 ENIGMA2_PLUGINS_append += "\
 	enigma2-plugin-extensions-youtube \
-	enigma2-plugin-extensions-e2iplayer \
 	enigma2-plugin-systemplugins-vps \
 	"
 
 
 IMAGE_INSTALL += "\
 	enigma2-plugin-skins-simple-gray-hd \
+        enigma2-plugin-skins-mx-hq7 \
 	"
