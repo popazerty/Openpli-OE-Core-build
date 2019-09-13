@@ -505,7 +505,7 @@ diff -Naur DirectFB-1.7.7/configure.in.orig DirectFB-1.7.7.stm/configure.in.orig
 +#fi
 +
 +if test "$GCC" = "yes"; then
-+  CFLAGS_STD="-std=gnu99"
++  CFLAGS_STD="-std=gnu11"
 +fi
 +
 +
