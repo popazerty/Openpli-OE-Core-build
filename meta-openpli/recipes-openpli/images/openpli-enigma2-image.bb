@@ -77,6 +77,7 @@ ENIGMA2_PLUGINS += "\
 	enigma2-plugin-extensions-subssupport \
 	enigma2-plugin-extensions-e2iplayer \
 	enigma2-plugin-extensions-e2iplayer-deps \
+	enigma2-plugin-systemplugins-serviceapp \
 	enigma2-plugin-extensions-filebrowser \
 	enigma2-plugin-extensions-blurayplayer \
 	enigma2-plugin-extensions-reconstructapsc \
@@ -97,16 +98,21 @@ IMAGE_INSTALL += "\
 	aio-grab \
 	cronie \
 	enigma2 \
+	exteplayer3 \
+	gstplayer \
 	enigma2-locale-meta \
 	libavahi-client \
 	settings-autorestore \
 	tuxbox-common \
+	tuxbox-links \
 	ofgwrite \
 	wget \
 	samba-base \
 	curl \
+	fuse-exfat \
 	ntp \
 	ntfs-3g \
+	openssh-sftp-server \
 	nfs-utils \
 	${ENIGMA2_PLUGINS} \
 	\
