@@ -18,6 +18,11 @@ SRC_URI_append += " \
 	file://07_increase_buffer_size.patch \
 	file://08_recheck_discard_flags.patch \
 	file://09_ffmpeg_fix_edit_list_parsing.patch \
+        file://A02-corrupt-h264-frames.patch \
+        file://A05-mov-read-name-track-tag-written-by-movenc.patch \
+        file://A06-movenc-write-3gpp-track-titl-tag.patch \
+        file://A07-mov-read-3gpp-udta-tags.patch \
+        file://A08-movenc-write-3gpp-track-names-tags-for-all-available.patch \
 	file://A11-FFmpeg-devel-amfenc-Add-support-for-pict_type-field.patch \
 	file://A10-mpeg-quarter-sample.patch \
 	"
