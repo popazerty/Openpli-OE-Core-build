@@ -13,8 +13,10 @@ RDEPENDS_${PN} = "\
 	python-json \
 	python-misc \
 	python-numbers \
+	python-pprint \
 	python-pyopenssl \
 	python-shell \
+	python-twisted-web \
 	python-unixadmin \
 	"
 
