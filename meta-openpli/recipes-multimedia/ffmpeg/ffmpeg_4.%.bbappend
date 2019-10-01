@@ -16,7 +16,6 @@ SRC_URI_append += " \
 	file://03_allow_to_choose_rtmp_impl_at_runtime.patch \
 	file://04_hls_replace_key_uri.patch \
 	file://07_increase_buffer_size.patch \
-	file://08_recheck_discard_flags.patch \
 	file://09_ffmpeg_fix_edit_list_parsing.patch \
         file://A02-corrupt-h264-frames.patch \
         file://A05-mov-read-name-track-tag-written-by-movenc.patch \
