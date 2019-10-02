@@ -7,7 +7,7 @@
 # License:   GPL-2
 #
 
-PATH=/sbin:${bindir}:/bin:${bindir}
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 if [ ! -x /usr/sbin/wpa_action ]; then
 	exit 0
