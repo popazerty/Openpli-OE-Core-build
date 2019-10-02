@@ -1,5 +1,5 @@
 #!/bin/sh
-DAEMON=${bindir}/djmount
+DAEMON=/usr/bin/djmount
 NAME=djmount
 DESC="UPnP client"
 MOUNTPOINT="/media/upnp/"
