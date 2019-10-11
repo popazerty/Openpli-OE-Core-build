@@ -7,6 +7,8 @@ DEPENDS = "ffmpeg ${@bb.utils.contains('TARGET_ARCH', 'sh4', 'fulan-dvb-modules-
 RDEPENDS_${PN} = "ffmpeg"
 RPROVIDES_${PN} += "libeplayer"
 
+CXXFLAGS_append += " -std=c++11"
+
 inherit gitpkgv autotools
 
 SRCREV = "${AUTOREV}"
