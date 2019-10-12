@@ -15,7 +15,7 @@ index c399011..bb8fcaf 100644
  #EXTRA_CFLAGS += -pedantic
  #EXTRA_CFLAGS += -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes
  
-+EXTRA_CFLAGS += -Wframe-larger-than=1536 -Wno-implicit -Wno-ignored-qualifiers
++EXTRA_CFLAGS += -Wframe-larger-than=1536
 +
  EXTRA_CFLAGS += -Wno-unused-variable
  EXTRA_CFLAGS += -Wno-unused-value
