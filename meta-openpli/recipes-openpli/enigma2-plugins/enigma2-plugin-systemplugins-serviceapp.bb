@@ -3,6 +3,8 @@ AUTHOR = "Maroš Ondrášek <mx3ldev@gmail.com>"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 DEPENDS = "enigma2 uchardet openssl"
 RDEPENDS_${PN} = "enigma2 uchardet openssl python-json"
 RRECOMMENDS_${PN} = "exteplayer3 gstplayer"
@@ -26,26 +28,15 @@ EXTRA_OECONF = "\
 	STAGING_LIBDIR=${STAGING_LIBDIR} \
 	"
 
-PACKAGES = "${PN} ${PN}-src ${PN}-dbg"
+do_install_append() {
+	rm ${D}${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/*.pyc
+}
 
 FILES_${PN} = "\
-    ${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/*.pyo \
-    ${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/serviceapp.so \
-    ${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/locale/*/*/*.mo \
-    "
+	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/*.pyo \
+	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/locale/*/LC_MESSAGES/ServiceApp.mo \
+	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/serviceapp.so"
 
-FILES_${PN}-src = "\
-    ${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/*.py \
-    ${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/locale/*/LC_MESSAGES/*.mo \
-    /usr/src/debug/* \
-    "
-
-FILES_${PN}-dbg = "\
-    ${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/serviceapp.la \
-    /usr/src/debug/enigma2-plugin-systemplugins-serviceapp/*/*/*/*/*.cpp \
-    /usr/src/debug/enigma2-plugin-systemplugins-serviceapp/*/*/*/*/*.h \
-    /usr/src/debug/enigma2-plugin-systemplugins-serviceapp/*/*/*/*/*.c \
-    /usr/src/debug/enigma2-plugin-systemplugins-serviceapp/*/*/*/*/*/*.cpp \
-    /usr/src/debug/enigma2-plugin-systemplugins-serviceapp/*/*/*/*/*/*.h \
-    /usr/src/debug/enigma2-plugin-systemplugins-serviceapp/*/*/*/*/*/*.c \
-    "
+FILES_${PN}-dev = "\
+	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/*.py \
+	${libdir}/enigma2/python/Plugins/SystemPlugins/ServiceApp/serviceapp.la"
