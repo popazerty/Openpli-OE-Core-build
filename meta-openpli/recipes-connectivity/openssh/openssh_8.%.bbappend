@@ -1,3 +1,6 @@
-inherit upx-compress
+do_install_append () {
+	install -d ${D}${libdir}/openssh
+	ln -s ${libexecdir}/sftp-server ${D}${libdir}/openssh/sftp-server
+}
 
-INSANE_SKIP_${PN} += "textrel"
+FILES_${PN}-sftp-server += " ${libdir}/openssh/sftp-server"
