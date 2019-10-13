@@ -4,8 +4,8 @@ HOMEPAGE = "http://www.iptvplayer.gitlab.io/"
 SECTION = "multimedia"
 LICENSE = "PD"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-SRC_URI = "git://gitlab.com/e2i/e2iplayer.git;protocol=http"
-SRC_URI_append += "file://ffmpeg4.patch"
+
+SRC_URI = "git://github.com/persianpros/e2iplayer.git;protocol=http"
 
 S = "${WORKDIR}/git"
 
