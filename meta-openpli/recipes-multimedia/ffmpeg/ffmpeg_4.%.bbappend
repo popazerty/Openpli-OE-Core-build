@@ -2,8 +2,9 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 DEPENDS += "libxml2"
 
-PACKAGECONFIG = "avdevice avfilter avcodec avformat avresample swscale swresample postproc \
-		bzlib gpl x264 openssl libbluray libfreetype librtmp mp3lame theora libvorbis lzma vpx"
+PACKAGECONFIG_append = " libass libbluray libfreetype librtmp libvorbis \
+                        mp3lame openjpeg openssl vpx wavpack x265"
+
 PACKAGECONFIG[libass] = "--enable-libass,--disable-libass,libass"
 PACKAGECONFIG[libbluray] = "--enable-libbluray --enable-protocol=bluray,--disable-libbluray,libbluray"
 PACKAGECONFIG[libfreetype] = "--enable-libfreetype,--disable-libfreetype,freetype"
