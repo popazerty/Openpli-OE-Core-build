@@ -23,12 +23,11 @@ RDEPENDS_${PN} = "\
 
 RRECOMMENDS_${PN} = "\
 	glib-networking \
-	virtual/gstreamer${GST_VERSION}-dvbmediasink \
 	libeplayer3 \
 	"
 
 SRCREV = "${AUTOREV}"
-SRC_URI = "git://github.com/OpenVisionE2/servicemp3epl.git;branch=libeplayer"
+SRC_URI = "git://github.com/kueken/servicemp3epl.git;branch=libeplayer"
 
 S = "${WORKDIR}/git"
 
