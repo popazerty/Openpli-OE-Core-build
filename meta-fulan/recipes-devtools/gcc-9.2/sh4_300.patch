@@ -1,7 +1,7 @@
 Index: gcc/config/sh/sh.c
 ===================================================================
---- gcc/config/sh/sh.c	(revision 276411)
-+++ gcc/config/sh/sh.c	(working copy)
+--- a/gcc/config/sh/sh.c	(revision 276411)
++++ b/gcc/config/sh/sh.c	(working copy)
 @@ -958,11 +958,13 @@ 
    if (flag_unsafe_math_optimizations)
      {
@@ -29,8 +29,8 @@ Index: gcc/config/sh/sh.c
        emit_insn (gen_toggle_pr ());
 Index: gcc/config/sh/sh.h
 ===================================================================
---- gcc/config/sh/sh.h	(revision 276410)
-+++ gcc/config/sh/sh.h	(working copy)
+--- a/gcc/config/sh/sh.h	(revision 276410)
++++ b/gcc/config/sh/sh.h	(working copy)
 @@ -69,6 +69,8 @@ 
     FPU is disabled (which makes it compatible with SH4al-dsp).  */
  #define TARGET_SH4A_FP (TARGET_SH4A && TARGET_FPU_ANY)
@@ -42,8 +42,8 @@ Index: gcc/config/sh/sh.h
  #define TARGET_VARARGS_PRETEND_ARGS(FUN_DECL) \
 Index: gcc/config/sh/sh.md
 ===================================================================
---- gcc/config/sh/sh.md	(revision 276410)
-+++ gcc/config/sh/sh.md	(working copy)
+--- a/gcc/config/sh/sh.md	(revision 276410)
++++ b/gcc/config/sh/sh.md	(working copy)
 @@ -9163,7 +9163,7 @@ 
  	(xor:SI (reg:SI FPSCR_REG) (const_int FPSCR_PR)))
     (set (reg:SI FPSCR_MODES_REG)
