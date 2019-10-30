@@ -17,7 +17,7 @@ inherit module
 
 PACKAGES = "${PN} ${PN}-dev"
 
-INC_PR = "r6"
+INC_PR = "r1"
 PV = "${KV}+${SRCDATE}"
 
 PTI_NP_PATH ?= "/data/pti_np"
@@ -25,7 +25,7 @@ PTI_NP_PATH ?= "/data/pti_np"
 FILESEXTRAPATHS_prepend := "${THISDIR}/fulan-dvb-modules:"
 
 SRC_URI = " \
-    git://github.com/kueken/driver.git;protocol=git \
+    git://github.com/kueken/driver.git;protocol=git;branch=master-gcc-check \
     file://ddbootup \
     file://sh4booster \
     file://modules.conf \
