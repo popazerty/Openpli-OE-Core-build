@@ -10,7 +10,7 @@ COMPATIBLE_MACHINE = "(spark|spark7162)"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
-MACHINE_KERNEL_PR_append = ".4"
+MACHINE_KERNEL_PR_append = ".3"
 
 inherit kernel machine_kernel_pr
 
@@ -35,7 +35,7 @@ LINUX_VERSION = "2.6.32.71"
 SRCREV = "${AUTOREV}"
 # SRCREV = "3ec500f4212f9e4b4d2537c8be5ea32ebf68c43b"
 
-SRC_URI = "git://github.com/kueken/linux-sh4-2.6.32.71.git;protocol=git;branch=stmicro-1-gcc-check \
+SRC_URI = "git://github.com/kueken/linux-sh4-2.6.32.71.git;protocol=git;branch=stmicro-1 \
     file://linux-sh4-stmmac_stm24_${STM_PATCH_STR}.patch;patch=1 \
     file://linux-sh4-lmb_stm24_${STM_PATCH_STR}.patch;patch=1 \
     file://defconfig \
