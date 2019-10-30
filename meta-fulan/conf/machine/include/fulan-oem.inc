@@ -16,9 +16,9 @@ KERNEL_MODULE_PACKAGE_SUFFIX = ""
 TARGET_ARCH = "sh4"
 DEFAULTTUNE = "sh4"
 
-# GCCVERSION = "4.9.4"
-# GLIBCVERSION = "2.25"
-# PREFERRED_VERSION_cross-localedef-native = "2.30"
+GCCVERSION = "4.9.4"
+GLIBCVERSION = "2.25"
+PREFERRED_VERSION_cross-localedef-native = "2.30"
 
 HOSTTOOLS_NONFATAL += "whoami"
 
@@ -29,8 +29,8 @@ PREFERRED_VERSION_directfb = "1.7.7"
 PREFERRED_VERSION_rt8812au = "4.3.14"
 PREFERRED_VERSION_samba = "3.%"
 PREFERRED_PROVIDER_lirc = "stlirc"
-# PREFERRED_PROVIDER_virtual/egl = "libstgles"
-# PREFERRED_PROVIDER_virtual/libgles1 = "libstgles"
+PREFERRED_PROVIDER_virtual/egl = "libstgles"
+PREFERRED_PROVIDER_virtual/libgles1 = "libstgles"
 PREFERRED_PROVIDER_virtual/enigma2-mediaservice ?= "enigma2-plugin-systemplugins-servicesh4"
 
 SERIAL_CONSOLE = "115200 ttyAS0"
@@ -111,6 +111,7 @@ MACHINE_EXTRA_RRECOMMENDS += "\
 
 EXTRA_IMAGEDEPENDS += "\
     libpcre \
+    libstgles \
     aio-grab \
     "
 
