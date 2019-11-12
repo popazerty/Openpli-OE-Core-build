@@ -104,7 +104,6 @@ EXTRA_OECONF_BASE = "\
     ${LTO} \
     --enable-libssp \
     --disable-bootstrap \
-    --disable-libmudflap \
     --with-system-zlib \
     --with-linker-hash-style=${LINKER_HASH_STYLE} \
     --enable-linker-build-id \
@@ -115,12 +114,11 @@ EXTRA_OECONF_BASE = "\
 "
 
 EXTRA_OECONF_INITIAL = "\
-    --disable-libmudflap \
     --disable-libgomp \
     --disable-libssp \
     --disable-libquadmath \
     --with-system-zlib \
-    --disable-lto \
+    --enable-lto \
     --disable-plugin \
     --enable-decimal-float=no \
 "
