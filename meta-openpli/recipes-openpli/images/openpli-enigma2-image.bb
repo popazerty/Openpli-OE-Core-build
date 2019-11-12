@@ -71,14 +71,11 @@ ENIGMA2_PLUGINS += "\
 	${@bb.utils.contains('MACHINE_FEATURES', 'multitranscoding', 'enigma2-plugin-systemplugins-transcodingsetup', '', d)} \
 	${@bb.utils.contains('MACHINE_FEATURES', 'fanctrl', 'enigma2-plugin-extensions-fancontrol2', '', d)} \
 	${@bb.utils.contains("MACHINE_FEATURES", "smallflash", "", " \
-	enigma2-plugin-extensions-foreca \
 	enigma2-plugin-extensions-dlnabrowser \
 	enigma2-plugin-extensions-dlnaserver \
 	enigma2-plugin-extensions-subssupport \
 	enigma2-plugin-extensions-e2iplayer \
 	enigma2-plugin-extensions-e2iplayer-deps \
-	enigma2-plugin-extensions-filebrowser \
-	enigma2-plugin-extensions-blurayplayer \
 	enigma2-plugin-extensions-reconstructapsc \
 	enigma2-plugin-systemplugins-systemtime \
 	enigma2-plugin-systemplugins-mountmanager \
@@ -97,9 +94,8 @@ IMAGE_INSTALL += "\
 	aio-grab \
 	cronie \
 	enigma2 \
-	exteplayer3 \
-	gstplayer \
 	enigma2-locale-meta \
+	enigma2-locale-en \
 	libavahi-client \
 	settings-autorestore \
 	tuxbox-common \
