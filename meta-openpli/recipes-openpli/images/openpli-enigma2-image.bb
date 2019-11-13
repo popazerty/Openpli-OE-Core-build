@@ -46,8 +46,8 @@ ENIGMA2_PLUGINS += "\
 	enigma2-plugin-extensions-moviecut \
 	enigma2-plugin-extensions-openwebif \
 	enigma2-plugin-extensions-pictureplayer \
+	enigma2-plugin-extensions-ppanel \
 	enigma2-plugin-systemplugins-fastscan \
-	enigma2-plugin-systemplugins-hdmicec \
 	enigma2-plugin-systemplugins-hotplug \
 	enigma2-plugin-systemplugins-networkbrowser \
 	enigma2-plugin-systemplugins-positionersetup \
@@ -67,10 +67,6 @@ ENIGMA2_PLUGINS += "\
 	${@bb.utils.contains('OPENPLI_FEATURES', 'dvd', 'enigma2-plugin-extensions-cdinfo enigma2-plugin-extensions-dvdplayer', '', d)} \
 	${@bb.utils.contains('OPENPLI_FEATURES', 'fan', 'enigma2-plugin-systemplugins-tempfancontrol', '', d)} \
 	${@bb.utils.contains('OPENPLI_FEATURES', '7seg', 'enigma2-plugin-systemplugins-vfdcontrol', '', d)} \
-	${@bb.utils.contains('MACHINE_FEATURES', '7segment', 'enigma2-plugin-systemplugins-vfdcontrol', '', d)} \
-	${@bb.utils.contains('MACHINE_FEATURES', 'multitranscoding', 'enigma2-plugin-systemplugins-transcodingsetup', '', d)} \
-	${@bb.utils.contains('MACHINE_FEATURES', 'fanctrl', 'enigma2-plugin-extensions-fancontrol2', '', d)} \
-	${@bb.utils.contains("MACHINE_FEATURES", "smallflash", "", " \
 	enigma2-plugin-extensions-dlnabrowser \
 	enigma2-plugin-extensions-dlnaserver \
 	enigma2-plugin-extensions-subssupport \
@@ -80,7 +76,6 @@ ENIGMA2_PLUGINS += "\
 	enigma2-plugin-systemplugins-systemtime \
 	enigma2-plugin-systemplugins-mountmanager \
 	enigma2-plugin-softcams-oscam \
-	enigma2-plugin-softcams-oscam-emu", d)} \
 	"
 
 DEPENDS += "\

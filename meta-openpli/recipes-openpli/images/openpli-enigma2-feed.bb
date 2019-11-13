@@ -52,6 +52,7 @@ OPTIONAL_PACKAGES += " \
 	joe \
 	less \
 	libbluray \
+	libsdl2 \
 	libudfread \
 	mc \
 	mediainfo \
@@ -81,6 +82,12 @@ OPTIONAL_PACKAGES += " \
 	python-js2py \
 	python-pyexecjs \
 	python-beautifulsoup4 \
+	python-futures \
+	python-singledispatch \
+	python-websocket \
+	python-isodate \
+	python-iso3166 \
+	python-iso639 \
 	picocom \
 	ppp \
 	rsync \
@@ -104,6 +111,7 @@ OPTIONAL_PACKAGES += " \
 	tmux \
 	transmission \
 	udpxy \
+	unzip \
 	usb-modeswitch \
 	usb-modeswitch-data \
 	v4l-utils \
@@ -112,6 +120,7 @@ OPTIONAL_PACKAGES += " \
 	wscan \
 	yafc \
 	zeroconf \
+	zerotier \
 	unrar \
 	zip \
 	zsh \
@@ -172,7 +181,6 @@ ENIGMA2_OPTIONAL = " \
 	${@bb.utils.contains('EXTRA_IMAGEDEPENDS', 'vuplus-tuner-turbo', 'enigma2-plugin-drivers-dvb-usb-turbo', '', d)} \
 	${@bb.utils.contains('OPENPLI_FEATURES', 'kodi', 'enigma2-plugin-extensions-kodi', '', d)} \
 	${@bb.utils.contains('MACHINE_FEATURES', 'kodi', 'enigma2-plugin-extensions-kodi', '', d)} \
-	${@bb.utils.contains('MACHINE_FEATURES', 'colorlcd', "enigma2-plugin-extensions-lcd4linux", "", d)} \
 	${@bb.utils.contains('OPENPLI_FEATURES', 'qtplugins', 'enigma2-plugin-extensions-qthbbtv enigma2-plugin-extensions-qtstalker', '', d)} \
 	${@bb.utils.contains("MACHINE_FEATURES", "transcoding", "streamproxy", "", d)} \
 	libcrypto-compat \
