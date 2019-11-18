@@ -1,6 +1,13 @@
+PR .= ".1"
+
+RSUGGESTS_${PN} = ""
+
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-DEPENDS += "libxml2"
+PROVIDES =+ " libavcodec53 libavformat53 libav"
+PACKAGES =+ " libavcodec53 libavformat53 libav"
+
+DEPENDS += "libxml2 librtmp"
 
 PACKAGECONFIG_append = " libass libbluray libfreetype librtmp libvorbis \
                         mp3lame openjpeg openssl vpx wavpack x265"
@@ -16,18 +23,12 @@ PACKAGECONFIG[x265] = "--enable-libx265,--disable-libx265,x265"
 MIPSFPU = "${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-mipsfpu', '--enable-mipsfpu', d)}"
 
 SRC_URI_append += " \
-    file://4_02_fix_mpegts.patch \
-	file://4_03_allow_to_choose_rtmp_impl_at_runtime.patch \
-	file://4_04_hls_replace_key_uri.patch \
-	file://4_07_increase_buffer_size.patch \
-	file://4_09_ffmpeg_fix_edit_list_parsing.patch \
-        file://4_A02-corrupt-h264-frames.patch \
-        file://4_A05-mov-read-name-track-tag-written-by-movenc.patch \
-        file://4_A06-movenc-write-3gpp-track-titl-tag.patch \
-        file://4_A07-mov-read-3gpp-udta-tags.patch \
-        file://4_A08-movenc-write-3gpp-track-names-tags-for-all-available.patch \
-	file://4_A11-FFmpeg-devel-amfenc-Add-support-for-pict_type-field.patch \
-	file://4_A10-mpeg-quarter-sample.patch \
+	file://02_fix_mpegts.patch \
+	file://03_allow_to_choose_rtmp_impl_at_runtime.patch \
+	file://04_hls_replace_key_uri.patch \
+	file://05_chunked_transfer_fix_eof.patch \
+	file://06_optimize_aac.patch \
+	file://08_recheck_discard_flags.patch \
 	"
 
 EXTRA_FFCONF = " \

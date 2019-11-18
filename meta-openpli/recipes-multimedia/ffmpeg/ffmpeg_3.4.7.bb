@@ -23,10 +23,12 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
                     file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
 
-SRCREV = "61853f7503530ae11ed407a80463dc7ac2e7362d"
-SRC_URI = "git://github.com/FFmpeg/FFmpeg.git;branch=release/4.2 \
-           file://4_mips64_cpu_detection.patch \
+SRCREV = "6e208e78d365ffe775cc6e772a82d3cabc5ba4c8"
+SRC_URI = "git://github.com/FFmpeg/FFmpeg.git;branch=release/3.4 \
+           file://mips64_cpu_detection.patch \
            "
+SRC_URI[md5sum] = "cbf4ead227fcedddf54c86013705a988"
+SRC_URI[sha256sum] = "2b92e9578ef8b3e49eeab229e69305f5f4cbc1fdaa22e927fc7fca18acccd740"
 
 # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
 ARM_INSTRUCTION_SET_armv4 = "arm"
@@ -116,10 +118,6 @@ EXTRA_OECONF = " \
 "
 
 EXTRA_OECONF_append_linux-gnux32 = " --disable-asm"
-# gold crashes on x86, another solution is to --disable-asm but thats more hacky
-# ld.gold: internal error in relocate_section, at ../../gold/i386.cc:3684
-
-LDFLAGS_append_x86 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
 
 do_configure() {
     ${S}/configure ${EXTRA_OECONF}
