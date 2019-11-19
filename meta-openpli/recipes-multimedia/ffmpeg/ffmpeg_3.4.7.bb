@@ -39,7 +39,7 @@ ARM_INSTRUCTION_SET_armv6 = "arm"
 # libpostproc was previously packaged from a separate recipe
 PROVIDES = "libav libpostproc"
 
-DEPENDS = "alsa-lib zlib libogg nasm-native"
+DEPENDS = "alsa-lib zlib libogg yasm-native libxml2"
 
 S = "${WORKDIR}/git"
 
@@ -76,6 +76,7 @@ PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora libogg
 PACKAGECONFIG[vaapi] = "--enable-vaapi,--disable-vaapi,libva"
 PACKAGECONFIG[vdpau] = "--enable-vdpau,--disable-vdpau,libvdpau"
 PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
+PACKAGECONFIG[x11] = "--enable-x11grab"
 PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
 PACKAGECONFIG[xcb] = "--enable-libxcb,--disable-libxcb,libxcb"
 PACKAGECONFIG[xv] = "--enable-outdev=xv,--disable-outdev=xv,libxv"
