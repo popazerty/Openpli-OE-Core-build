@@ -41,13 +41,13 @@ index 5859d23..5f4f298 100644
  tools/hciattach$(EXEEXT): $(tools_hciattach_OBJECTS) $(tools_hciattach_DEPENDENCIES) $(EXTRA_tools_hciattach_DEPENDENCIES) tools/$(am__dirstamp)
  	@rm -f tools/hciattach$(EXEEXT)
 @@ -5748,6 +5752,7 @@ distclean-compile:
- @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach.Po@am__quote@
- @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_ath3k.Po@am__quote@
- @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_bcm43xx.Po@am__quote@
-+@AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_rtk.Po@am__quote@
- @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_intel.Po@am__quote@
- @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_qualcomm.Po@am__quote@
- @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_st.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach.Po@am__quote@ # am--include-marker
+ @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_ath3k.Po@am__quote@ # am--include-marker
+ @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_bcm43xx.Po@am__quote@ # am--include-marker
++@AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_rtk.Po@am__quote@ # am--include-marker
+ @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_intel.Po@am__quote@ # am--include-marker
+ @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_qualcomm.Po@am__quote@ # am--include-marker
+ @AMDEP_TRUE@@am__include@ @am__quote@tools/$(DEPDIR)/hciattach_st.Po@am__quote@ # am--include-marker
 diff --git a/Makefile.tools b/Makefile.tools
 index 9106c1a..5632a24 100644
 --- a/Makefile.tools
