@@ -19,7 +19,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
 
 SRCBRANCH ?= "release/${PV}/master"
 GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
-UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.(?!90)\d+)*)"
+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
 
 SRCREV_glibc ?= "db0242e3023436757bbc7c488a779e6e3343db04"
 SRCREV_localedef ?= "29869b6dc11427c5bab839bdb155c85a7c644c71"
@@ -37,9 +37,6 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
            file://0001-Include-locale_t.h-compatibility-header.patch \
            file://archive-path.patch \
-           file://0026-fix__locale_t-redefinition-on-newer-host-glibc.patch \
-           file://add-cross-localedef-hardlink.patch \
-           file://allow-compile-separate-from-util-linux-hardlink.patch \
 "
 # Makes for a rather long rev (22 characters), but...
 #
@@ -53,5 +50,4 @@ CFLAGS += "-fgnu89-inline -std=gnu99 -DIS_IN\(x\)='0'"
 do_install() {
 	install -d ${D}${bindir}
 	install -m 0755 ${B}/localedef ${D}${bindir}/cross-localedef
-	install -m 0755 ${B}/cross-localedef-hardlink ${D}${bindir}/cross-localedef-hardlink
 }
