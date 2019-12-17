@@ -6,8 +6,6 @@ DEPENDS = "readline virtual/libiconv zlib popt attr"
 
 inherit autotools-brokensep update-rc.d
 
-COMPATIBLE_MACHINE = "^(spark|spark7162)$"
-
 SAMBA_MIRROR = "http://samba.org/samba/ftp"
 
 MIRRORS += "\ 
