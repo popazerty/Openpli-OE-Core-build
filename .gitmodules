@@ -10,12 +10,3 @@
 	path = bitbake
 	url = https://github.com/openembedded/bitbake.git
 	branch = master-next
-[submodule "meta-formuler"]
-	path = meta-formuler
-	url = https://github.com/formuler/meta-formuler.git
-[submodule "meta-gigablue"]
-	path = meta-gigablue
-	url = https://github.com/GigaBlue-STB/meta-gigablue
-[submodule "meta-edision"]
-	path = meta-edision
-	url = https://github.com/edision-open/meta-edision.git
