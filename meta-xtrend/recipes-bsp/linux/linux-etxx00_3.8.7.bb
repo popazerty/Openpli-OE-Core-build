@@ -11,7 +11,7 @@ SRC_URI[sha256sum] = "afc3e654b779f4b994a0d455d6ad12f46ff0dbec2fe222a4f55925744b
 
 LIC_FILES_CHKSUM = "file://${WORKDIR}/linux-${PV}/COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
-MACHINE_KERNEL_PR_append = ".13"
+MACHINE_KERNEL_PR_append = ".1"
 
 # By default, kernel.bbclass modifies package names to allow multiple kernels
 # to be installed in parallel. We revert this change and rprovide the versioned
@@ -24,8 +24,6 @@ RPROVIDES_kernel-image = "kernel-image-${KERNEL_VERSION}"
 SRC_URI += "http://source.mynonpublic.com/xtrend/xtrend-linux-${PV}.tar.gz \
 	file://defconfig \
 	file://0001-kernel-add-support-for-gcc-5.patch \
-	file://kernel-gcc6.patch \
-	file://kernel-gcc7.patch \
 	file://0001-Revert-default-authentication-needs-to-be-at-least-n.patch \
 	file://0001-Revert-MIPS-mm-Add-compound-tail-page-_mapcount-when.patch \
 	file://0001-Revert-MIPS-Add-fast-get_user_pages.patch \
@@ -56,14 +54,22 @@ SRC_URI += "http://source.mynonpublic.com/xtrend/xtrend-linux-${PV}.tar.gz \
 	file://rtl8187se-fix-warnings.patch \
 	file://em28xx-dvb-enable-LNA-by-default-for-PCTV290e.patch \
 	file://zl10353-output-full-range-SNR.patch \
+        file://kernel-add-support-for-gcc6.patch \
+        file://kernel-add-support-for-gcc7.patch \
+        file://kernel-add-support-for-gcc8.patch \
+        file://kernel-add-support-for-gcc9.patch \
 	file://stv0900-Multistream-support.patch \
 	file://0001-STV-Add-PLS-support.patch \
 	file://0001-STV-Add-SNR-Signal-report-parameters.patch \
 	file://0001-stv090x-optimized-TS-sync-control.patch \
 	file://2-2-stv090x-on-tuning-lock-return-correct-tuned-paramaters-like-freq-sr-fec-rolloff-etc.patch \
 	file://0001-Support-TBS-USB-drivers.patch \
-	file://0002-mips-kernel-fpu-gcc7.patch \
-	file://0003-mips-kernel-ilog2-gcc7.patch \
+        file://genksyms_fix_typeof_handling.patch \
+        file://0002-cp1emu-do-not-use-bools-for-arithmetic.patch \
+        file://0003-log2-give-up-on-gcc-constant-optimizations.patch \
+        file://add-attributes-fix-modules-compile.patch \
+        file://makefile-silence-warnings.patch \
+        file://move-default-dialect-to-SMB2.patch \
 	"
 
 inherit kernel machine_kernel_pr
@@ -79,9 +85,9 @@ KERNEL_IMAGEDEST = "tmp"
 FILES_kernel-image = "${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}*"
 
 kernel_do_install_append() {
-    ${STRIP} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
-    gzip -9c ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} > ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}.gz
-    rm ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
+	${STRIP} ${D}${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
+	gzip -9c ${D}${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} > ${D}${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}.gz
+	rm ${D}${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
 }
 
 pkg_postinst_kernel-image () {

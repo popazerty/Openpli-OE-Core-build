@@ -11,9 +11,12 @@ SRC_URI = " \
 	file://wsdd.c \
 	"
 
-PV = "1.08"
+PR = "r1"
+PV = "1.0"
 
 S = "${WORKDIR}"
+
+TARGET_CC_ARCH += "${LDFLAGS}"
 
 do_compile() {
     make -f Makefile

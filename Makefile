@@ -51,10 +51,7 @@ BBLAYERS ?= \
 	$(CURDIR)/openembedded-core/meta \
 	$(CURDIR)/meta-openpli \
 	$(CURDIR)/meta-xtrend \
-	$(CURDIR)/meta-formuler \
         $(CURDIR)/meta-fulan \
-	$(CURDIR)/meta-edision \
-	$(CURDIR)/meta-gigablue \
 	$(CURDIR)/meta-local \
 
 CONFFILES = \
