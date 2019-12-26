@@ -8,6 +8,7 @@ KERNEL_WIFI_DRIVERS += "\
 	firmware-rt73 \
 	firmware-rtl8712u \
 	firmware-zd1211 \
+	\
 	kernel-module-ath9k-htc \
 	kernel-module-carl9170 \
 	kernel-module-r8712u \
@@ -15,6 +16,7 @@ KERNEL_WIFI_DRIVERS += "\
 	kernel-module-rt2800usb \
 	kernel-module-rt73usb \
 	kernel-module-rtl8187 \
+	kernel-module-rtl8192cu \
 	kernel-module-zd1211rw \
 	"
 
@@ -28,12 +30,9 @@ EXTRA_KERNEL_WIFI_DRIVERS += "\
 
 EXTERNAL_WIFI_DRIVERS += "\
 	firmware-rtl8192cu \
-	firmware-rtl8188eu \
 	firmware-rtl8192eu \
 	\
 	rtl8192cu \
-	rtl8188eu \
-	rtl8192eu \
 	"
 
 ENIGMA2_PLUGINS += "\
@@ -47,6 +46,7 @@ ENIGMA2_PLUGINS += "\
 	enigma2-plugin-extensions-openwebif \
 	enigma2-plugin-extensions-pictureplayer \
 	enigma2-plugin-extensions-ppanel \
+	\
 	enigma2-plugin-systemplugins-fastscan \
 	enigma2-plugin-systemplugins-hotplug \
 	enigma2-plugin-systemplugins-networkbrowser \
@@ -106,6 +106,7 @@ IMAGE_INSTALL += "\
 	nfs-utils \
 	${ENIGMA2_PLUGINS} \
 	\
+	${@bb.utils.contains("MACHINE_FEATURES", "chromium", "enigma2-plugin-extensions-chromium", "", d)} \
 	${@bb.utils.contains("MACHINE_FEATURES", "transcoding", "enigma2-plugin-systemplugins-transcodingsetup", "", d)} \
 	${@bb.utils.contains("MACHINE_FEATURES", "streamproxy", "streamproxy", "", d)} \
 	${@bb.utils.contains('MACHINE_FEATURES', 'ctrlrc', "enigma2-plugin-systemplugins-remotecontrolcode", "", d)} \
