@@ -22,5 +22,5 @@ PACKAGES = "${PN}"
 do_install() {
 	install -d ${D}/usr/lib/enigma2/python/Plugins/Extensions/DLNABrowser
 	install -m 0644 ${S}/lib/python/Plugins/Extensions/DLNABrowser/*.py ${D}/usr/lib/enigma2/python/Plugins/Extensions/DLNABrowser
-	python -O -m compileall ${D}/usr/lib/enigma2/python/Plugins/
+	python2 -O -m compileall ${D}/usr/lib/enigma2/python/Plugins/
 }
