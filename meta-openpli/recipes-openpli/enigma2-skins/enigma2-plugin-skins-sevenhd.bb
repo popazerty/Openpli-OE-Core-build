@@ -1,9 +1,8 @@
-SUMMARY = "Seven skin for Enigma2 (HD, FHD, UHD)"
+SUMMARY = "Skin for Enigma2 (HD, FHD, UHD)"
 MAINTAINER = "Team Kraven"
 SECTION = "misc"
 PRIORITY = "optional"
 LICENSE = "CLOSED"
-
 RDEPENDS_${PN} += "python-requests python-subprocess python-imaging enigma2-plugin-systemplugins-mphelp python-lxml"
 
 inherit gitpkgv allarch
@@ -27,9 +26,9 @@ do_install() {
 do_postrm_append() {
 #!/bin/sh
 rm -rf /usr/share/enigma2/SevenHD
-rm -rf ${libdir}/enigma2/python/Plugins/Extensions/SevenHD
-rm -rf ${libdir}/enigma2/python/Components/Converter/SevenHD*
-rm -rf ${libdir}/enigma2/python/Components/Renderer/SevenHD*
+rm -rf /usr/lib/enigma2/python/Plugins/Extensions/SevenHD
+rm -rf /usr/lib/enigma2/python/Components/Converter/SevenHD*
+rm -rf /usr/lib/enigma2/python/Components/Renderer/SevenHD*
 echo "                                                          "
 echo "              ...Skin successful removed.                 "
 echo "                                                          "

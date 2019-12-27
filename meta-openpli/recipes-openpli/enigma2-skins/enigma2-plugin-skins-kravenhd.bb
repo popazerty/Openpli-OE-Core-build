@@ -1,4 +1,4 @@
-SUMMARY = "Kraven HD skin for Enigma2"
+SUMMARY = "Skin for Enigma2"
 MAINTAINER = "Team Kraven"
 SECTION = "misc"
 PRIORITY = "optional"
