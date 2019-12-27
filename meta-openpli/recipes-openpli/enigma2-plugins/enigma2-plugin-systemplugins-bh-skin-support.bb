@@ -16,7 +16,7 @@ FILES_${PN} = "/usr/"
 S = "${WORKDIR}/git"
 
 do_compile() {
-	python -O -m compileall ${S}/
+	python2 -O -m compileall ${S}/
 }
 
 do_install() {
