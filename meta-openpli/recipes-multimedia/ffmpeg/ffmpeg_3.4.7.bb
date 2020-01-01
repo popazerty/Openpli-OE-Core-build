@@ -27,8 +27,6 @@ SRCREV = "289a79d545e83a97f5cdd00b28ce70638dae53e8"
 SRC_URI = "git://github.com/FFmpeg/FFmpeg.git;branch=release/3.4 \
            file://mips64_cpu_detection.patch \
            "
-SRC_URI[md5sum] = "cbf4ead227fcedddf54c86013705a988"
-SRC_URI[sha256sum] = "2b92e9578ef8b3e49eeab229e69305f5f4cbc1fdaa22e927fc7fca18acccd740"
 
 # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
 ARM_INSTRUCTION_SET_armv4 = "arm"
