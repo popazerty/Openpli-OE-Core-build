@@ -9,3 +9,14 @@
  
  AC_CONFIG_SRCDIR(djmount/djfs.c)
  
+--- 0.71-r0/configure.ac
++++ 0.71-r0/configure_neu.ac
+@@ -191,7 +191,6 @@
+ 	# Checks for function in C library or libiconv 
+ 	# (AM macros from "gettext" package)
+ 	AM_ICONV
+-	AM_LANGINFO_CODESET
+ 	# TBD print warning if no setlocale or nl_langinfo(CODESET) implemented
+ fi
+ AM_CONDITIONAL(WANT_ICONV, 
+
