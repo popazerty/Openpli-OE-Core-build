@@ -1,6 +1,5 @@
 SUMMARY = "E2i Player for E2"
 DESCRIPTION = "E2i Player for E2"
-HOMEPAGE = "http://www.iptvplayer.gitlab.io/"
 SECTION = "multimedia"
 LICENSE = "PD"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
@@ -33,6 +32,7 @@ RDEPENDS_${PN} = " \
         wget \
         hlsdl \
         cmdwrap \
+        lsdir \
         f4mdump \
         iptvsubparser \
         rtmpdump \
@@ -52,3 +52,10 @@ FILES_${PN}-src = " \
 	"
 
 deltask package_qa
+
+FILES_${PN} += "${sysconfdir}"
+
+do_install_append() {
+    install -d ${D}${sysconfdir}
+    cp -r  --preserve=mode,links ${S}/vk ${D}${sysconfdir}/vk
+}
