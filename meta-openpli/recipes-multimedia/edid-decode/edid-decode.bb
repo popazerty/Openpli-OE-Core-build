@@ -13,3 +13,5 @@ SRC_URI = "git://linuxtv.org/edid-decode.git;protocol=git"
 S = "${WORKDIR}/git"
 
 inherit autotools-brokensep pkgconfig
+
+CFLAGS_sh4 += "-std=c++11"
