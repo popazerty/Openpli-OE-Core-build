@@ -172,6 +172,7 @@ ENIGMA2_OPTIONAL = " \
 	enigma2-plugin-skins-sevenhd \
 	enigma2-plugin-skins-simple-gray-hd \
 	enigma2-plugin-skins-pd1loi-hd-night \
+	enigma2-plugin-skins-glamouraurafhd \
 	enigma2-plugins \
 	enigma2-skins \
 	softcams-enigma2-meta \
