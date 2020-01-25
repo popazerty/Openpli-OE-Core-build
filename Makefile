@@ -48,6 +48,7 @@ BBLAYERS ?= \
 	$(CURDIR)/meta-openembedded/meta-multimedia \
 	$(CURDIR)/meta-openembedded/meta-networking \
 	$(CURDIR)/meta-openembedded/meta-python \
+	$(CURDIR)/meta-python2 \
 	$(CURDIR)/openembedded-core/meta \
 	$(CURDIR)/meta-openpli \
 	$(CURDIR)/meta-xtrend \
