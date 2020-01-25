@@ -3,15 +3,14 @@ HOMEPAGE = "http://gstreamer.freedesktop.org/"
 BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
 SECTION = "multimedia"
 
-require gst-plugins-package.inc
+require gstreamer1.0-common.inc
+require gstreamer1.0-plugins-packaging.inc
 
-DEPENDS_append = " gstreamer1.0 glib-2.0-native"
+DEPENDS = "gstreamer1.0 glib-2.0-native"
 
 SRC_URI_append = " file://0001-meson-build-optimization.patch"
 
 inherit pkgconfig
-
-LIBV = "1.0"
 
 # Orc enables runtime JIT compilation of data processing routines from Orc
 # bytecode to SIMD instructions for various architectures (currently SSE, MMX,
