@@ -40,6 +40,7 @@ RRECOMMENDS_${PN} = " \
 
 PYTHON_RDEPS = " \
 	python-numbers \
+    python-mmap \
 	python-codecs \
 	python-core \
 	python-crypt \
@@ -57,9 +58,9 @@ PYTHON_RDEPS = " \
 	python-xml \
 	python-zlib \
 	python-zopeinterface \
-        python-pyusb \
-        python-image \
-        python-imaging \
+    python-pyusb \
+    python-image \
+    python-imaging \
 	python-process \
 	python-pyusb \
 	"
