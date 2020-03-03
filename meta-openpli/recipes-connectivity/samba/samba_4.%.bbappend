@@ -7,27 +7,17 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 PACKAGECONFIG_remove = "acl cups"
 
 EXTRA_OECONF += " \
-                 --without-cluster-support \
-                 --without-profiling-data \
-                 --with-sockets-dir=${localstatedir}/run \
-                 --with-logfilebase=${localstatedir}/log/samba \
-                 --with-pam \
-                 --with-pam_smbpass \
-                 --nopyc \
-                 --disable-iprint \
-                 --without-ad-dc \
-                 --without-dnsupdate \
-                 --without-quotas \
-                 --without-winbind \
-                 --without-syslog \
-                 --disable-python \
-                "
-
-EXTRA_OECONF_remove = " \
-                       --with-cluster-support \
-                       --with-profiling-data \
-                       --with-sockets-dir=/run/samba \
-                      "
+			--with-ads \
+			--with-sockets-dir=${localstatedir}/run \
+			--with-logfilebase=${localstatedir}/log/samba \
+			--without-dnsupdate \
+			--without-profiling-data \
+			--without-quotas \
+			--without-syslog \
+			--without-winbind \
+			--disable-iprint \
+			--nopyc \
+			"
 
 SRC_URI += " \
 			file://smb.conf \
