@@ -1,3 +1,5 @@
+diff --git a/gst/gstbuffer.c b/gst/gstbuffer.c
+index 1e79acfd5..0d102faeb 100644
 --- a/gst/gstbuffer.c
 +++ b/gst/gstbuffer.c
 @@ -181,7 +181,7 @@ gst_atomic_int64_inc (volatile gint64 * atomic)
