@@ -106,6 +106,7 @@ EXTRA_OECONF = " \
     --extra-cflags="${CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}" \
     --extra-ldflags="${LDFLAGS}" \
     --sysroot="${STAGING_DIR_TARGET}" \
+    --enable-hardcoded-tables \
     ${EXTRA_FFCONF} \
     --libdir=${libdir} \
     --shlibdir=${libdir} \
