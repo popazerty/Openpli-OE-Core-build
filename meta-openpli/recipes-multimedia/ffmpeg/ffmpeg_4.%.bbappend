@@ -11,16 +11,17 @@ PACKAGECONFIG[libfreetype] = "--enable-libfreetype,--disable-libfreetype,freetyp
 PACKAGECONFIG[librtmp] = "--enable-librtmp,--disable-librtmp,librtmp rtmpdump"
 PACKAGECONFIG[openjpeg] = "--enable-libopenjpeg,--disable-libopenjpeg,openjpeg"
 PACKAGECONFIG[wavpack] = "--enable-libwavpack,--disable-libwavpack,wavpack"
-PACKAGECONFIG[x265] = "--enable-libx265,--disable-libx265,x265"
 
 MIPSFPU = "${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-mipsfpu', '--enable-mipsfpu', d)}"
 
 SRC_URI_append += " \
-    file://4_02_fix_mpegts.patch \
+	file://4_02_fix_mpegts.patch \
 	file://4_03_allow_to_choose_rtmp_impl_at_runtime.patch \
 	file://4_04_hls_replace_key_uri.patch \
+	file://4_05_fix-hls.patch \
 	file://4_07_increase_buffer_size.patch \
 	file://4_09_ffmpeg_fix_edit_list_parsing.patch \
+	file://4_10_rtsp_patch \
         file://4_A00-amf-h264-loop.patch \
         file://4_A02-corrupt-h264-frames.patch \
         file://4_A05-mov-read-name-track-tag-written-by-movenc.patch \
@@ -68,11 +69,14 @@ EXTRA_FFCONF = " \
     --enable-outdevs \
     --enable-filters \
     --disable-doc \
+    --enable-libfdk-aac \
+    --enable-encoder=libfdk_aac \
     --disable-htmlpages \
     --disable-manpages \
     --disable-podpages \
     --disable-txtpages \
     --disable-debug \
+    --enable-zlib \
     ${@bb.utils.contains("TARGET_ARCH", "mipsel", "${MIPSFPU} --disable-vfp --disable-neon --disable-mipsdsp --disable-mipsdspr2", "", d)} \
     ${@bb.utils.contains("TARGET_ARCH", "arm", "--enable-armv6 --enable-armv6t2 --enable-vfp --enable-neon", "", d)} \
     ${@bb.utils.contains("TUNE_FEATURES", "aarch64", "--enable-armv8 --enable-vfp --enable-neon", "", d)} \
