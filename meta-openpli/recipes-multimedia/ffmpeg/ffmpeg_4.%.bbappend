@@ -22,6 +22,7 @@ SRC_URI_append += " \
 	file://4_07_increase_buffer_size.patch \
 	file://4_09_ffmpeg_fix_edit_list_parsing.patch \
 	file://4_10_rtsp_patch \
+	file://4_11_dxva2_patch \
         file://4_A00-amf-h264-loop.patch \
         file://4_A02-corrupt-h264-frames.patch \
         file://4_A05-mov-read-name-track-tag-written-by-movenc.patch \
