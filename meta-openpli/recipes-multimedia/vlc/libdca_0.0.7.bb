@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 
 inherit autotools
 
-SRC_URI = "http://download.videolan.org/pub/videolan/libdca/${PV}/libdca-${PV}.tar.bz2"
-
+SRC_URI = "http://download.videolan.org/pub/videolan/libdca/${PV}/libdca-${PV}.tar.bz2 \
+        file://fix-libdts-link-path.patch"
 S = "${WORKDIR}/libdca-${PV}"
 
 SRC_URI[md5sum] = "eb65623c2b9b4417aada8013760b090a"
