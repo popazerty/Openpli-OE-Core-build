@@ -27,3 +27,5 @@ do_install_append() {
 	install -d ${D}${sysconfdir}/init.d
 	install -m 0755 ${WORKDIR}/zerotier ${D}${sysconfdir}/init.d/zerotier
 }
+
+INSANE_SKIP_${PN} = "already-stripped"
