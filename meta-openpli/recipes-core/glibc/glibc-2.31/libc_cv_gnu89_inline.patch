@@ -1,0 +1,11 @@
+--- a/Makeconfig
++++ b/Makeconfig
+@@ -672,7 +672,7 @@
+ CPPFLAGS += -DTOP_NAMESPACE=glibc
+ endif
+ 
+-override CFLAGS	= -std=gnu11 -fgnu89-inline $(config-extra-cflags) \
++override CFLAGS	= -std=gnu99 $(gnu89-inline-CFLAGS) \
+ 		  $(filter-out %frame-pointer,$(+cflags)) $(+gccwarn-c) \
+ 		  $(+extra-math-flags) \
+ 		  $(sysdep-CFLAGS) $(CFLAGS-$(suffix $@)) $(CFLAGS-$(<F)) \
