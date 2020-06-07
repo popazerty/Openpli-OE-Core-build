@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-EXTRA_OECONF += "--with-confdir=${sysconfdir}/default"
+EXTRA_OECONF += "--with-confdir=/etc/default"
 
 SRC_URI += " file://99_autofs"
 
