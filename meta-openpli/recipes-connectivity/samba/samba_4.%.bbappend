@@ -73,7 +73,7 @@ do_configure_prepend() {
 }
 
 do_install_append() {
-	rm -fR ${D}${localstatedir}
+	rm -fR ${D}/var
 	rm -fR ${D}/run
 	rm -fR ${D}${sysconfdir}/tmpfiles.d
 	rm -fR ${D}${sysconfdir}/sysconfig

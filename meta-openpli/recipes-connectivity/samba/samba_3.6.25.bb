@@ -13,6 +13,8 @@ ${SAMBA_MIRROR}    http://mirror.internode.on.net/pub/samba \n \
 ${SAMBA_MIRROR}    http://www.mirrorservice.org/sites/ftp.samba.org \n \
 "
 
+RDEPENDS_${PN} += "kernel-module-cifs"
+
 SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://011-patch-cve-2015-5296.patch;patchdir=.. \
            file://012-patch-cve-2015-5299.patch;patchdir=.. \
