@@ -14,7 +14,6 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
 # Depend on the image, so that it gets build
 DEPENDS = "openpli-enigma2-image"
 
-OPTIONAL_PACKAGES_BROKEN = "samba"
 OPTIONAL_PACKAGES ?= ""
 OPTIONAL_BSP_PACKAGES ?= ""
 OPTIONAL_PACKAGES += " \
@@ -70,6 +69,7 @@ OPTIONAL_PACKAGES += " \
 	openssh \
 	openvpn \
 	openmultiboot \
+	p7zip \
 	parted \
 	procps \
 	pyload \
@@ -121,7 +121,6 @@ OPTIONAL_PACKAGES += " \
 	yafc \
 	zeroconf \
 	zerotier \
-	unrar \
 	zip \
 	zsh \
 	${OPTIONAL_BSP_PACKAGES} \
