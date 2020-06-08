@@ -121,7 +121,7 @@
 +		return server.NOT_DONE_YET
 +
 +	def grabData(self, data):
-+		print "[W] grab:", data,
++		print("[W] grab:", data),
  
 -	def grabFinished(self, retval=None):
 +	def grabFinished(self, retval = None):
@@ -145,7 +145,7 @@
 +		try:
 +			os.unlink(self.filepath)
 +		except:
-+			print "Failed to remove:", self.filepath
++			print("Failed to remove:", self.filepath)
  		try:
  			self.request.finish()
  		except RuntimeError as error:

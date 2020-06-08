@@ -11,7 +11,6 @@ DEPENDS = " \
 	enigma2-plugin-extensions-autobackup \
 	enigma2-plugin-extensions-autobouquets \
 	enigma2-plugin-extensions-bitrate \
-	enigma2-plugin-extensions-buienradar \
 	enigma2-plugin-extensions-changerootpassword \
 	enigma2-plugin-extensions-filecommander \
 	enigma2-plugin-extensions-foreca \
@@ -21,7 +20,7 @@ DEPENDS = " \
 	enigma2-plugin-extensions-newsreader \
 	enigma2-plugin-extensions-nfsserver \
 	enigma2-plugin-extensions-oggisport \
-	enigma2-plugin-extensions-openwebif-extras \
+	enigma2-plugin-extensions-openwebif \
 	enigma2-plugin-extensions-oroscopoitalia \
 	enigma2-plugin-extensions-permanentvfdclock \
 	enigma2-plugin-extensions-ppanel \
