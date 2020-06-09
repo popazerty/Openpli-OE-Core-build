@@ -30,8 +30,8 @@ PROVIDES += "\
 
 inherit gitpkgv pythonnative pkgconfig gettext
 
-PV = "y-git${SRCPV}"
-PKGV = "y-git${GITPKGV}"
+PV = "z-git${SRCPV}"
+PKGV = "z-git${GITPKGV}"
 
 GITHUB_URI ?= "git://github.com"
 SRC_URI = "${GITHUB_URI}/OpenPLi/${BPN}.git"
@@ -125,9 +125,9 @@ python populate_packages_prepend () {
 
 do_install_append() {
 	# remove unused .pyc files
-	find ${D}/usr/lib/enigma2/python/ -name '*.pyc' -exec rm {} \;
+	find ${D}${libdir}/enigma2/python/ -name '*.pyc' -exec rm {} \;
 	# remove leftover webinterface garbage
-	rm -rf ${D}/usr/lib/enigma2/python/Plugins/Extensions/WebInterface
+	rm -rf ${D}${libdir}/enigma2/python/Plugins/Extensions/WebInterface
 }
 
 python populate_packages_prepend() {

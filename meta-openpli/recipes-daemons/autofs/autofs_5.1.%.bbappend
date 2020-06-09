@@ -19,8 +19,8 @@ do_install_append() {
 
 pkg_postinst_${PN} () {
         if [ -z "$D" ]; then
-                if [ -e /etc/init.d/populate-volatile.sh ]; then
-                        /etc/init.d/populate-volatile.sh update
+                if [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
+                        ${sysconfdir}/init.d/populate-volatile.sh update
                 fi
         fi
 }

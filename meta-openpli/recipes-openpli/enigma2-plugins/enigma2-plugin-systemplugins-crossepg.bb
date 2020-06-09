@@ -3,8 +3,8 @@ HOMEPAGE = "https://github.com/oe-alliance/e2openplugin-CrossEPG"
 LICENSE = "LGPLv2.1"
 LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=4fbd65380cdd255951079008b364516c"
 
-DEPENDS += "libxml2 zlib python swig-native curl python"
-RDEPENDS_${PN} += "libcurl enigma2 python-compression python-lzma xz"
+DEPENDS += "libxml2 zlib swig-native curl python"
+RDEPENDS_${PN} += "libcurl python-compression python-lzma xz python-core"
 
 inherit gitpkgv
 
@@ -14,7 +14,7 @@ SRC_URI_append = " file://add-dummy-boxbranding.patch"
 PV = "0.8.6+gitr${SRCPV}"
 PKGV = "0.8.6+gitr${GITPKGV}"
 
-inherit python-dir
+inherit python-dir pythonnative
 
 ALLOW_EMPTY_${PN} = "1"
 
@@ -31,6 +31,7 @@ do_compile() {
 }
 
 do_install() {
+	find . -name __pycache__ -exec rm -rf '{}' ';'
     oe_runmake 'D=${D}' install
 }
 
