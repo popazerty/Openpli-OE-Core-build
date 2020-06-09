@@ -16,9 +16,9 @@ DEPENDS = " \
 	tuxtxt-enigma2 \
 	"
 
-# SoftcamSetup is integrated now
-RREPLACES_${PN} = "enigma2-plugin-pli-softcamsetup"
-RCONFLICTS_${PN} = "enigma2-plugin-pli-softcamsetup"
+# SoftcamSetup and SkinSelector is integrated now
+RREPLACES_${PN} = "enigma2-plugin-pli-softcamsetup enigma2-plugin-systemplugins-skinselector"
+RCONFLICTS_${PN} = "enigma2-plugin-pli-softcamsetup enigma2-plugin-systemplugins-skinselector"
 
 RDEPENDS_${PN} = " \
 	alsa-conf \
@@ -45,6 +45,7 @@ PYTHON_RDEPS = " \
 	python-crypt \
 	python-fcntl \
 	python-lang \
+	python-logging \
 	python-mmap \
 	python-netclient \
 	python-netifaces \
@@ -183,7 +184,7 @@ FILES_${PN}-src = "\
 	"
 
 do_install_append() {
-	install -d ${D}/usr/share/keymaps
+	install -d ${D}${datadir}/keymaps
 	find ${D}${libdir}/enigma2/python/ -name '*.pyc' -exec rm {} \;
 }
 

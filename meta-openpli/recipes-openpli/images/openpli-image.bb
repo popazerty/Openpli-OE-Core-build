@@ -24,7 +24,6 @@ IMAGE_INSTALL = "\
 	modutils-loadscript \
 	nfs-utils-client \
 	openpli-bootlogo \
-	openssh-sftp \
 	openssh-sftp-server \
 	opkg \
 	packagegroup-base \
@@ -37,7 +36,6 @@ IMAGE_INSTALL = "\
 	samba-base \
 	sdparm \
 	tuxbox-common \
-	util-linux-ionice \
 	tzdata \
 	volatile-media \
 	vsftpd \

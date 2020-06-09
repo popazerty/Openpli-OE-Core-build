@@ -83,13 +83,16 @@ OPTIONAL_PACKAGES += " \
 	python-pyexecjs \
 	python-beautifulsoup4 \
 	python-futures \
+	python-pycrypto \
 	python-singledispatch \
 	python-websocket \
 	python-isodate \
 	python-iso3166 \
 	python-iso639 \
+	python-youtube-dl \
 	picocom \
 	ppp \
+	rclone \
 	rsync \
 	rtorrent \
 	rtl8723a \
@@ -141,6 +144,7 @@ ENIGMA2_OPTIONAL = " \
 	enigma2-plugin-extensions-fontinfo \
 	enigma2-plugin-extensions-e2iplayer \
 	enigma2-plugin-extensions-e2iplayer-deps \
+	enigma2-plugin-extensions-youtube \
 	enigma2-plugin-extensions-openmultiboot \
 	enigma2-plugin-extensions-modifyplifullhd \
 	enigma2-plugin-extensions-refreshbouquet \
@@ -162,7 +166,6 @@ ENIGMA2_OPTIONAL = " \
 	enigma2-plugin-extensions-lcd4linux \
 	enigma2-plugin-extensions-tmbd \
 	enigma2-plugin-extensions-xmodem \
-	enigma2-plugin-extensions-youtube \
 	enigma2-plugin-extensions-youtube-dl \
 	enigma2-plugin-extensions-vcs \
 	enigma2-plugin-security-firewall \

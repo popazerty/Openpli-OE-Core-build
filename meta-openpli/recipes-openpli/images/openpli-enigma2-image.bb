@@ -93,15 +93,11 @@ IMAGE_INSTALL += "\
 	libcrypto-compat \
 	settings-autorestore \
 	tuxbox-common \
-	tuxbox-links \
 	ofgwrite \
 	wget \
 	samba-base \
 	curl \
-	fuse-exfat \
 	ntp \
-	ntfs-3g \
-	openssh-sftp-server \
 	nfs-utils \
 	${ENIGMA2_PLUGINS} \
 	\
