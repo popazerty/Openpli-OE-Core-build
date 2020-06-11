@@ -51,7 +51,7 @@ CONFIG_PLATFORM_LINUX=y
 CONFIG_LFS=y
 CONFIG_CROSS_COMPILER_PREFIX=""
 CONFIG_SYSROOT=""
-CONFIG_EXTRA_CFLAGS=" -Os -pipe -g -feliminate-unused-debug-types"
+CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types"
 CONFIG_EXTRA_LDFLAGS=""
 CONFIG_EXTRA_LDLIBS=""
 # CONFIG_USE_PORTABLE_CODE is not set
