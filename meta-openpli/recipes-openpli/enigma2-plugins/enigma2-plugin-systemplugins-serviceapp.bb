@@ -15,6 +15,9 @@ S = "${WORKDIR}/git"
 
 inherit autotools gitpkgv pythonnative pkgconfig gettext
 
+CXXFLAGS_append += " -std=c++11"
+CXXFLAGS_append_sh4 += " -fPIC -fno-strict-aliasing "
+
 PV = "1+git${SRCPV}"
 PKGV = "1+git${GITPKGV}"
 
