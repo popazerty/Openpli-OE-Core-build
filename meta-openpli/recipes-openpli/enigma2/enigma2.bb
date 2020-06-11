@@ -65,7 +65,6 @@ PYTHON_RDEPS = " \
 	python-image \
 	python-imaging \
 	python-process \
-	python-pyusb \
 	"
 
 # DVD and iso playback is integrated, we need the libraries
@@ -165,7 +164,8 @@ FILES_${PN}-dbg += "\
 
 # Swig generated 200k enigma.py file has no purpose for end users
 # Save some space by not installing sources (mytest.py must remain)
-FILES_${PN}-src = "\
+FILES_${PN}-src += "\
+	${libdir}/enigma2/python/enigma.py \
 	${libdir}/enigma2/python/GlobalActions.py \
 	${libdir}/enigma2/python/Navigation.py \
 	${libdir}/enigma2/python/NavigationInstance.py \

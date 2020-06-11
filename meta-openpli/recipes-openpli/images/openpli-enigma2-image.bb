@@ -93,12 +93,14 @@ IMAGE_INSTALL += "\
 	libcrypto-compat \
 	settings-autorestore \
 	tuxbox-common \
+	tuxbox-links \
 	ofgwrite \
+	htop \
 	wget \
-	samba-base \
+	ntfs-3g \
+	openssh-sftp-server \
 	curl \
 	ntp \
-	nfs-utils \
 	${ENIGMA2_PLUGINS} \
 	\
 	${@bb.utils.contains("MACHINE_FEATURES", "chromium", "enigma2-plugin-extensions-chromium", "", d)} \
