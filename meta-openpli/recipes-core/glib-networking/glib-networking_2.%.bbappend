@@ -1,6 +1,4 @@
-DEPENDS += "gnutls"
-RDEPENDS_${PN} += "glib-openssl"
+# Just a comment line to avoid PAK archive (application/x-pak)
+PACKAGECONFIG = "openssl"
 
-CFLAGS_append_sh4 += "-std=gnu11"
-
-ALLOW_EMPTY_${PN} = "1"
+CFLAGS_append_sh4 += "-std=gnu99"
