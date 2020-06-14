@@ -1,6 +1,6 @@
 --- e2openplugin-OpenWebif/plugin/controllers/models/grab.py	2019-01-17 11:19:09.834754194 +0100
 +++ e2openplugin-OpenWebif.new/plugin/controllers/models/grab.py	2019-01-17 11:18:12.222232844 +0100
-@@ -23,102 +23,93 @@
+@@ -22,101 +22,91 @@
  
  from __future__ import print_function
  from enigma import eConsoleAppContainer
@@ -10,6 +10,8 @@
 +from twisted.web import static, resource, http, server
 +import os
  import time
+ import six
+ from Plugins.Extensions.OpenWebif.controllers.utilities import getUrlArg
  
  GRAB_PATH = '/usr/bin/grab'
  
@@ -29,17 +31,9 @@
 +	def render(self, request):
 +		self.request = request
 +		graboptions = [GRAB_PATH]
- 
--		if "format" in request.args:
--			fileformat = request.args["format"][0]
-+		if "format" in request.args.keys():
-+			self.fileformat = request.args["format"][0]
- 		else:
--			fileformat = "jpg"
--		if fileformat == "jpg":
-+			self.fileformat = "jpg"
-+
-+		if self.fileformat == "jpg":
+ 		
+ 		fileformat = getUrlArg(request, "format", "jpg")
+ 		if fileformat == "jpg":
  			graboptions.append("-j")
  			graboptions.append("95")
 -		elif fileformat == "png":
@@ -50,15 +44,13 @@
 +		elif self.fileformat != "bmp":
 +			self.fileformat = "bmp"
  
--		if "r" in request.args:
-+		if "r" in request.args.keys():
- 			size = request.args["r"][0]
+ 		size = getUrlArg(request, "f")
+ 		if size != None:
  			graboptions.append("-r")
  			graboptions.append("%d" % int(size))
  
--		if "mode" in request.args:
-+		if "mode" in request.args.keys():
- 			mode = request.args["mode"][0]
+ 		mode = getUrlArg(request, "mode")
+ 		if mode != None:
  			if mode == "osd":
  				graboptions.append("-o")
  			elif mode == "video":
