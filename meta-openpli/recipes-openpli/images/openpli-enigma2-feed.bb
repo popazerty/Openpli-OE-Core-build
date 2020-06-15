@@ -184,13 +184,18 @@ OPTIONAL_ENIGMA2_PACKAGES = " \
 	enigma2-plugin-systemplugins-extrafancontrol \
 	enigma2-plugin-systemplugins-radiotimesxmltvemulator \
 	enigma2-plugin-extensions-historyzapselector \
+	enigma2-plugin-extensions-install-exteplayer3 \
+	enigma2-plugin-extensions-install-ffmpeg \
+	enigma2-plugin-extensions-install-gstplayer \
 	enigma2-plugin-extensions-lcd4linux \
 	enigma2-plugin-extensions-tmbd \
 	enigma2-plugin-extensions-xmodem \
+	enigma2-plugin-extensions-youtube-dl \
 	enigma2-plugin-extensions-vcs \
 	enigma2-plugin-security-firewall \
 	enigma2-plugin-skins-pli-hd \
 	enigma2-plugin-skins-pli-hd-fullnight \
+	enigma2-plugin-skins-sevenhd \
 	enigma2-plugin-skins-simple-gray-hd \
 	enigma2-plugin-skins-pd1loi-hd-night \
 	enigma2-plugin-skins-glamouraurafhd \

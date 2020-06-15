@@ -56,6 +56,12 @@ ENIGMA2_PLUGINS = " \
 	${@bb.utils.contains('OPENPLI_FEATURES', 'dvd', 'enigma2-plugin-extensions-cdinfo enigma2-plugin-extensions-dvdplayer', '', d)} \
 	${@bb.utils.contains('OPENPLI_FEATURES', 'fan', 'enigma2-plugin-systemplugins-tempfancontrol', '', d)} \
 	${@bb.utils.contains('OPENPLI_FEATURES', '7seg', 'enigma2-plugin-systemplugins-vfdcontrol', '', d)} \
+	enigma2-plugin-extensions-dlnabrowser \
+	enigma2-plugin-extensions-dlnaserver \
+	enigma2-plugin-extensions-subssupport \
+	enigma2-plugin-extensions-e2iplayer \
+	enigma2-plugin-systemplugins-systemtime \
+	enigma2-plugin-systemplugins-mountmanager \
 	"
 
 DEPENDS += " \
@@ -71,6 +77,8 @@ IMAGE_INSTALL += " \
 	settings-autorestore \
 	tuxbox-common \
 	ofgwrite \
+	htop \
+	wget \
 	${ENIGMA2_PLUGINS} \
 	\
 	${WIFI_DRIVERS} \

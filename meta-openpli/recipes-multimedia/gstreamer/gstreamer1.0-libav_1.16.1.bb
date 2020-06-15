@@ -1,8 +1,28 @@
 SUMMARY = "Libav-based GStreamer 1.x plugin"
 HOMEPAGE = "http://gstreamer.freedesktop.org/"
 SECTION = "multimedia"
+
 LICENSE = "GPLv2+ & LGPLv2+ & ( (GPLv2+ & LGPLv2.1+) | (GPLv3+ & LGPLv3+) )"
 LICENSE_FLAGS = "commercial"
+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                    file://COPYING.LIB;md5=6762ed442b3822387a51c92d928ead0d \
+                    file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c \
+                    file://gst-libs/ext/libav/COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                    file://gst-libs/ext/libav/COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+                    file://gst-libs/ext/libav/COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
+                    file://gst-libs/ext/libav/COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+
+SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz \
+           file://0001-Disable-yasm-for-libav-when-disable-yasm.patch \
+           file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
+           file://mips64_cpu_detection.patch \
+           file://0001-configure-check-for-armv7ve-variant.patch \
+           file://0001-fix-host-contamination.patch \
+           "
+SRC_URI[md5sum] = "58023f4c71bbd711061e350fcd76c09d"
+SRC_URI[sha256sum] = "e8a5748ae9a4a7be9696512182ea9ffa6efe0be9b7976916548e9d4381ca61c4"
+
+S = "${WORKDIR}/gst-libav-${PV}"
 
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base zlib bzip2 xz"
 
@@ -13,38 +33,19 @@ inherit autotools pkgconfig upstream-version-is-even gtk-doc
 # libav copy included in the gst-libav package.
 PACKAGECONFIG ??= "orc yasm"
 
-CFLAGS_append = " -Wno-deprecated-declarations "
- 
 PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl,"
 PACKAGECONFIG[libav] = "--with-system-libav,,libav"
 PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
-PACKAGECONFIG[yasm] = "--enable-yasm,--disable-yasm,yasm-native"
+PACKAGECONFIG[yasm] = "--enable-yasm,--disable-yasm,nasm-native"
 PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind"
 
 GSTREAMER_1_0_DEBUG ?= "--disable-debug"
 
 LIBAV_EXTRA_CONFIGURE = "--with-libav-extra-configure"
 
-MIPSFPU = "${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-mipsfpu', '--enable-mipsfpu', d)}"
-
-LIBAV_INCLUDED_EXLUCED = "--disable-everything \
-			--enable-decoder=wmalossless \
-			--enable-decoder=wmapro \
-			--enable-decoder=wmav1 \
-			--enable-decoder=wmav2 \
-			--enable-decoder=wmavoice \
-			--enable-decoder=truehd \
-			--enable-decoder=dca \
-			--enable-decoder=mlp \
-"
-
 LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
   --cc='${CC}' --as='${CC}' --ld='${CC}' --nm='${NM}' --ar='${AR}' \
   --ranlib='${RANLIB}' \
-  ${@bb.utils.contains("TARGET_ARCH", "mipsel", "${MIPSFPU} --disable-vfp --disable-neon --disable-mipsdsp --disable-mipsdspr2", "", d)} \
-  ${@bb.utils.contains("TARGET_ARCH", "arm", "--enable-armv6 --enable-armv6t2 --enable-vfp --enable-neon", "", d)} \
-  ${@bb.utils.contains("TUNE_FEATURES", "aarch64", "--enable-armv8 --enable-vfp --enable-neon", "", d)} \
-  ${LIBAV_INCLUDED_EXLUCED} \
   ${GSTREAMER_1_0_DEBUG} \
   --cross-prefix='${HOST_PREFIX}'"
 

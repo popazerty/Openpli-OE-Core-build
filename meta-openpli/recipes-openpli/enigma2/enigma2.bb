@@ -38,6 +38,7 @@ RRECOMMENDS_${PN} = " \
 	"
 
 PYTHON_RDEPS = " \
+	python-numbers \
 	python-codecs \
 	python-core \
 	python-crypt \
@@ -52,12 +53,17 @@ PYTHON_RDEPS = " \
 	python-pickle \
 	python-re \
 	python-shell \
+	python-service-identity \
 	python-threading \
 	python-twisted-core \
 	python-twisted-web \
 	python-xml \
 	python-zlib \
 	python-zopeinterface \
+	python-pyusb \
+	python-image \
+	python-imaging \
+	python-process \
 	"
 
 # DVD and iso playback is integrated, we need the libraries
