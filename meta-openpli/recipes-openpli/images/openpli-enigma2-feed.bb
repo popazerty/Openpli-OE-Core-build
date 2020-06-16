@@ -164,6 +164,7 @@ OPTIONAL_ENIGMA2_PACKAGES = " \
 	enigma2-plugin-extensions-blurayplayer \
 	enigma2-plugin-extensions-epgimport \
 	enigma2-plugin-extensions-fontinfo \
+	enigma2-plugin-extensions-e2iplayer \
 	enigma2-plugin-extensions-e2iplayer-deps \
 	enigma2-plugin-extensions-youtube \
 	enigma2-plugin-extensions-openmultiboot \
