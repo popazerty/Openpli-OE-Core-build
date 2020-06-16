@@ -1,4 +1,4 @@
-From b9765efb1696e3e2e79f2955f759be199fe34882 Mon Sep 17 00:00:00 2001
+From 7bcc1bccc916edd3901365ff7ebfb6f9f23a51db Mon Sep 17 00:00:00 2001
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 Date: Mon, 26 Oct 2015 17:29:37 +0200
 Subject: [PATCH] riff: add missing include directories when calling

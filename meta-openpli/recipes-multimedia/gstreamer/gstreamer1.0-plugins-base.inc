@@ -1,29 +1,14 @@
 require gstreamer1.0-plugins.inc
 
+SRC_URI_append = "\
+    file://0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch \
+    file://0003-riff-add-missing-include-directories-when-calling-in.patch \
+    file://0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch \
+"
+
 LICENSE = "GPLv2+ & LGPLv2+"
-LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
-                    file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=a4e1830fce078028c8f0974161272607"
 
-SRC_URI = " \
-            https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-${PV}.tar.xz \
-            file://get-caps-from-src-pad-when-query-caps.patch \
-            file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            file://make-gio_unix_2_0-dependency-configurable.patch \
-            file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-            file://0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch \
-            file://0003-riff-add-missing-include-directories-when-calling-in.patch \
-            file://0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch \
-            file://0005-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0009-glimagesink-Downrank-to-marginal.patch \
-            file://0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch \
-            file://link-with-libvchostif.patch \
-            "
-SRC_URI[md5sum] = "b5eb0651bab70bf1714f103bdd66ce47"
-SRC_URI[sha256sum] = "5c3cc489933d0597087c9bc6ba251c93693d64554bcc563539a084fa2d5fcb2b"
-
-S = "${WORKDIR}/gst-plugins-base-${PV}"
-
-DEPENDS += "iso-codes util-linux"
+DEPENDS += "iso-codes util-linux zlib"
 
 inherit gettext gobject-introspection
 
@@ -35,9 +20,9 @@ PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2 eg
 
 PACKAGECONFIG ??= " \
     ${GSTREAMER_ORC} \
-    ${PACKAGECONFIG_GL} \
     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa x11', d)} \
-    gio-unix-2.0 jpeg ogg pango png theora vorbis zlib \
+    gio-unix-2.0 jpeg ogg pango theora vorbis zlib \
+    opus ivorbis cdparanoia \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland egl', '', d)} \
 "
 
@@ -65,9 +50,16 @@ PACKAGECONFIG[x11]          = "${X11ENABLEOPTS},${X11DISABLEOPTS},${X11DEPENDS}"
 PACKAGECONFIG[wayland]      = "--enable-wayland,--disable-wayland,wayland-native wayland wayland-protocols libdrm"
 PACKAGECONFIG[zlib]         = "--enable-zlib,--disable-zlib,zlib"
 
+EXTRA_OECONF += " \
+    --enable-zlib \
+    --disable-cocoa \
+"
+
+CACHED_CONFIGUREVARS_append_x86 = " ac_cv_header_emmintrin_h=no ac_cv_header_xmmintrin_h=no"
+
 FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglconfig.h"
 FILES_${MLPREFIX}libgsttag-1.0 += "${datadir}/gst-plugins-base/1.0/license-translations.dict"
 
 do_compile_prepend() {
-        export GIR_EXTRA_LIBS_PATH="${B}/gst-libs/gst/tag/.libs:${B}/gst-libs/gst/video/.libs:${B}/gst-libs/gst/audio/.libs:${B}/gst-libs/gst/rtp/.libs:${B}/gst-libs/gst/allocators/.libs"
+        export GIR_EXTRA_LIBS_PATH="${B}/gst-libs/gst/tag/.libs:${B}/gst-libs/gst/video/.libs:${B}/gst-libs/gst/audio/.libs:${B}/gst-libs/gst/rtp/.libs"
 }

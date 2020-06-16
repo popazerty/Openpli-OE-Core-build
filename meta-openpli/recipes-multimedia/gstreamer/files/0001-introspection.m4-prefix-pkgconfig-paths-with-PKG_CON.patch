@@ -1,4 +1,4 @@
-From 2b0436f9a07773fae8c74df902d7024e8bfc3512 Mon Sep 17 00:00:00 2001
+From 48377a38868f1e8601c4bf8cb4ea0f339864a35f Mon Sep 17 00:00:00 2001
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 Date: Tue, 24 Nov 2015 16:46:27 +0200
 Subject: [PATCH] introspection.m4: prefix pkgconfig paths with

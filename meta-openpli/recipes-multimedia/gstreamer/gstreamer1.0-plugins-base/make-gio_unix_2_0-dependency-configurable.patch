@@ -1,4 +1,4 @@
-From 7ffa6e3d00e1d8a060f3f4c2bb9a72691af05d79 Mon Sep 17 00:00:00 2001
+From 105e4e43133854a507097f00aa4cbdde747690ee Mon Sep 17 00:00:00 2001
 From: Andre McCurdy <armccurdy@gmail.com>
 Date: Wed, 20 Jan 2016 13:00:00 -0800
 Subject: [PATCH] make gio_unix_2_0 dependency configurable
@@ -19,9 +19,6 @@ Upstream-Status: Pending
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 
 ---
- configure.ac | 7 +++++++
- 1 file changed, 7 insertions(+)
-
 diff --git a/configure.ac b/configure.ac
 index 12807bc..35a0bf3 100644
 --- a/configure.ac
