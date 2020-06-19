@@ -43,6 +43,7 @@ PYTHON_RDEPS = " \
 	python-core \
 	python-crypt \
 	python-fcntl \
+	python-ipaddress  \
 	python-lang \
 	python-logging \
 	python-mmap \
@@ -52,8 +53,10 @@ PYTHON_RDEPS = " \
 	python-numbers \
 	python-pickle \
 	python-re \
+	python-requests \
 	python-shell \
 	python-service-identity \
+	python-six \
 	python-threading \
 	python-twisted-core \
 	python-twisted-web \

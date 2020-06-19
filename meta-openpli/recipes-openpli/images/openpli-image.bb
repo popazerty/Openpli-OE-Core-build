@@ -28,9 +28,6 @@ IMAGE_INSTALL = "\
 	packagegroup-base \
 	packagegroup-core-boot \
 	parted \
-	python-ipaddress  \
-	python-netifaces \
-	python-pysmb \
 	nfs-utils \
 	samba-base \
 	sdparm \
