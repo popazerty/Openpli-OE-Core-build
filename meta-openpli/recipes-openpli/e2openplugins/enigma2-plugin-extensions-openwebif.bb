@@ -76,20 +76,20 @@ python do_cleanup () {
         ('spycat4kmini', 'spycat4kmini.png', 'spycat.png', 'spycat.html'),
         ('spycatmini', 'spycatmini.png', 'spycat.png', 'spycat.html'),
         ('spycatminiplus', 'spycatminiplus.png', 'spycat.png', 'spycat.html'),
-        ('vuduo', 'duo.png', 'vu_normal.png', 'vu_normal.html'),
-        ('vuduo2', 'duo2.png', 'vu_duo2.png', 'vu_duo2.html'),
-        ('vusolo', 'solo.png', 'vu_normal.png', 'vu_normal.html'),
-        ('vusolo2', 'solo2.png', 'vu_normal.png', 'vu_normal.html'),
-        ('vusolo4k', 'solo4k.png', 'vu_normal.png', 'vu_normal.html'),
-        ('vusolose', 'solose.png', 'vu_normal.png', 'vu_normal.html'),
-        ('vuultimo', 'ultimo.png', 'vu_ultimo.png', 'vu_ultimo.html'),
-        ('vuultimo4k', 'ultimo4k.png', 'vu_normal.png', 'vu_normal.html'),
-        ('vuuno', 'uno.png', 'vu_normal.png', 'vu_normal.html'),
-        ('vuuno4k', 'uno4k.png', 'vu_normal.png', 'vu_normal.html'),
-        ('vuzero', 'zero.png', 'vu_normal.png', 'vu_normal.html'),
-        ('vuuno4kse', 'uno4kse.png', 'vu_normal_02.png', 'vu_normal_02.html'),
-        ('vuzero4k', 'zero4k.png', 'vu_normal_02.png', 'vu_normal_02.html'),
-        ('vuduo4k', 'duo4k.png', 'vu_normal_02.png', 'vu_normal_02.html'),
+        ('vuduo', 'vuduo.png', 'vu_normal.png', 'vu_normal.html'),
+        ('vuduo2', 'vuduo2.png', 'vu_duo2.png', 'vu_duo2.html'),
+        ('vusolo', 'vusolo.png', 'vu_normal.png', 'vu_normal.html'),
+        ('vusolo2', 'vusolo2.png', 'vu_normal.png', 'vu_normal.html'),
+        ('vusolo4k', 'vusolo4k.png', 'vu_normal.png', 'vu_normal.html'),
+        ('vusolose', 'vusolose.png', 'vu_normal.png', 'vu_normal.html'),
+        ('vuultimo', 'vuultimo.png', 'vu_ultimo.png', 'vu_ultimo.html'),
+        ('vuultimo4k', 'vuultimo4k.png', 'vu_normal.png', 'vu_normal.html'),
+        ('vuuno', 'vuuno.png', 'vu_normal.png', 'vu_normal.html'),
+        ('vuuno4k', 'vuuno4k.png', 'vu_normal.png', 'vu_normal.html'),
+        ('vuzero', 'vuzero.png', 'vu_normal.png', 'vu_normal.html'),
+        ('vuuno4kse', 'vuuno4kse.png', 'vu_normal_02.png', 'vu_normal_02.html'),
+        ('vuzero4k', 'vuzero4k.png', 'vu_normal_02.png', 'vu_normal_02.html'),
+        ('vuduo4k', 'vuduo4k.png', 'vu_normal_02.png', 'vu_normal_02.html'),
         ('wetekplay', 'wetekplay.png', 'wetekplay.png', 'wetekplay.html'),
         ('xp1000', 'xp1000.png', 'xp_rc14_normal.png', 'xp1000.html'),
         ('xpeedc', 'xpeedlx.png', 'xpeedlx.png', 'xpeedlx.html'),
@@ -143,7 +143,7 @@ python do_cleanup () {
     target_box = 'unknown.png'
     target_remote = 'ow_remote.png'
     target_keymap = ''
-    exception = ''
+    exception = []
 
     for x in boxtypes:
         if x[0] == d.getVar('MACHINE', True):
@@ -151,21 +151,23 @@ python do_cleanup () {
             target_remote = x[2]
             target_keymap = x[3]
             if x[0] == 'et6x00':
-                exception = 'et6500.png'
+                exception = ['et6500.png']
             elif x[0] == 'et7x00':
-                exception = 'et7500.png'
+                exception = ['et7500.png']
             elif x[0] == 'xpeedc':
-                exception = 'xpeedlx.png'
+                exception = ['xpeedlx.png']
+            elif x[0] == 'sf8008':
+                exception = ['sf8008s.png', 'sf8008t.png', 'sf8008c.png']
             break
 
     for root, dirs, files in os.walk(images + 'boxes', topdown=False):
         for name in files:
-            if target_box != name and name != 'unknown.png' and exception != name:
+            if target_box != name and name != 'unknown.png' and name not in exception:
                 os.remove(os.path.join(root, name))
 
     for root, dirs, files in os.walk(images + 'remotes', topdown=False):
         for name in files:
-            if target_remote != name and name != 'ow_remote.png' and exception != name:
+            if target_remote != name and name != 'ow_remote.png' and name not in exception:
                 os.remove(os.path.join(root, name))
 
     for root, dirs, files in os.walk(keymaps + 'remotes', topdown=False):
