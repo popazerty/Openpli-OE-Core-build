@@ -67,6 +67,7 @@ PYTHON_RDEPS = " \
 	python-image \
 	python-imaging \
 	python-process \
+	python-youtube-dl \
 	"
 
 # DVD and iso playback is integrated, we need the libraries
