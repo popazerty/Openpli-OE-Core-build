@@ -23,8 +23,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
                     file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
 
-SRCREV = "07eb039e047b68227b08428314314ff7b1273efa"
-SRC_URI = "git://github.com/FFmpeg/FFmpeg.git;branch=release/4.2 \
+SRCREV = "8e12af29d1a3f95c9e952d78354e3c8b1c0431a8"
+SRC_URI = "git://github.com/FFmpeg/FFmpeg.git;branch=release/4.3 \
            file://4_mips64_cpu_detection.patch \
            "
 
@@ -122,8 +122,6 @@ EXTRA_OECONF_append_linux-gnux32 = " --disable-asm"
 # ld.gold: internal error in relocate_section, at ../../gold/i386.cc:3684
 
 LDFLAGS_append_x86 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
-
-EXTRA_OEMAKE = "V=1"
 
 do_configure() {
     ${S}/configure ${EXTRA_OECONF}

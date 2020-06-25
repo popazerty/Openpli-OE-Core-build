@@ -17,7 +17,7 @@ SRCREV_FORMAT = "gst_libav"
 # warnings in gstreamer1.0-libav.inc
 SRC_URI = " \
     git://gitlab.freedesktop.org/gstreamer/gst-libav;protocol=https;branch=master;name=gst_libav \
-    git://github.com/FFmpeg/FFmpeg;branch=release/4.2;destsuffix=git/gst-libs/ext/libav;name=ffmpeg \
+    git://github.com/FFmpeg/FFmpeg;branch=release/4.3;destsuffix=git/gst-libs/ext/libav;name=ffmpeg \
     file://0001-Disable-yasm-for-libav-when-disable-yasm.patch \
     file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
     file://mips64_cpu_detection.patch \

@@ -19,7 +19,6 @@ SRC_URI_append += " \
 	file://4_03_allow_to_choose_rtmp_impl_at_runtime.patch \
 	file://4_04_hls_replace_key_uri.patch \
 	file://4_05_fix-hls.patch \
-	file://4_07_increase_buffer_size.patch \
 	file://4_09_ffmpeg_fix_edit_list_parsing.patch \
 	file://4_10_rtsp_patch \
 	file://4_11_dxva2_patch \
@@ -28,7 +27,6 @@ SRC_URI_append += " \
 EXTRA_FFCONF = " \
     --prefix=${prefix} \
     --disable-static \
-    --enable-small \
     --disable-runtime-cpudetect \
     --enable-ffprobe \
     --disable-altivec \
