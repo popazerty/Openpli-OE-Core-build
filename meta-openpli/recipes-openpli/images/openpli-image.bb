@@ -28,6 +28,7 @@ IMAGE_INSTALL = "\
 	packagegroup-base \
 	packagegroup-core-boot \
 	parted \
+	${@bb.utils.contains('TARGET_FPU', 'soft', '', 'nodejs', d)} \
 	nfs-utils \
 	samba-base \
 	sdparm \

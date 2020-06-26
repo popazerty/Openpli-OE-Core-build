@@ -52,6 +52,7 @@ PYTHON_RDEPS = " \
 	python-netserver \
 	python-numbers \
 	python-pickle \
+	python-pycrypto \
 	python-re \
 	python-requests \
 	python-shell \
