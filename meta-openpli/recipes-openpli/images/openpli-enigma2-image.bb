@@ -72,7 +72,9 @@ DEPENDS += " \
 	enigma2-pliplugins \
 	enigma2-plugins \
 	"
-
+IMAGE_INSTALL_append_mipsel += " \
+	${@bb.utils.contains('TARGET_FPU', 'soft', '', 'nodejs', d)} \
+	"
 IMAGE_INSTALL += " \
 	aio-grab \
 	enigma2 \
