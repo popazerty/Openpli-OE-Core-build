@@ -10,8 +10,5 @@ PR = "r0"
 require conf/license/license-gplv2.inc
 require openplugins-distutils.inc
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-SRC_URI_append = " file://0001-update-from-jack2015.patch"
-
 FILES_${PN} += "${sysconfdir}/enigma2/Foreca"
 CONFFILES_${PN} = "${sysconfdir}/enigma2/Foreca/City.cfg ${sysconfdir}/enigma2/Foreca/Filter.cfg"
