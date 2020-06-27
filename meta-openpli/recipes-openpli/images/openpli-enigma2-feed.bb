@@ -127,7 +127,7 @@ OPTIONAL_PACKAGES += " \
 	python-evdev \
 	picocom \
 	ppp \
-	rclone \
+	${@bb.utils.contains("DEFAULTTUNE", "sh4", "" , "rclone zerotier", d)} \
 	rsync \
 	rtorrent \
 	sabnzbd \
@@ -150,7 +150,6 @@ OPTIONAL_PACKAGES += " \
 	wscan \
 	yafc \
 	zeroconf \
-	zerotier \
 	zip \
 	zsh \
 	${OPTIONAL_BSP_PACKAGES} \
