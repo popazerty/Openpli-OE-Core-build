@@ -27,6 +27,8 @@ export ORCC = "${STAGING_DIR_NATIVE}${bindir}/orcc"
 EXTRA_OECONF = " \
     --disable-examples \
 "
+CFLAGS_append = " -Wno-deprecated-declarations"
+TARGET_CFLAGS_append_sh4 = " -std=gnu99"
 
 delete_pkg_m4_file() {
 	# This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
