@@ -19,8 +19,6 @@ DEFAULTTUNE = "sh4"
 GCCVERSION = "4.9.4"
 GLIBCVERSION = "2.25"
 
-# PREFERRED_VERSION_ffmpeg = "3.%"
-
 HOSTTOOLS_NONFATAL += "whoami"
 
 OLDEST_KERNEL = "2.6.32"
@@ -38,6 +36,7 @@ SERIAL_CONSOLE = "115200 ttyAS0"
 
 DVBPROVIDER = "kernel"
 
+MACHINE_FEATURES += "libeplayer"
 MACHINE_FEATURES += "3dtv alsa ext2 ext3 usbhost serial hdmicec switchoff singlecore legacykernel fulan textlcd sh4booster no-nmap omb skins1080 directfb"
 DISTRO_FEATURES_append += "gtk-directfb libsigc2"
 

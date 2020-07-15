@@ -14,6 +14,10 @@ MACHINE_KERNEL_PR_append = ".3"
 
 inherit kernel machine_kernel_pr
 
+KERNEL_RELEASE := "${PV}"
+PV = "${KERNEL_RELEASE}"
+PKGV = "${KERNEL_RELEASE}"
+
 DEPENDS_append_spark7162 += "\
   stlinux24-sh4-stx7105-fdma-firmware \
 "
@@ -60,6 +64,7 @@ export OS = "Linux"
 KERNEL_OBJECT_SUFFIX = "ko"
 KERNEL_IMAGETYPE = "uImage"
 KERNEL_IMAGEDEST = "tmp"
+KERNEL_OUTPUT = "uImage"
 KEEPUIMAGE = "yes"
 PARALLEL_MAKEINST = ""
 
@@ -73,7 +78,7 @@ FILES_kernel-headers = "${exec_prefix}/src/linux*"
 FILES_${KERNEL_PACKAGE_NAME}-dev += "${includedir}/linux"
 FILES_${KERNEL_PACKAGE_NAME}-image = "/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}"
 
-KERNEL_CONFIG_COMMAND = "oe_runmake -C ${S} O=${B} oldconfig"
+KERNEL_CONFIG_COMMAND = "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} oldconfig"
 do_configure_prepend() {
     oe_machinstall -m 0644 ${WORKDIR}/defconfig ${B}/.config
     sed -i "s#^\(CONFIG_EXTRA_FIRMWARE_DIR=\).*#\1\"${STAGING_DIR_HOST}/lib/firmware\"#" ${B}/.config;
@@ -107,6 +112,8 @@ do_install_append() {
     install -m 644 ${WORKDIR}/st-coprocessor.h ${D}${includedir}/linux
     oe_runmake headers_install INSTALL_HDR_PATH=${D}${exec_prefix}/src/linux-${KERNEL_VERSION} ARCH=$ARCH
     mv ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}
+    install -d ${D}/${KERNEL_IMAGEDEST}
+    install -m 0755 ${KERNEL_OUTPUT_DIR}/${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}
 }
 
 # hack to override kernel.bbclass...
