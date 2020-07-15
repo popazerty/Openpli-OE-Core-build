@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/persianpros/e2iplayer.git;protocol=http \
 S = "${WORKDIR}/git"
 
 inherit gitpkgv
-SRCREV = "${AUTOREV}"
+SRCREV = "716982ab3c90e73fbf157ad5741b454433babbeb"
 PV = "git${SRCPV}"
 PKGV = "git${GITPKGV}"
 
