@@ -25,7 +25,6 @@ OLDEST_KERNEL = "2.6.32"
 
 PREFERRED_PROVIDER_virtual/kernel = "linux-fulan"
 PREFERRED_VERSION_directfb = "1.7.7"
-PREFERRED_VERSION_rt8812au = "4.3.14"
 PREFERRED_VERSION_samba = "3.%"
 PREFERRED_PROVIDER_lirc = "stlirc"
 PREFERRED_PROVIDER_virtual/egl = "libstgles"
@@ -37,7 +36,7 @@ SERIAL_CONSOLE = "115200 ttyAS0"
 DVBPROVIDER = "kernel"
 
 MACHINE_FEATURES += "libeplayer"
-MACHINE_FEATURES += "3dtv alsa ext2 ext3 usbhost serial hdmicec switchoff singlecore legacykernel fulan textlcd sh4booster no-nmap omb skins1080 directfb"
+MACHINE_FEATURES += "3dtv alsa ext2 usbhost serial hdmicec switchoff singlecore legacykernel fulan textlcd sh4booster no-nmap omb skins1080 directfb"
 DISTRO_FEATURES_append += "gtk-directfb libsigc2"
 
 KERNEL_IMAGETYPE = "uImage"
@@ -97,7 +96,6 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "\
     stlirc \
     stinit \
     fulan-dvb-modules-${MACHINE} \
-    flash-tools \
     mountspark \
     mtd-utils-jffs2 \
     "
