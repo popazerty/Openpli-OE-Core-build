@@ -2,7 +2,7 @@ SUMMARY = "Ralink 88x2BU v5.6.1"
 HOMEPAGE = "http://www.realtek.com.tw"
 SECTION = "kernel/modules"
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://README.md;md5=feae8f8e0b09f7b911830b066c727a35"
+LIC_FILES_CHKSUM = "file://README.md;md5=bf357136db32d3e3ec531545ee8f92a5"
 
 # backward compatibility
 RPROVIDES_${PN} = "rtl8822bu"
