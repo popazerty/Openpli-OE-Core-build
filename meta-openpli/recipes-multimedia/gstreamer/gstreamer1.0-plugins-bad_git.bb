@@ -9,9 +9,7 @@ DEPENDS += "gstreamer1.0-plugins-base"
 
 inherit gettext gobject-introspection
 
-SRCREV_FORMAT = "gst_plugins_bad"
-
-SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-plugins-bad;protocol=https;branch=master;name=gst_plugins_bad \
+SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-plugins-bad.git;protocol=https;branch=master;name=gst_plugins_bad \
         file://0001-fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
         file://0002-avoid-including-sys-poll.h-directly.patch \
         file://0003-ensure-valid-sentinels-for-gst_structure_get-etc.patch \
