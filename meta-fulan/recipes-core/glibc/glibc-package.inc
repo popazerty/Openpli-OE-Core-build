@@ -34,9 +34,7 @@ libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${ba
 libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
 INSANE_SKIP_${PN}_append_aarch64 = " libdir"
 
-FILES_${PN} = "${libc_baselibs} ${libexecdir}/*"
-RRECOMMENDS_${PN} = "${@bb.utils.filter('DISTRO_FEATURES', 'ldconfig', d)}"
-FILES_ldconfig = "${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
+FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
 FILES_ldd = "${bindir}/ldd"
 FILES_libsegfault = "${base_libdir}/libSegFault*"
 FILES_libcidn = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.so.*"
@@ -73,21 +71,9 @@ DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconv, loc
 DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
 DESCRIPTION_tzcode = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
 
-inherit multilib_header
+inherit libc-common multilib_header
 
-do_install() {
-	oe_runmake install_root=${D} install
-	install -Dm 0644 ${WORKDIR}/etc/ld.so.conf ${D}/${sysconfdir}/ld.so.conf
-	install -d ${D}${localedir}
-	make -f ${WORKDIR}/generate-supported.mk IN="${S}/localedata/SUPPORTED" OUT="${WORKDIR}/SUPPORTED"
-	# get rid of some broken files...
-	for i in ${GLIBC_BROKEN_LOCALES}; do
-		sed -i "/$i/d" ${WORKDIR}/SUPPORTED
-	done
-	rm -f ${D}${sysconfdir}/rpc
-	rm -rf ${D}${datadir}/zoneinfo
-	rm -rf ${D}${libexecdir}/getconf
-
+do_install_append () {
 	rm -f ${D}${sysconfdir}/localtime
 	rm -rf ${D}${localstatedir}
 
@@ -105,6 +91,17 @@ do_install() {
 	# Info dir listing isn't interesting at this point so remove it if it exists.
 	if [ -e "${D}${infodir}/dir" ]; then
 		rm -f ${D}${infodir}/dir
+	fi
+
+	if ! ${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', 'true', 'false', d)}; then
+		# The distro doesn't want these files so let's not install them	
+		rm -f ${D}${sysconfdir}/ld.so.conf
+		rm -f ${D}${base_sbindir}/ldconfig
+		# This directory will be empty now so remove it too.
+		# But check whether it exists first, since it won't for glibc-initial.
+		if [ -d ${D}${sysconfdir} ]; then
+			rmdir ${D}${sysconfdir}
+		fi
 	fi
 
 	if echo ${PN}|grep -q "glibc-initial"; then
@@ -126,15 +123,10 @@ do_install() {
 			> ${D}${sysconfdir}/tmpfiles.d/nscd.conf
 	else
 		install -d ${D}${sysconfdir}/default/volatiles
-		echo "d root root 0755 ${localstatedir}/run/nscd none" \
+		echo "d root root 0755 /var/run/nscd none" \
 			> ${D}${sysconfdir}/default/volatiles/98_nscd
 	fi
 }
-
-def get_libc_fpu_setting(bb, d):
-    if d.getVar('TARGET_FPU') in [ 'soft', 'ppc-efd' ]:
-        return "--without-fp"
-    return ""
 
 do_install_append_aarch64 () {
         if [ "${base_libdir}" != "${nonarch_base_libdir}" ]; then
@@ -216,26 +208,6 @@ do_poststash_install_cleanup () {
                 fi
         fi
 }
-
-python populate_packages_prepend () {
-    if d.getVar('DEBIAN_NAMES'):
-        pkgs = d.getVar('PACKAGES').split()
-        bpn = d.getVar('BPN')
-        prefix = d.getVar('MLPREFIX') or ""
-        # Set the base package...
-        d.setVar('PKG_' + prefix + bpn, prefix + 'libc6')
-        libcprefix = prefix + bpn + '-'
-        for p in pkgs:
-            # And all the subpackages.
-            if p.startswith(libcprefix):
-                renamed = p.replace(bpn, 'libc6', 1)
-                d.setVar('PKG_' + p, renamed)
-        # For backward compatibility with old -dbg package
-        d.appendVar('RPROVIDES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
-        d.appendVar('RCONFLICTS_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
-        d.appendVar('RREPLACES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
-}
-
 addtask do_poststash_install_cleanup after do_stash_locale do_install before do_populate_sysroot do_package
 
 pkg_postinst_nscd () {

@@ -17,7 +17,7 @@ TARGET_ARCH = "sh4"
 DEFAULTTUNE = "sh4"
 
 GCCVERSION = "4.9.4"
-GLIBCVERSION = "2.25"
+GLIBCVERSION = "2.23"
 
 HOSTTOOLS_NONFATAL += "whoami"
 
@@ -25,7 +25,7 @@ OLDEST_KERNEL = "2.6.32"
 
 PREFERRED_PROVIDER_virtual/kernel = "linux-fulan"
 PREFERRED_VERSION_directfb = "1.7.7"
-# PREFERRED_VERSION_samba = "3.%"
+PREFERRED_VERSION_samba = "3.%"
 PREFERRED_PROVIDER_lirc = "stlirc"
 PREFERRED_PROVIDER_virtual/egl = "libstgles"
 PREFERRED_PROVIDER_virtual/libgles1 = "libstgles"
@@ -41,7 +41,6 @@ DISTRO_FEATURES_append += "gtk-directfb libsigc2"
 
 KERNEL_IMAGETYPE = "uImage"
 #KERNEL_OUTPUT = "${KERNEL_IMAGETYPE}"
-
 
 JFFS2_ERASEBLOCK = "0x20000"
 JFFS2_ENDIANNESS = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'le', '--little-endian', '--big-endian', d)}"
