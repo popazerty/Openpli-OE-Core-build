@@ -77,6 +77,7 @@ SRC_URI = "\
     file://gcc-4.7.0-sh-use-gnu-hash-style.patch \
     file://gcc-4.8.2-warnings.patch \
     file://gcc-4.7.3-stack-protect-strong.patch \
+    file://0076-Fix-build-with-gcc-6.patch \
 "
 SRC_URI[md5sum] = "5a84a30839b2aca22a2d723de2a626ec"
 SRC_URI[sha256sum] = "4a80aa23798b8e9b5793494b8c976b39b8d9aa2e53cd5ed5534aff662a7f8695"
@@ -86,15 +87,13 @@ B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
 
 # Language Overrides
 FORTRAN = ""
+JAVA = ""
 
 LTO = "--enable-lto"
-SSP ?= "--disable-libssp"
-SSP_mingw32 = "--enable-libssp"
 
 EXTRA_OECONF_BASE = "\
     ${LTO} \
-    ${SSP} \
-    --enable-libitm \
+    --enable-libssp \
     --disable-bootstrap \
     --disable-libmudflap \
     --with-system-zlib \
@@ -107,8 +106,30 @@ EXTRA_OECONF_BASE = "\
     --without-isl \
 "
 
-EXTRA_OECONF_PATHS = "\
-    --with-gxx-include-dir=/not/exist{target_includedir}/c++/${BINV} \
-    --with-sysroot=/not/exist \
+EXTRA_OECONF_INITIAL = "\
+    --disable-libgomp \
+    --disable-libssp \
+    --disable-libquadmath \
+    --with-system-zlib \
+    --enable-lto \
+    --disable-plugin \
+    --enable-decimal-float=no \
+"
+
+EXTRA_OECONF_INTERMEDIATE = "\
+    --disable-libmudflap \
+    --disable-libgomp \
+    --disable-libquadmath \
+    --with-system-zlib \
+    --disable-lto \
+    --disable-plugin \
+    --disable-libssp \
+"
+
+EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
+
+EXTRA_OECONF_PATHS = "\ 
+    --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++/${BINV} \ 
+    --with-sysroot=${STAGING_DIR_TARGET} \ 
     --with-build-sysroot=${STAGING_DIR_TARGET} \
 "
