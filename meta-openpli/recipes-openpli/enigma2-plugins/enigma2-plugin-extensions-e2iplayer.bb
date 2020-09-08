@@ -4,14 +4,15 @@ SECTION = "multimedia"
 LICENSE = "PD"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
-SRC_URI = "git://github.com/persianpros/e2iplayer.git;protocol=http \
+SRC_URI = "git://github.com/persianpros/e2iplayer.git;protocol=http;Branch=Test \
            file://0001-Revert-This-version-is-only-for-Open-Vision.patch \
            file://0001-Revert-Use-getImageArch-for-sh4-instead-of-manual-pl.patch \
            "
 S = "${WORKDIR}/git"
 
 inherit gitpkgv
-SRCREV = "716982ab3c90e73fbf157ad5741b454433babbeb"
+SRCREV = "${AUTOREV}"
+
 PV = "git${SRCPV}"
 PKGV = "git${GITPKGV}"
 
