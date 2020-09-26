@@ -16,6 +16,9 @@
 [submodule "meta-hd"]
 	path = meta-hd
 	url = https://github.com/HD-Digital/meta-hd.git
+[submodule "meta-dream"]
+	path = meta-dream
+	url = https://github.com/kueken/meta-dream.git
 [submodule "meta-vuplus"]
 	path = meta-vuplus
 	url = https://github.com/vu-plus/meta-vuplus.git
@@ -33,7 +36,8 @@
 	url = https://github.com/neo-pli-bsps/meta-spycat.git
 [submodule "meta-xtrend"]
 	path = meta-xtrend
-	url = https://github.com/neo-pli-bsps/meta-xtrend.git
+	url = https://github.com/kueken/meta-xtrend.git
+	branch = olddriver
 [submodule "meta-qt5"]
 	path = meta-qt5
 	url = https://github.com/meta-qt5/meta-qt5.git
