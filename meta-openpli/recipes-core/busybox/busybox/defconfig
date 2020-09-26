@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
-# Busybox version: 1.27.2
-# Sat Nov 24 13:40:08 2018
+# Busybox version: 1.31.0
+# Wed Apr 22 11:17:08 2020
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -47,9 +47,9 @@ CONFIG_PLATFORM_LINUX=y
 # CONFIG_FEATURE_INDIVIDUAL is not set
 # CONFIG_FEATURE_SHARED_BUSYBOX is not set
 CONFIG_LFS=y
-CONFIG_CROSS_COMPILER_PREFIX="mipsel-oe-linux-"
+CONFIG_CROSS_COMPILER_PREFIX=""
 CONFIG_SYSROOT=""
-CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types   -mel -mabi=32 -mhard-float -march=mips32"
+CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types"
 CONFIG_EXTRA_LDFLAGS=""
 CONFIG_EXTRA_LDLIBS=""
 
