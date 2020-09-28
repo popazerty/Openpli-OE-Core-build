@@ -16,4 +16,3 @@ INSANE_SKIP_${PN} = "file-rdeps"
 # also overly complex, so simplified it too.
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-CFLAGS_remove_sh4 = "-Wno-error=format-overflow"

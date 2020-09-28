@@ -7,8 +7,6 @@ SRC_URI = "http://download.videolan.org/pub/videolan/libdvdread/${PV}/libdvdread
 SRC_URI[md5sum] = "09c7423568fb679279fd2a2bc6b10b6e"
 SRC_URI[sha256sum] = "3e357309a17c5be3731385b9eabda6b7e3fa010f46022a06f104553bf8e21796"
 
-CFLAGS_append_sh4 += "-std=gnu11"
-
 inherit autotools lib_package binconfig pkgconfig
 
 CONFIGUREOPTS_remove = "--disable-silent-rules"
