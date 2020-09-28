@@ -19,6 +19,9 @@
 [submodule "meta-dream"]
 	path = meta-dream
 	url = https://github.com/kueken/meta-dream.git
+[submodule "meta-fulan"]
+	path = meta-fulan
+	url = https://github.com/kueken/meta-fulan.git
 [submodule "meta-vuplus"]
 	path = meta-vuplus
 	url = https://github.com/vu-plus/meta-vuplus.git
