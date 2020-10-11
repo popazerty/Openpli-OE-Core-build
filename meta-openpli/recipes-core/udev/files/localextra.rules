@@ -11,6 +11,7 @@
 # %c the string returned by the PROGRAM
 # %s{filename} the content of a sysfs attribute
 # %% the '%' char itself
+#
 
 # The first rtc device is symlinked to /dev/rtc
 KERNEL=="rtc0", SYMLINK+="rtc"
@@ -19,7 +20,7 @@ KERNEL=="rtc0", SYMLINK+="rtc"
 KERNEL=="oled0", SYMLINK+="dbox/oled0"
 KERNEL=="fp0", SYMLINK+="dbox/fp0"
 KERNEL=="lcd0", SYMLINK+="dbox/lcd0"
-KERNEL=="vtuner%n", SYMLINK+="misc/vtuner%n"
+KERNEL=="vtuner[0-9]*", SYMLINK+="misc/vtuner%n"
 KERNEL=="pvr", SYMLINK+="misc/pvr"
 KERNEL=="i2c-[0-9]*", SYMLINK+="i2c/%n"
 
