@@ -9,12 +9,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
 INITSCRIPT_NAME = "djmount"
 INITSCRIPT_PARAMS = "defaults"
 
-CFLAGS_append_sh4 += "-std=gnu11"
+CFLAGS_append+= "-std=gnu89"
 
 SRC_URI = "git://github.com/mbarbon/djmount.git;protocol=http;branch=fixes"
 
 SRCREV = "02d7d47c4f04054a8a1c174b75839ee38682af86"
-PR="1"
+PR="2"
 
 SRC_URI_append +=" \
 	file://init \
