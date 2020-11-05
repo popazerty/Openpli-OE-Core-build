@@ -16,7 +16,6 @@ SRC_URI_IGNORED += " \
 
 SRC_URI += " \
 			file://mount_single_uuid.patch \
-			file://mdev-mount.sh \
 			file://inetd \
 			file://inetd.conf \
 			"
