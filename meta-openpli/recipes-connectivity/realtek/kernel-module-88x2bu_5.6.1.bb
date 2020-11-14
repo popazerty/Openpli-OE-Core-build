@@ -2,7 +2,7 @@ SUMMARY = "Ralink 88x2BU v5.6.1"
 HOMEPAGE = "http://www.realtek.com.tw"
 SECTION = "kernel/modules"
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://README.md;md5=bf357136db32d3e3ec531545ee8f92a5"
+LIC_FILES_CHKSUM = "file://README.md;md5=6b0b3ec62d613ee0d979057e058d6001"
 
 # backward compatibility
 RPROVIDES_${PN} = "rtl8822bu"
@@ -18,7 +18,6 @@ SRC_URI = " \
     file://0001-gcc49.patch \
     file://0002-adjust-policy-kernelversion.patch \
     file://0003-fix-multiple-definitions.patch \
-    file://rtl88x2bu-kernel-5.8.patch \
     "
 
 S = "${WORKDIR}/git"
