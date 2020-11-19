@@ -15,7 +15,7 @@ SRCREV = "${AUTOREV}"
 PE = "1"
 PV = "git${SRCPV}"
 PKGV = "${GITPKGVTAG}"
-SRC_URI = "git://github.com/l1ving/youtube-dl.git;protocol=https;branch=master"
+SRC_URI = "git://github.com/ytdl-org/youtube-dl.git;protocol=https;branch=master"
 
 S = "${WORKDIR}/git"
 
@@ -34,7 +34,6 @@ do_install_append() {
 }
 
 RDEPENDS_${PN} = " \
-    ca-certificates \
     python-email \
     python-subprocess \
     python-unixadmin \
