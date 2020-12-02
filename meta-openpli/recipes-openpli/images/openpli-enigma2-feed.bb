@@ -95,6 +95,7 @@ OPTIONAL_PACKAGES += " \
 	mtd-utils \
 	mtools \
 	nano \
+	net-snmp \
 	net-tools \
 	${@bb.utils.contains('TARGET_FPU', 'soft', '', 'nodejs', d)} \
 	ntfs-3g \
@@ -166,7 +167,6 @@ OPTIONAL_ENIGMA2_PACKAGES = " \
 	enigma2-plugin-extensions-blurayplayer \
 	enigma2-plugin-extensions-epgimport \
 	enigma2-plugin-extensions-fontinfo \
-	enigma2-plugin-extensions-e2iplayer \
 	enigma2-plugin-extensions-e2iplayer-deps \
 	enigma2-plugin-extensions-youtube \
 	enigma2-plugin-extensions-openmultiboot \

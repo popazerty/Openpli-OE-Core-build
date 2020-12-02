@@ -62,7 +62,6 @@ ENIGMA2_PLUGINS += "\
 	enigma2-plugin-extensions-dlnabrowser \
 	enigma2-plugin-extensions-dlnaserver \
 	enigma2-plugin-extensions-subssupport \
-	enigma2-plugin-extensions-e2iplayer \
 	enigma2-plugin-systemplugins-systemtime \
 	enigma2-plugin-systemplugins-mountmanager \
 	"
