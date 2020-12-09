@@ -8,12 +8,11 @@ FILESPATH =. "${FILE_DIRNAME}/kodi-18:"
 inherit cmake gettext python-dir pythonnative systemd
 
 DEPENDS += " \
-            libfmt \
+            fmt \
             flatbuffers flatbuffers-native \
             fstrcmp \
             rapidjson \
             crossguid \
-            texturepacker-native \
             libdvdnav libdvdcss libdvdread \
             git-native \
             curl-native \
@@ -29,13 +28,14 @@ DEPENDS += " \
             boost \
             bzip2 \
             curl \
-            dcadec \
+            libdcadec \
             enca \
             expat \
             faad2 \
             ffmpeg \
             fontconfig \
             fribidi \
+            glib-2.0 \ 
             giflib \
             libass \
             libcdio \
@@ -43,6 +43,7 @@ DEPENDS += " \
             libdvdcss \
             libdvdread \
             libinput \
+            libbluray \
             libmad \
             libmicrohttpd \
             libmms \
@@ -67,9 +68,13 @@ DEPENDS += " \
             wavpack \
             yajl \
             zlib \
+            texturepacker-native \
+            \
+            gstreamer1.0 \
+            gstreamer1.0-plugins-base \
           "
 
-SRCREV = "085bd1b92e2bc01f6426577df1b0666a212be235"
+SRCREV = "0655c2c71821567e4c21c1c5a508a39ab72f0ef1"
 
 # 'patch' doesn't support binary diffs
 PATCHTOOL = "git"
@@ -77,8 +82,7 @@ PATCHTOOL = "git"
 # Correct 18+git vs 18-git screwup
 PE = "1"
 
-#PV = "18.1-gitr${SRCPV}"
-PV = "18.5+gitr${SRCPV}"
+PV = "18.9-gitr${SRCPV}"
 SRC_URI = "git://github.com/xbmc/xbmc.git;protocol=https;branch=Leia \
            \
            file://0001-Add-support-for-musl-triplets.patch \
@@ -107,23 +111,34 @@ ACCEL_x86 = "vaapi vdpau"
 ACCEL_x86-64 = "vaapi vdpau"
 
 # Default to GBM everywhere, sucks to be nvidia
-WINDOWSYSTEM ?= "gbm"
+WINDOWSYSTEM ?= "stb"
 
-PACKAGECONFIG ??= "${ACCEL} ${WINDOWSYSTEM} pulseaudio lcms"
+PACKAGECONFIG ??= "${ACCEL} ${WINDOWSYSTEM} pulseaudio lcms lto \
+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl', 'openglesv2', d)}"
 
 # Core windowing system choices
 
 PACKAGECONFIG[x11] = "-DCORE_PLATFORM_NAME=x11,,libxinerama libxmu libxrandr libxtst glew"
 PACKAGECONFIG[gbm] = "-DCORE_PLATFORM_NAME=gbm -DGBM_RENDER_SYSTEM=gles,,"
+PACKAGECONFIG[stb] = "-DCORE_PLATFORM_NAME=stb,,"
 PACKAGECONFIG[raspberrypi] = "-DCORE_PLATFORM_NAME=rbpi,,userland"
 PACKAGECONFIG[amlogic] = "-DCORE_PLATFORM_NAME=aml,,"
 PACKAGECONFIG[wayland] = "-DCORE_PLATFORM_NAME=wayland -DWAYLAND_RENDER_SYSTEM=gles,,wayland waylandpp"
+
+PACKAGECONFIG[opengl] = "-DENABLE_OPENGL=ON,,"
+PACKAGECONFIG[openglesv2] = "-DENABLE_GLES=ON,,virtual/egl"
 
 PACKAGECONFIG[vaapi] = "-DENABLE_VAAPI=ON,-DENABLE_VAAPI=OFF,libva"
 PACKAGECONFIG[vdpau] = "-DENABLE_VDPAU=ON,-DENABLE_VDPAU=OFF,libvdpau"
 PACKAGECONFIG[mysql] = "-DENABLE_MYSQLCLIENT=ON,-DENABLE_MYSQLCLIENT=OFF,mysql5"
 PACKAGECONFIG[pulseaudio] = "-DENABLE_PULSEAUDIO=ON,-DENABLE_PULSEAUDIO=OFF,pulseaudio"
 PACKAGECONFIG[lcms] = ",,lcms"
+
+# Compilation tunes
+
+PACKAGECONFIG[gold] = "-DENABLE_LDGOLD=ON,-DENABLE_LDGOLD=OFF"
+PACKAGECONFIG[lto] = "-DUSE_LTO=${@oe.utils.cpu_count()},-DUSE_LTO=OFF"
 
 LDFLAGS += "${TOOLCHAIN_OPTIONS}"
 LDFLAGS_append_mips = " -latomic"
@@ -137,14 +152,23 @@ KODI_ARCH_mipsel = "-DWITH_ARCH=${TARGET_ARCH}"
 KODI_ARCH_mips64 = "-DWITH_ARCH=${TARGET_ARCH}"
 KODI_ARCH_mips64el = "-DWITH_ARCH=${TARGET_ARCH}"
 
+KODI_DISABLE_INTERNAL_LIBRARIES = " \
+  -DENABLE_INTERNAL_CROSSGUID=OFF \
+  -DENABLE_INTERNAL_FLATBUFFERS=OFF \
+  -DENABLE_INTERNAL_FMT=OFF \
+  -DENABLE_INTERNAL_FSTRCMP=0 \
+  -DENABLE_INTERNAL_RapidJSON=OFF \
+  -DENABLE_INTERNAL_FFMPEG=OFF \
+"
+
 EXTRA_OECMAKE = " \
     ${KODI_ARCH} \
+    ${KODI_DISABLE_INTERNAL_LIBRARIES} \
     \
     -DNATIVEPREFIX=${STAGING_DIR_NATIVE}${prefix} \
     -DJava_JAVA_EXECUTABLE=/usr/bin/java \
     -DWITH_TEXTUREPACKER=${STAGING_BINDIR_NATIVE}/TexturePacker \
     -DWITH_JSONSCHEMABUILDER=${STAGING_BINDIR_NATIVE}/JsonSchemaBuilder \
-    -DENABLE_INTERNAL_FSTRCMP=0 \
     \
     -DENABLE_LDGOLD=ON \
     -DENABLE_STATIC_LIBS=FALSE \
@@ -152,8 +176,6 @@ EXTRA_OECMAKE = " \
     -DUSE_LTO=${@oe.utils.cpu_count()} \
     \
     -DFFMPEG_PATH=${STAGING_DIR_TARGET} \
-    -DENABLE_INTERNAL_FFMPEG=OFF \
-    -DENABLE_INTERNAL_CROSSGUID=OFF \
     -DLIBDVD_INCLUDE_DIRS=${STAGING_INCDIR} \
     -DNFS_INCLUDE_DIR=${STAGING_INCDIR} \
     -DSHAIRPLAY_INCLUDE_DIR=${STAGING_INCDIR} \
@@ -227,6 +249,7 @@ RRECOMMENDS_${PN}_append = " libcec \
                              tzdata-europe \
                              tzdata-pacific \
                              xkeyboard-config \
+                             alsa-plugins \
                            "
 RRECOMMENDS_${PN}_append_libc-glibc = " glibc-charmap-ibm850 \
                                         glibc-gconv-ibm850 \
