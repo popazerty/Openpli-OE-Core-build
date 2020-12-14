@@ -26,7 +26,6 @@ IMAGE_INSTALL = "\
 	openpli-bootlogo \
 	openssh-sftp-server \
 	opkg \
-	util-linux-mount \
 	packagegroup-base \
 	packagegroup-core-boot \
 	parted \
