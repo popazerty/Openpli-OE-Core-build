@@ -8,12 +8,11 @@ inherit autotools-brokensep update-rc.d
 
 SAMBA_MIRROR = "http://samba.org/samba/ftp"
 
-MIRRORS += "\ 
+MIRRORS += "\
 ${SAMBA_MIRROR}    http://mirror.internode.on.net/pub/samba \n \
 ${SAMBA_MIRROR}    http://www.mirrorservice.org/sites/ftp.samba.org \n \
 "
 
-RDEPENDS_${PN} += "kernel-module-cifs"
 
 SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://011-patch-cve-2015-5296.patch;patchdir=.. \
@@ -87,6 +86,7 @@ EXTRA_OECONF = " \
     --without-aio-support \
     --without-cluster-support \
     --without-ads \
+    --with-libsmbclient \
     --without-krb5 \
     --without-dnsupdate \
     --without-automount \
@@ -169,7 +169,7 @@ S = "${WORKDIR}/samba-${PV}/source3"
 do_configure() {
     ./script/mkversion.sh
     if [ ! -e acinclude.m4 ]; then
-        touch aclocal.m4    
+        touch aclocal.m4
         cat aclocal.m4 > acinclude.m4
     fi
     gnu-configize --force
@@ -183,29 +183,29 @@ do_compile () {
 PACKAGECONFIG ??= ""
 
 do_install_append() {
-    rmdir "${D}${localstatedir}/lock"
-    rmdir "${D}${localstatedir}/run"
-    rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
+    rm -rf ${D}${localstatedir}/lock
+    rm -rf ${D}${localstatedir}/run
+    rm -rf ${D}${localstatedir}
     rm -f ${D}${bindir}/*.old
     rm -f ${D}${sbindir}/*.old
 
     install -D -m 755 ${WORKDIR}/samba.sh ${D}${sysconfdir}/init.d/samba.sh
     install -D -m 644 ${WORKDIR}/smb.conf ${D}${sysconfdir}/samba/smb.conf
 
-    rmdir --ignore-fail-on-non-empty ${D}${base_sbindir} || true
+    rm -rf ${D}${base_sbindir}
     sed -i -e '1s,#!.*perl,#!${USRBINPATH}/env perl,' ${D}${bindir}/findsmb
 
     # Silence warnings - Delete empty directories (Removed features)
-    rmdir --ignore-fail-on-non-empty ${D}${libdir}/auth || true
-    rmdir --ignore-fail-on-non-empty ${D}${libdir}/charset || true
-    rmdir --ignore-fail-on-non-empty ${D}${libdir}/vfs || true
+    rm -rf ${D}${libdir}/auth
+    rm -rf ${D}${libdir}/charset
+    rm -rf ${D}${libdir}/vfs
 
     # Former package libwinbind
-    rmdir --ignore-fail-on-non-empty ${D}${libdir}/idmap || true
-    rmdir --ignore-fail-on-non-empty ${D}${libdir}/gpext || true
-    rmdir --ignore-fail-on-non-empty ${D}${libdir}/perfcount || true
+    rm -rf ${D}${libdir}/idmap
+    rm -rf ${D}${libdir}/gpext
+    rm -rf ${D}${libdir}/perfcount
 
     # Former package libnss-winbind
-    rmdir --ignore-fail-on-non-empty ${D}${libdir}/nss_info || true
+    rm -rf ${D}${libdir}/nss_info
 }
 
