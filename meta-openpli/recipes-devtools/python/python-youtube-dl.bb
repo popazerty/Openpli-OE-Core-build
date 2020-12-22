@@ -13,8 +13,8 @@ inherit gitpkgv
 
 SRCREV = "${AUTOREV}"
 
-PV = "2020.12.14+git${SRCPV}"
-PKGV = "2020.12.14+${GITPKGV}"
+PV = "2020.12.22+git${SRCPV}"
+PKGV = "2020.12.22+${GITPKGV}"
 
 SRC_URI = "git://github.com/ytdl-org/youtube-dl.git;protocol=https;branch=master"
 
