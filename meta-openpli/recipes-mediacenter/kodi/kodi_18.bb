@@ -82,7 +82,7 @@ PATCHTOOL = "git"
 # Correct 18+git vs 18-git screwup
 PE = "1"
 
-PV = "18.9-gitr${SRCPV}"
+PV = "18.9+gitr${SRCPV}"
 SRC_URI = "git://github.com/xbmc/xbmc.git;protocol=https;branch=Leia \
            \
            file://0001-Add-support-for-musl-triplets.patch \
@@ -141,10 +141,10 @@ PACKAGECONFIG[gold] = "-DENABLE_LDGOLD=ON,-DENABLE_LDGOLD=OFF"
 PACKAGECONFIG[lto] = "-DUSE_LTO=${@oe.utils.cpu_count()},-DUSE_LTO=OFF"
 
 LDFLAGS += "${TOOLCHAIN_OPTIONS}"
-LDFLAGS_append_mips = " -latomic"
-LDFLAGS_append_mipsel = " -latomic"
-LDFLAGS_append_mips64 = " -latomic"
-LDFLAGS_append_mips64el = " -latomic"
+LDFLAGS_append_mips = " -latomic -lpthread"
+LDFLAGS_append_mipsel = " -latomic -lpthread"
+LDFLAGS_append_mips64 = " -latomic -lpthread"
+LDFLAGS_append_mips64el = " -latomic -lpthread"
 
 KODI_ARCH = ""
 KODI_ARCH_mips = "-DWITH_ARCH=${TARGET_ARCH}"
