@@ -13,8 +13,8 @@ inherit gitpkgv
 
 SRCREV = "${AUTOREV}"
 
-PV = "2020.12.22+git${SRCPV}"
-PKGV = "2020.12.22+${GITPKGV}"
+PV = "2020.01.03+git${SRCPV}"
+PKGV = "2020.01.03+${GITPKGV}"
 
 SRC_URI = "git://github.com/ytdl-org/youtube-dl.git;protocol=https;branch=master"
 
@@ -40,7 +40,6 @@ RDEPENDS_${PN} = " \
     python-subprocess \
     python-unixadmin \
     python-ctypes \
-    python-codecs \
     python-argparse \
     python-html \
     "
