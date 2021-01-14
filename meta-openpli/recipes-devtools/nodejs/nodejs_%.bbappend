@@ -1,3 +1,3 @@
-SRC_URI += "file://fix_mips_build.patch"
+SRC_URI += " file://fix_mips_build.patch "
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/nodejs:"
