@@ -78,6 +78,7 @@ OPTIONAL_PACKAGES += " \
 	${@bb.utils.contains_any("MACHINE_FEATURES", "hisil libeplayer", "", "gstplayer", d)} \
 	hddtemp \
 	hdparm \
+	htop \
 	inadyn-mt \
 	inetutils \
 	iperf3 \
@@ -107,6 +108,7 @@ OPTIONAL_PACKAGES += " \
 	openmultiboot \
 	p7zip \
 	parted \
+	pyload \
 	procps \
 	python-ipaddress \
 	python-ntplib \
@@ -152,6 +154,7 @@ OPTIONAL_PACKAGES += " \
 	wscan \
 	yafc \
 	zeroconf \
+	zerotier \
 	zip \
 	zsh \
 	${OPTIONAL_BSP_PACKAGES} \
