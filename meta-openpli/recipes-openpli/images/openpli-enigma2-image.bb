@@ -39,6 +39,9 @@ ENIGMA2_PLUGINS += "\
 	enigma2-plugin-extensions-openwebif \
 	enigma2-plugin-extensions-pictureplayer \
 	enigma2-plugin-extensions-ppanel \
+	enigma2-plugin-extensions-dlnabrowser \
+	enigma2-plugin-extensions-dlnaserver \
+	enigma2-plugin-extensions-subssupport \
 	\
 	enigma2-plugin-systemplugins-fastscan \
 	enigma2-plugin-systemplugins-hotplug \
@@ -49,6 +52,8 @@ ENIGMA2_PLUGINS += "\
 	enigma2-plugin-systemplugins-videomode \
 	enigma2-plugin-systemplugins-videotune \
 	enigma2-plugin-systemplugins-osdpositionsetup \
+	enigma2-plugin-systemplugins-systemtime \
+	enigma2-plugin-systemplugins-mountmanager \
 	\
 	${@bb.utils.contains("MACHINE_FEATURES", "3dtv", "enigma2-plugin-systemplugins-osd3dsetup" , "", d)} \
 	${@bb.utils.contains("MACHINE_FEATURES", "dvb-c", "enigma2-plugin-systemplugins-cablescan" , "", d)} \
@@ -59,11 +64,6 @@ ENIGMA2_PLUGINS += "\
 	${@bb.utils.contains('OPENPLI_FEATURES', 'dvd', 'enigma2-plugin-extensions-cdinfo enigma2-plugin-extensions-dvdplayer', '', d)} \
 	${@bb.utils.contains('OPENPLI_FEATURES', 'fan', 'enigma2-plugin-systemplugins-tempfancontrol', '', d)} \
 	${@bb.utils.contains('OPENPLI_FEATURES', '7seg', 'enigma2-plugin-systemplugins-vfdcontrol', '', d)} \
-	enigma2-plugin-extensions-dlnabrowser \
-	enigma2-plugin-extensions-dlnaserver \
-	enigma2-plugin-extensions-subssupport \
-	enigma2-plugin-systemplugins-systemtime \
-	enigma2-plugin-systemplugins-mountmanager \
 	"
 
 DEPENDS += " \
