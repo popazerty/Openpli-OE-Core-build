@@ -1,16 +1,16 @@
-GST_VERSION_FULL = "1.18.2"
+GST_VERSION_FULL = "1.18.3"
 
 inherit gitpkgv meson gettext
 
 PV = "${GST_VERSION_FULL}+git${SRCPV}"
 PKGV = "${GST_VERSION_FULL}+git${GITPKGV}"
 
-SRCREV_gst = "16178d46c87517b79a7be72f538fd726fbdb888f"
-SRCREV_gst_libav = "b08d11fb172683822e33a21de5ec0105bc214654"
+SRCREV_gst = "41999d974eab5ccbad4ae6eb32d61efc852e9b13"
+SRCREV_gst_libav = "7d72dbe6b95fdfebfd2a737765b963e1a6dc27fd"
 
-SRCREV_gst_plugins_bad = "a35760806abf4196c6b1b58ff808ba6302c7fd61"
-SRCREV_gst_plugins_base = "3082472979235a56032a40fa5ce07eb76bc7c746"
-SRCREV_gst_plugins_good = "d432ca10df4f5f311449e5433cd815770923cd4e"
-SRCREV_gst_plugins_ugly = "a9e133420e768f870fb560fa58a60000acae56eb"
+SRCREV_gst_plugins_bad = "1b0f035325ac4c54aa3900fd2281fef9ccd40e6a"
+SRCREV_gst_plugins_base = "b62278bcfdec932202ba41a2988e24a0f6d9bcb0"
+SRCREV_gst_plugins_good = "5486a60e245493190b5b3feda1839f55a5c0e011"
+SRCREV_gst_plugins_ugly = "555ecf28e2ee3c96ed1a0a0dbd8705fa535987ef"
 
 S = "${WORKDIR}/git"
