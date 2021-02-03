@@ -5,6 +5,12 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=7b423f1c9388eae123332e372451a4f7"
 
 FILESPATH =. "${FILE_DIRNAME}/kodi-18:"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+PROVIDES += "virtual/kodi"
+# FIX-ME: virtual/ never makes sense in runtime variables
+RPROVIDES_${PN} += "virtual/kodi"
+
 inherit cmake gettext python-dir pythonnative systemd
 
 DEPENDS += " \
@@ -100,6 +106,15 @@ SRC_URI = "git://github.com/xbmc/xbmc.git;protocol=https;branch=Leia \
            file://15941.patch \
           "
 
+SRC_URI_append = " \
+            file://kodi-stb-support.patch \
+            file://egl/kodi-EGL.patch \
+            file://kodi18-add-libinput-rckey-events.patch \
+            \
+            ${@bb.utils.contains('MACHINE_FEATURES', 'v3d-nxpl', 'file://egl/EGLNativeTypeV3D-nxpl.patch', '', d)} \
+            ${@bb.utils.contains('MACHINE_FEATURES', 'hisil', 'file://egl/EGLNativeTypeMali.patch file://kodiplayers/HiPlayer.patch file://kodiplayers/HiPlayer-Subs.patch file://defaultplayer-HiPlayer.patch', 'file://defaultplayer-E2Player.patch file://kodiplayers/E2Player.patch', d)} \
+            "
+
 S = "${WORKDIR}/git"
 
 # breaks compilation
@@ -110,7 +125,6 @@ ACCEL ?= ""
 ACCEL_x86 = "vaapi vdpau"
 ACCEL_x86-64 = "vaapi vdpau"
 
-# Default to GBM everywhere, sucks to be nvidia
 WINDOWSYSTEM ?= "stb"
 
 PACKAGECONFIG ??= "${ACCEL} ${WINDOWSYSTEM} pulseaudio lcms lto \
@@ -260,3 +274,5 @@ RRECOMMENDS_${PN}_append_libc-glibc = " glibc-charmap-ibm850 \
 					glibc-charmap-utf-8 \
 					glibc-localedata-en-us \
                                       "
+# customizations should be in the BSP layers
+require kodi_18.inc
