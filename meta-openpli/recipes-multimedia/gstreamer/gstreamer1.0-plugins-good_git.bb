@@ -72,7 +72,6 @@ EXTRA_OEMESON += " \
     -Dosxaudio=disabled \
     -Dosxvideo=disabled \
     -Dshout2=disabled \
-    -Dtwolame=disabled \
     -Dwaveform=disabled \
 "
 
